@@ -87,6 +87,10 @@ class Settings(BaseSettings):
             self.EMAILS_FROM_NAME = self.PROJECT_NAME
         return self
 
+    # Auth0 configuration
+    AUTH0_DOMAIN: str
+    AUTH0_AUDIENCE: str
+
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 
     @computed_field  # type: ignore[prop-decorator]

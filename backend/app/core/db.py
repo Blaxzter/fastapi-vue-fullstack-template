@@ -1,20 +1,11 @@
-import os
+from sqlmodel import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 
-from sqlmodel import SQLModel, create_engine
-from sqlmodel.ext.asyncio.session import AsyncSession, AsyncEngine
-
-from sqlalchemy.orm import sessionmaker
-
-
-from sqlmodel import Session, create_engine, select
-
-from app import crud
 from app.core.config import settings
-from app.models import User, UserCreate
 
 
-engine = AsyncEngine(
-    create_engine(str(settings.SQLALCHEMY_DATABASE_URI), echo=True, future=True)
+engine = create_async_engine(
+    str(settings.SQLALCHEMY_DATABASE_URI), echo=True, future=True
 )
 
 
@@ -23,7 +14,7 @@ engine = AsyncEngine(
 # for more details: https://github.com/fastapi/full-stack-fastapi-template/issues/28
 
 
-def init_db(session: Session) -> None:
+def init_db(session: AsyncSession) -> None:
     # Tables should be created with Alembic migrations
     # But if you don't want to use migrations, create
     # the tables un-commenting the next lines
