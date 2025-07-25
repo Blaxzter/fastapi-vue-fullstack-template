@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia'
-import { useAuth0 } from '@auth0/auth0-vue'
 import { computed, ref } from 'vue'
+
+import { useAuth0 } from '@auth0/auth0-vue'
+import { defineStore } from 'pinia'
 
 interface User {
   sub: string

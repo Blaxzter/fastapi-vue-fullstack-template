@@ -7,6 +7,13 @@ import { createAuth0 } from '@auth0/auth0-vue'
 import App from './App.vue'
 import router from './router'
 
+import { client } from '@/client/client.gen'
+
+client.setConfig({
+  baseURL: import.meta.env.VITE_API_URL,
+  throwOnError: true, // Always throw errors instead of returning them
+})
+
 const app = createApp(App)
 
 app.use(

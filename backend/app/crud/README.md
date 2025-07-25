@@ -286,24 +286,24 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
 ```python
 from fastapi import APIRouter, Depends
-from app.api.deps import SessionDep, CurrentUser
+from app.api.deps import DBDep, CurrentUser
 from app import crud
 
 router = APIRouter()
 
 @router.get("/{user_id}")
-async def get_user(user_id: int, session: SessionDep):
+async def get_user(user_id: int, session: DBDep):
     user = await crud.user.get(session, id=user_id, raise_404_error=True)
     return user
 
 @router.post("/")
-async def create_user(user_in: UserCreate, session: SessionDep):
+async def create_user(user_in: UserCreate, session: DBDep):
     user = await crud.user.create(session, obj_in=user_in)
     return user
 
 @router.patch("/{user_id}")
 async def update_user(
-    user_id: int, user_in: UserUpdate, session: SessionDep, current_user: CurrentUser
+    user_id: int, user_in: UserUpdate, session: DBDep, current_user: CurrentUser
 ):
     user = await crud.user.get(session, id=user_id, raise_404_error=True)
     user = await crud.user.update(session, db_obj=user, obj_in=user_in)

@@ -3,7 +3,6 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
 
-
 from app.api.main import api_router
 from app.core.config import settings
 
@@ -33,11 +32,17 @@ def custom_openapi():
     )
 
     # Add HTTPException schema
-    # openapi_schema["components"]["schemas"]["HTTPException"] = {
-    #     "type": "object",
-    #     "properties": {"detail": {"type": "string"}},
-    #     "required": ["detail"],
-    # }
+    # Add HTTPException schema
+    if "components" not in openapi_schema:
+        openapi_schema["components"] = {}
+    if "schemas" not in openapi_schema["components"]:
+        openapi_schema["components"]["schemas"] = {}
+
+    openapi_schema["components"]["schemas"]["HTTPException"] = {
+        "type": "object",
+        "properties": {"detail": {"type": "string"}},
+        "required": ["detail"],
+    }
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema

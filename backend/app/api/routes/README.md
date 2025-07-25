@@ -8,12 +8,12 @@ Each route file should follow this structure:
 
 ```python
 from fastapi import APIRouter
-from app.api.deps import SessionDep, CurrentUser
+from app.api.deps import DBDep, CurrentUser
 
 router = APIRouter(prefix="/your-prefix", tags=["your-tag"])
 
 @router.get("/")
-async def your_endpoint(session: SessionDep, current_user: CurrentUser):
+async def your_endpoint(session: DBDep, current_user: CurrentUser):
     """Your endpoint description"""
     # Your logic here
     pass
@@ -71,7 +71,7 @@ Create additional route files based on your application's needs:
 
 ### Common Dependencies
 
--   `SessionDep` for database operations
+-   `DBDep` for database operations
 -   `CurrentUser` for authenticated routes
 -   Custom dependencies for specific validation logic
 

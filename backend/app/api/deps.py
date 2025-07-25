@@ -1,21 +1,20 @@
-from typing import AsyncGenerator, Annotated
-from fastapi import Depends
-from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlalchemy.orm import sessionmaker
+from collections.abc import AsyncGenerator
+from typing import Annotated
 
+from fastapi import Depends
 from fastapi_plugin import Auth0FastAPI
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.db import engine
+from app.core.db import async_session
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-    async with async_session() as session:
+    async with async_session.begin() as session:
         yield session
 
 
-SessionDep = Annotated[AsyncSession, Depends(get_db)]
+DBDep = Annotated[AsyncSession, Depends(get_db)]
 
 
 auth0 = Auth0FastAPI(

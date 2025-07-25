@@ -1,30 +1,24 @@
 import datetime
-import uuid
+from collections.abc import AsyncGenerator, Sequence
 from typing import (
     Any,
-    Dict,
     Generic,
-    List,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    NamedTuple,
     Literal,
+    NamedTuple,
+    TypeVar,
     overload,
 )
+from zoneinfo import ZoneInfo
 
-import pytz
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import delete, select, JSON, func
-from sqlalchemy.orm.attributes import flag_modified
+from sqlalchemy import delete, func, select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from starlette import status
 
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.crud.helper_function import get_comparison
+from app.logic.utils.db_utils import get_comparison
 from app.models import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -36,7 +30,7 @@ class NamedFilterFields(NamedTuple):
     field: str
     value: Any
     is_not: bool = False
-    greater_then_comp: Optional[Literal["gt", "le"]] = None
+    greater_then_comp: Literal["gt", "le"] | None = None
 
 
 excludeList = {
@@ -47,7 +41,7 @@ excludeList = {
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: Type[ModelType]):
+    def __init__(self, model: type[ModelType]):
         """
         CRUD object with default methods to Create, Read, Update, Delete (CRUD).
 
@@ -58,40 +52,45 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
+    # These overloads allow the type checker to understand that
+    # when `raise_404_error` is True, the return type is never None.
+
     @overload
     async def get(  # noqa: E704
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         id: Any,
         *,
         raise_404_error: Literal[True],
-        select_in_load: Optional[List[str]] = None,
-    ) -> ModelType: ...
+        select_in_load: list[str] | None = None,
+    ) -> ModelType:
+        ...
 
     @overload
     async def get(  # noqa: E704
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         id: Any,
         *,
         raise_404_error: Literal[False] = False,
-        select_in_load: Optional[List[str]] = None,
-    ) -> Optional[ModelType]: ...
+        select_in_load: list[str] | None = None,
+    ) -> ModelType | None:
+        ...
 
     async def get(
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         id: Any,
         *,
         raise_404_error: bool = False,
-        select_in_load: Optional[List[str]] = None,
-    ) -> Optional[ModelType]:
+        select_in_load: list[str] | None = None,
+    ) -> ModelType | None:
         query = select(self.model).where(self.model.id.__eq__(id))
         if select_in_load:
             for attr in select_in_load:
                 query = query.options(selectinload(getattr(self.model, attr)))
 
-        result = await session.execute(query)
+        result = await db.execute(query)
         first = result.scalars().first()
         if not first and raise_404_error:
             raise HTTPException(
@@ -104,13 +103,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def get_multi(
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         *,
         skip: int = 0,
         limit: int = 100,
-        ids: List[str] = None,
-        select_in_load: Optional[List[str]] = None,
-    ) -> List[ModelType]:
+        ids: list[str] | None = None,
+        select_in_load: list[str] | None = None,
+    ) -> Sequence[ModelType]:
         query = select(self.model).slice(skip, limit)
         if ids:
             query = query.where(self.model.id.in_(ids))
@@ -119,17 +118,15 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             for attr in select_in_load:
                 query = query.options(selectinload(getattr(self.model, attr)))
 
-        result = await session.execute(query)
+        result = await db.execute(query)
         return result.scalars().all()
 
-    async def remove_multi(self, session: AsyncSession, *, ids: List[int]) -> None:
-        await session.execute(delete(self.model).where(self.model.id.in_(ids)))
-        await session.commit()
+    async def remove_multi(self, db: AsyncSession, *, ids: list[int]) -> bool:
+        await db.execute(delete(self.model).where(self.model.id.in_(ids)))
+        await db.commit()
         return True
 
-    async def create(
-        self, session: AsyncSession, *, obj_in: CreateSchemaType
-    ) -> ModelType:
+    async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
         # get all fields from obj_in that have type datetime
         datetime_fields = [
             (property, value)
@@ -142,62 +139,53 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             obj_in_data[property] = value
 
         db_obj = self.model(**obj_in_data)  # type: ignore
-        session.add(db_obj)
-        await session.commit()
-        await session.refresh(db_obj)
+        db.add(db_obj)
+        await db.commit()
+        await db.refresh(db_obj)
         return db_obj
 
     async def update(
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         *,
         db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, Dict[str, Any]],
+        obj_in: UpdateSchemaType | dict[str, Any],
         skip_refresh: bool = False,
     ) -> ModelType:
-        exclude = {
-            key
-            for key in db_obj.__class__.__annotations__.keys()
-            if "ForwardRef" in str(db_obj.__class__.__annotations__[key])
-        } | excludeList
-        obj_data = jsonable_encoder(
-            db_obj,
-            exclude=exclude,
-        )
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:
             update_data = obj_in.model_dump(exclude_unset=True)
-        for field in obj_data:
-            if field in update_data:
-                setattr(db_obj, field, update_data[field])
 
-                if isinstance(db_obj.__table__.columns[field].type, JSON):
-                    flag_modified(db_obj, field)
+        db_obj.sqlmodel_update(update_data)
 
-        session.add(db_obj)
-        await session.commit()
+        db.add(db_obj)
+        await db.commit()
         if not skip_refresh:
-            await session.refresh(db_obj)
+            await db.refresh(db_obj)
         else:
             # manually set the updated_on field
-            db_obj.updated_on = datetime.datetime.now(pytz.utc)
+            db_obj.updated_on = datetime.datetime.now(ZoneInfo("UTC"))
+
         return db_obj
 
-    async def remove(self, session: AsyncSession, *, id: int) -> ModelType:
-        obj = await session.get(self.model, id)
-        await session.delete(obj)
-        await session.commit()
+    async def remove(self, db: AsyncSession, *, id: int) -> ModelType | None:
+        obj = await db.get(self.model, id)
+        if not obj:
+            return None
+
+        await db.delete(obj)
+        await db.commit()
         return obj
 
     async def iterate(
         self,
-        session: AsyncSession,
+        db: AsyncSession,
         *,
         n: int = 100,
         continues: bool = True,
-        filter_by: Optional[List[NamedFilterFields]] = None,
-    ) -> List[ModelType]:
+        filter_by: list[NamedFilterFields] | None = None,
+    ) -> AsyncGenerator[ModelType, None]:
         """
         Yields `n` elements at a time from the table associated with `self.model`.
 
@@ -221,8 +209,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                     )
                     query = query.where(comparison)
 
-            result = await session.execute(query)
+            result = await db.execute(query)
             items = result.scalars().all()
+
             if not items:
                 break
             for item in items:
@@ -232,8 +221,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def get_count(
         self,
-        session: AsyncSession,
-        filter_by: Optional[List[NamedFilterFields]] = None,
+        db: AsyncSession,
+        filter_by: list[NamedFilterFields] | None = None,
     ) -> int:
         """
         Returns the total number of elements in the table associated with `self.model`.
@@ -253,5 +242,5 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 )
                 query = query.where(comparison)
 
-        result = await session.execute(query)
-        return result.scalar()
+        result = await db.execute(query)
+        return result.scalar() or 0
