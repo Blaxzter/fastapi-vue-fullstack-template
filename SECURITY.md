@@ -1,8 +1,27 @@
 # Security Policy
 
-Security is very important for this project and its community. 🔒
+Security is very important for this project. 🔒
 
 Learn more about it below. 👇
+
+## Authentication & Security Architecture
+
+This project uses **Auth0** as the primary authentication provider, which provides enterprise-grade security features including:
+
+-   **OAuth 2.0 and OpenID Connect** compliance
+-   **Multi-factor authentication (MFA)** support
+-   **Social login integrations** (Google, GitHub, etc.)
+-   **JWT token management** with automatic rotation
+-   **Rate limiting** and bot protection
+-   **Secure password policies** and breach detection
+
+### How Security Works
+
+1. **Frontend Authentication**: The Vue.js frontend handles user authentication through Auth0's Universal Login
+2. **API Protection**: The FastAPI backend validates JWT tokens from Auth0 on protected endpoints
+3. **Token Validation**: All API requests include verification of token signature, expiration, and audience
+4. **Role-Based Access Control**: User permissions are managed through Auth0 roles and claims
+5. **Secure Communication**: All communication uses HTTPS in production environments
 
 ## Versions
 
@@ -12,9 +31,11 @@ You are encouraged to write tests for your application and update your versions 
 
 ## Reporting a Vulnerability
 
-If you think you found a vulnerability, and even if you are not sure about it, please report it right away by sending an email to: security@tiangolo.com. Please try to be as explicit as possible, describing all the steps and example code to reproduce the security issue.
+If you think you found a vulnerability, and even if you are not sure about it, please report it right away by creating a security issue at: https://github.com/Blaxzter/fastapi-vue-fullstack-template/issues
 
-I (the author, [@tiangolo](https://twitter.com/tiangolo)) will review it thoroughly and get back to you.
+Please try to be as explicit as possible, describing all the steps and example code to reproduce the security issue. When creating the issue, please label it with "security" and mark it as confidential if the platform supports it.
+
+I ([@Blaxzter](https://github.com/Blaxzter)) will review it thoroughly and get back to you.
 
 ## Public Discussions
 
