@@ -50,6 +50,59 @@ export const zHttpValidationError = z.object({
     detail: z.optional(z.array(zValidationError))
 });
 
+/**
+ * UserProfile
+ */
+export const zUserProfile = z.object({
+    sub: z.string(),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    nickname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    email: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    picture: z.optional(z.union([
+        z.url().min(1).max(2083),
+        z.null()
+    ])),
+    bio: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    email_verified: z.optional(z.union([
+        z.boolean(),
+        z.null()
+    ]))
+});
+
+/**
+ * UserProfileUpdate
+ */
+export const zUserProfileUpdate = z.object({
+    name: z.optional(z.union([
+        z.string().max(100),
+        z.null()
+    ])),
+    nickname: z.optional(z.union([
+        z.string().max(50),
+        z.null()
+    ])),
+    picture: z.optional(z.union([
+        z.url().min(1).max(2083),
+        z.null()
+    ])),
+    bio: z.optional(z.union([
+        z.string().max(500),
+        z.null()
+    ]))
+});
+
 export const zHttpException = z.object({
     detail: z.string()
 });
@@ -64,3 +117,39 @@ export const zTestExampleEndpointData = z.object({
  * Successful Response
  */
 export const zTestExampleEndpointResponse = zExampleResponse;
+
+export const zUsersGetCurrentUserProfileData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersGetCurrentUserProfileResponse = zUserProfile;
+
+export const zUsersUpdateUserProfileData = z.object({
+    body: zUserProfileUpdate,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersUpdateUserProfileResponse = zUserProfile;
+
+export const zUsersGetAuth0ManagementUrlData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Response Users-Get Auth0 Management Url
+ * Successful Response
+ */
+export const zUsersGetAuth0ManagementUrlResponse = z.object({}).register(z.globalRegistry, {
+    description: 'Successful Response'
+});

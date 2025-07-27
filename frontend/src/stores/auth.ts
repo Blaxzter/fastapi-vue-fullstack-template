@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 import { defineStore } from 'pinia'
 
-interface User {
+export interface User {
   sub: string
   email?: string
   name?: string
@@ -13,15 +13,10 @@ interface User {
 
 export const useAuthStore = defineStore('auth', () => {
   const auth0 = useAuth0()
-  const userInfo = ref<User | null>(null)
   const loading = ref(false)
 
   const isAuthenticated = computed(() => auth0.isAuthenticated.value)
   const user = computed(() => auth0.user.value)
-
-  const login = () => {
-    auth0.loginWithRedirect()
-  }
 
   const logout = () => {
     auth0.logout({
@@ -40,27 +35,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const fetchUserInfo = async () => {
-    if (!isAuthenticated.value) return
+  const updateUser = (userData: Partial<User>) => {
+    console.log('Updating user with data:', userData)
 
-    loading.value = true
-    try {
-      const token = await getAccessToken()
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    if (!isAuthenticated.value || !auth0.user.value) return
 
-      if (response.ok) {
-        userInfo.value = await response.json()
-      } else {
-        console.error('Failed to fetch user info')
-      }
-    } catch (error) {
-      console.error('Error fetching user info:', error)
-    } finally {
-      loading.value = false
+    auth0.user.value = {
+      ...auth0.user.value,
+      ...userData,
     }
   }
 
@@ -81,14 +63,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   return {
+    auth0,
     isAuthenticated,
     user,
-    userInfo,
     loading,
-    login,
     logout,
     getAccessToken,
-    fetchUserInfo,
+    updateUser,
     callProtectedAPI,
   }
 })

@@ -1,0 +1,136 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-vue-next'
+
+import { useAuthStore } from '@/stores/auth'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from '@/components/ui/sidebar'
+
+const { isMobile } = useSidebar()
+const authStore = useAuthStore()
+
+// Get user data from Auth0
+const user = computed(() => authStore.user)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
+// Create display name - fallback hierarchy
+const displayName = computed(
+  () => user.value?.name || user.value?.nickname || user.value?.email || 'User',
+)
+
+// Create display email
+const displayEmail = computed(() => user.value?.email || '')
+
+// Create avatar URL
+const avatarUrl = computed(() => user.value?.picture || '')
+
+// Create initials for fallback
+const initials = computed(() => {
+  if (user.value?.name) {
+    return user.value.name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+  if (user.value?.email) {
+    return user.value.email[0].toUpperCase()
+  }
+  return 'U'
+})
+</script>
+
+<template>
+  <SidebarMenu v-if="isAuthenticated">
+    <SidebarMenuItem>
+      <DropdownMenu>
+        <DropdownMenuTrigger as-child>
+          <SidebarMenuButton
+            size="lg"
+            class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          >
+            <Avatar class="h-8 w-8 rounded-lg">
+              <AvatarImage v-if="avatarUrl" :src="avatarUrl" :alt="displayName" />
+              <AvatarFallback class="rounded-lg">
+                {{ initials }}
+              </AvatarFallback>
+            </Avatar>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-medium">{{ displayName }}</span>
+              <span v-if="displayEmail" class="truncate text-xs">{{ displayEmail }}</span>
+            </div>
+            <ChevronsUpDown class="ml-auto size-4" />
+          </SidebarMenuButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+          :side="isMobile ? 'bottom' : 'right'"
+          align="end"
+          :side-offset="4"
+        >
+          <DropdownMenuLabel class="p-0 font-normal">
+            <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <Avatar class="h-8 w-8 rounded-lg">
+                <AvatarImage v-if="avatarUrl" :src="avatarUrl" :alt="displayName" />
+                <AvatarFallback class="rounded-lg">
+                  {{ initials }}
+                </AvatarFallback>
+              </Avatar>
+              <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">{{ displayName }}</span>
+                <span v-if="displayEmail" class="truncate text-xs">{{ displayEmail }}</span>
+              </div>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <Sparkles />
+              Upgrade to Pro
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem @click="$router.push({ name: 'settings' })">
+              <BadgeCheck />
+              Account
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <CreditCard />
+              Billing
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Bell />
+              Notifications
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem @click="authStore.logout">
+            <LogOut />
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </SidebarMenuItem>
+  </SidebarMenu>
+  <div v-else>
+    <p>Please log in to access your account.</p>
+  </div>
+</template>

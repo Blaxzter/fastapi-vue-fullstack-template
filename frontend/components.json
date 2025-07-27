@@ -4,7 +4,7 @@
   "typescript": true,
   "tailwind": {
     "config": "",
-    "css": "src/inxdex.css",
+    "css": "src/index.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""

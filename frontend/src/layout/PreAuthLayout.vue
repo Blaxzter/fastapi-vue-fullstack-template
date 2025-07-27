@@ -1,0 +1,106 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import { UserIcon } from 'lucide-vue-next'
+import { RouterView, useRoute, useRouter } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+
+const authStore = useAuthStore()
+const router = useRouter()
+const route = useRoute()
+
+// Toggle between fixed header with scrollable content vs full-height layout
+const useFixedHeader = ref(true)
+
+const navigateToAbout = () => {
+  router.push({ name: 'about' })
+}
+
+const navigateToLanding = () => {
+  router.push({ name: 'landing' })
+}
+
+const handleGetStarted = () => {
+  const redirectUri = `${window.location.origin}/app/home`
+  authStore.auth0.loginWithRedirect({
+    authorizationParams: {
+      redirect_uri: redirectUri,
+    },
+  })
+}
+</script>
+
+<template>
+  <div
+    :class="useFixedHeader ? 'h-screen flex flex-col' : 'min-h-screen bg-background flex flex-col'"
+  >
+    <!-- Header for unauthenticated users -->
+    <header :class="useFixedHeader ? 'border-b flex-shrink-0' : 'border-b'">
+      <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <button
+            @click="navigateToLanding"
+            class="text-2xl font-bold hover:opacity-80 transition-opacity"
+          >
+            Your App
+          </button>
+        </div>
+
+        <nav class="flex items-center space-x-2">
+          <!-- Navigation buttons -->
+          <Button
+            variant="ghost"
+            @click="navigateToAbout"
+            :class="{ 'bg-muted': route.name === 'about' }"
+          >
+            About
+          </Button>
+
+          <!-- User section - show if authenticated -->
+          <div v-if="authStore.isAuthenticated" class="border-l">
+            <div
+              class="flex items-center space-x-3 ml-4 p-1 cursor-pointer hover:bg-muted rounded"
+              @click="router.push({ name: 'home' })"
+            >
+              <Avatar class="h-8 w-8">
+                <AvatarImage :src="authStore.user?.picture" :alt="authStore.user?.name || 'User'" />
+                <AvatarFallback>
+                  <UserIcon class="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium">{{
+                  authStore.user?.name || authStore.user?.email
+                }}</span>
+                <div class="text-xs p-0 h-auto justify-start">Go to Dashboard</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sign in button - show if not authenticated -->
+          <Button v-else @click="handleGetStarted"> Sign In </Button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main content area for unauthenticated views -->
+    <main :class="useFixedHeader ? 'flex-1 overflow-auto flex flex-col' : 'flex-1 flex flex-col'">
+      <div class="container mx-auto px-4 py-8 flex-1">
+        <RouterView />
+      </div>
+
+      <!-- Footer for unauthenticated users -->
+      <footer class="border-t mt-auto flex-shrink-0">
+        <div class="container mx-auto px-4 py-6 text-center text-muted-foreground">
+          <p>&copy; 2025 Your App. All rights reserved.</p>
+        </div>
+      </footer>
+    </main>
+  </div>
+</template>
+
+<style scoped></style>

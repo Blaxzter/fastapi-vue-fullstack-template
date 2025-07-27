@@ -90,6 +90,10 @@ class Settings(BaseSettings):
     AUTH0_DOMAIN: str
     AUTH0_AUDIENCE: str
 
+    # Auth0 Management API configuration (for updating user profiles)
+    AUTH0_CLIENT_ID: str | None = None
+    AUTH0_CLIENT_SECRET: str | None = None
+
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 
     @computed_field  # type: ignore[prop-decorator]

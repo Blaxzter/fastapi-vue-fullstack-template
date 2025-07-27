@@ -50,6 +50,66 @@ export type HttpValidationError = {
 };
 
 /**
+ * UserProfile
+ */
+export type UserProfile = {
+    /**
+     * Sub
+     */
+    sub: string;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Nickname
+     */
+    nickname?: string | null;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Picture
+     */
+    picture?: string | null;
+    /**
+     * Bio
+     */
+    bio?: string | null;
+    /**
+     * Email Verified
+     */
+    email_verified?: boolean | null;
+};
+
+/**
+ * UserProfileUpdate
+ */
+export type UserProfileUpdate = {
+    /**
+     * Name
+     * User's display name
+     */
+    name?: string | null;
+    /**
+     * Nickname
+     * User's nickname
+     */
+    nickname?: string | null;
+    /**
+     * Picture
+     * URL to user's profile picture
+     */
+    picture?: string | null;
+    /**
+     * Bio
+     * User's biography
+     */
+    bio?: string | null;
+};
+
+/**
  * ValidationError
  */
 export type ValidationError = {
@@ -100,6 +160,88 @@ export type TestExampleEndpointResponses = {
 
 export type TestExampleEndpointResponse = TestExampleEndpointResponses[keyof TestExampleEndpointResponses];
 
+export type UsersGetCurrentUserProfileData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type UsersGetCurrentUserProfileErrors = {
+    /**
+     * Bad Request
+     */
+    400: HttpException;
+};
+
+export type UsersGetCurrentUserProfileError = UsersGetCurrentUserProfileErrors[keyof UsersGetCurrentUserProfileErrors];
+
+export type UsersGetCurrentUserProfileResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserProfile;
+};
+
+export type UsersGetCurrentUserProfileResponse = UsersGetCurrentUserProfileResponses[keyof UsersGetCurrentUserProfileResponses];
+
+export type UsersUpdateUserProfileData = {
+    body: UserProfileUpdate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type UsersUpdateUserProfileErrors = {
+    /**
+     * Bad Request
+     */
+    400: HttpException;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UsersUpdateUserProfileError = UsersUpdateUserProfileErrors[keyof UsersUpdateUserProfileErrors];
+
+export type UsersUpdateUserProfileResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserProfile;
+};
+
+export type UsersUpdateUserProfileResponse = UsersUpdateUserProfileResponses[keyof UsersUpdateUserProfileResponses];
+
+export type UsersGetAuth0ManagementUrlData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/auth0-management-url';
+};
+
+export type UsersGetAuth0ManagementUrlErrors = {
+    /**
+     * Bad Request
+     */
+    400: HttpException;
+};
+
+export type UsersGetAuth0ManagementUrlError = UsersGetAuth0ManagementUrlErrors[keyof UsersGetAuth0ManagementUrlErrors];
+
+export type UsersGetAuth0ManagementUrlResponses = {
+    /**
+     * Response Users-Get Auth0 Management Url
+     * Successful Response
+     */
+    200: {
+        [key: string]: string;
+    };
+};
+
+export type UsersGetAuth0ManagementUrlResponse = UsersGetAuth0ManagementUrlResponses[keyof UsersGetAuth0ManagementUrlResponses];
+
 export type ClientOptions = {
-    baseURL: 'http://localhost:8002' | (string & {});
+    baseURL: 'http://localhost:8000' | (string & {});
 };

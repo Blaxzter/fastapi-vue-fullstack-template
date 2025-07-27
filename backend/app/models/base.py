@@ -1,3 +1,5 @@
+import uuid
+from abc import ABC
 from datetime import datetime, timezone
 
 from sqlalchemy import Column, DateTime, func
@@ -5,8 +7,8 @@ from sqlalchemy.orm import Mapped
 from sqlmodel import Field, SQLModel
 
 
-class Base(SQLModel):
-    """Base model for all SQLModel models in the application.
+class Base(SQLModel, ABC):
+    """Abstract base model for all SQLModel models in the application.
 
     This class provides common fields and functionality that should be inherited
     by all database models. It includes automatic timestamping and sensible
@@ -19,16 +21,16 @@ class Base(SQLModel):
     """
 
     # Primary key with auto-increment
-    id: Mapped[int | None] = Field(
-        default=None,
+    id: Mapped[uuid.UUID] = Field(
+        default_factory=uuid.uuid4,
         primary_key=True,
         description="Unique identifier for the record",
         index=True,
     )
 
     # Creation timestamp - set once when record is created
-    created_at: Mapped[datetime | None] = Field(
-        default=None,
+    # Using server_default ensures this is NEVER None and always set by the database
+    created_at: Mapped[datetime] = Field(
         sa_column=Column(
             DateTime(timezone=True), server_default=func.now(), nullable=False
         ),
@@ -36,8 +38,8 @@ class Base(SQLModel):
     )
 
     # Update timestamp - automatically updated on any change
-    updated_at: Mapped[datetime | None] = Field(
-        default=None,
+    # Using server_default + onupdate ensures this is NEVER None
+    updated_at: Mapped[datetime] = Field(
         sa_column=Column(
             DateTime(timezone=True),
             server_default=func.now(),
