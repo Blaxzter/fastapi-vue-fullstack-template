@@ -26,33 +26,25 @@
 -   🚢 Deployment instructions using Docker Compose, including how to set up a frontend Traefik proxy to handle automatic HTTPS certificates.
 -   🏭 CI (continuous integration) and CD (continuous deployment) based on GitHub Actions.
 
-### Dashboard Login
+### Home Screen
 
-[![API docs](img/login.png)](https://github.com/fastapi/full-stack-fastapi-template)
+<img width="1135" height="782" alt="Home Screen" src="https://github.com/user-attachments/assets/d6e074e2-bb5c-40cf-9a46-f184fed45b35" />
 
-### Dashboard - Admin
+### User Settings
 
-[![API docs](img/dashboard.png)](https://github.com/fastapi/full-stack-fastapi-template)
+<img width="1135" height="782" alt="User Settings" src="https://github.com/user-attachments/assets/212a7858-2c59-49a0-9c87-83431e5e9ba4" />
 
-### Dashboard - Create User
+### Landing Page
 
-[![API docs](img/dashboard-create.png)](https://github.com/fastapi/full-stack-fastapi-template)
+<img width="1135" height="782" alt="Image" src="https://github.com/user-attachments/assets/40ab9187-84e3-44b8-a3fb-40aa66240209" />
 
-### Dashboard - Items
+### Dynamic Breadcrumbs
 
-[![API docs](img/dashboard-items.png)](https://github.com/fastapi/full-stack-fastapi-template)
+<img width="1135" height="782" alt="Image" src="https://github.com/user-attachments/assets/652b47f4-43bc-49ee-8c4c-ccde5f9bba7f" />
 
-### Dashboard - User Settings
+### Api Example view
 
-[![API docs](img/dashboard-user-settings.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - Dark Mode
-
-[![API docs](img/dashboard-dark.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Interactive API Documentation
-
-[![API docs](img/docs.png)](https://github.com/fastapi/full-stack-fastapi-template)
+<img width="1135" height="782" alt="Image" src="https://github.com/user-attachments/assets/79f4f91a-a5ff-43f5-947c-1bc7a7655959" />
 
 ## How To Use It
 

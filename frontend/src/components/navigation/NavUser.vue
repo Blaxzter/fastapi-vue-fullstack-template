@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-vue-next'
+import { useColorMode } from '@vueuse/core'
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Moon,
+  Sparkles,
+  Sun,
+} from 'lucide-vue-next'
 
 import { useAuthStore } from '@/stores/auth'
 
@@ -24,6 +34,7 @@ import {
 
 const { isMobile } = useSidebar()
 const authStore = useAuthStore()
+const mode = useColorMode()
 
 // Get user data from Auth0
 const user = computed(() => authStore.user)
@@ -104,6 +115,14 @@ const initials = computed(() => {
             <DropdownMenuItem>
               <Sparkles />
               Upgrade to Pro
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem @click="mode = mode === 'dark' ? 'light' : 'dark'">
+              <Sun v-if="mode === 'dark'" />
+              <Moon v-else />
+              {{ mode === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
