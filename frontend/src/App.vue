@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAuth0 } from '@auth0/auth0-vue'
+import { useColorMode } from '@vueuse/core'
 import { RouterView } from 'vue-router'
 import 'vue-sonner/style.css'
-import { useColorMode } from '@vueuse/core'
 
 import { Toaster } from '@/components/ui/sonner'
 
