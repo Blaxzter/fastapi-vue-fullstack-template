@@ -1,0 +1,17 @@
+{
+  "sidebar": {
+    "platform": "Plattform"
+  },
+  "user": {
+    "actions": {
+      "upgradeToPro": "Auf Pro upgraden",
+      "switchToLight": "Zu Hell wechseln",
+      "switchToDark": "Zu Dunkel wechseln",
+      "account": "Konto",
+      "billing": "Abrechnung",
+      "notifications": "Benachrichtigungen",
+      "logout": "Abmelden"
+    },
+    "loginPrompt": "Bitte melden Sie sich an, um auf Ihr Konto zuzugreifen."
+  }
+}

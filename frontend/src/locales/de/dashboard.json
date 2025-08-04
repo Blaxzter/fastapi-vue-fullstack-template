@@ -1,0 +1,43 @@
+{
+  "home": {
+    "title": "Dashboard",
+    "subtitle": "Willkommen zurück! Hier ist, was mit Ihrer Anwendung passiert.",
+    "stats": {
+      "totalUsers": {
+        "title": "Benutzer insgesamt",
+        "value": "1.234",
+        "change": "+12% seit letztem Monat"
+      },
+      "revenue": {
+        "title": "Umsatz",
+        "value": "45.678€",
+        "change": "+8% seit letztem Monat"
+      },
+      "activeSessions": {
+        "title": "Aktive Sitzungen",
+        "value": "892",
+        "change": "+5% seit letzter Stunde"
+      }
+    },
+    "recentActivity": {
+      "title": "Letzte Aktivitäten",
+      "items": {
+        "newUser": {
+          "title": "Neuer Benutzer registriert",
+          "email": "john@example.com",
+          "time": "vor 2 Minuten"
+        },
+        "payment": {
+          "title": "Zahlung erhalten",
+          "amount": "299,00€ vom Premium-Plan",
+          "time": "vor 15 Minuten"
+        },
+        "backup": {
+          "title": "System-Backup abgeschlossen",
+          "description": "Alle Daten erfolgreich gesichert",
+          "time": "vor 1 Stunde"
+        }
+      }
+    }
+  }
+}

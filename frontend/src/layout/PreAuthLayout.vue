@@ -9,6 +9,8 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
+import LanguageSwitch from '@/components/utils/LanguageSwitch.vue'
+
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
@@ -46,18 +48,21 @@ const handleGetStarted = () => {
             @click="navigateToLanding"
             class="text-2xl font-bold hover:opacity-80 transition-opacity"
           >
-            Your App
+            {{ $t('preauth.layout.appName') }}
           </button>
         </div>
 
         <nav class="flex items-center space-x-2">
+          <!-- Language Switch -->
+          <LanguageSwitch variant="ghost" size="sm" :show-text="false" />
+
           <!-- Navigation buttons -->
           <Button
             variant="ghost"
             @click="navigateToAbout"
             :class="{ 'bg-muted': route.name === 'about' }"
           >
-            About
+            {{ $t('preauth.layout.navigation.about') }}
           </Button>
 
           <!-- User section - show if authenticated -->
@@ -67,7 +72,10 @@ const handleGetStarted = () => {
               @click="router.push({ name: 'home' })"
             >
               <Avatar class="h-8 w-8">
-                <AvatarImage :src="authStore.user?.picture" :alt="authStore.user?.name || 'User'" />
+                <AvatarImage
+                  :src="authStore.user?.picture || ''"
+                  :alt="authStore.user?.name || authStore.user?.email || 'User'"
+                />
                 <AvatarFallback>
                   <UserIcon class="h-4 w-4" />
                 </AvatarFallback>
@@ -76,13 +84,17 @@ const handleGetStarted = () => {
                 <span class="text-sm font-medium">{{
                   authStore.user?.name || authStore.user?.email
                 }}</span>
-                <div class="text-xs p-0 h-auto justify-start">Go to Dashboard</div>
+                <div class="text-xs p-0 h-auto justify-start">
+                  {{ $t('preauth.layout.navigation.goToDashboard') }}
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Sign in button - show if not authenticated -->
-          <Button v-else @click="handleGetStarted"> Sign In </Button>
+          <Button v-else @click="handleGetStarted">{{
+            $t('preauth.layout.navigation.signIn')
+          }}</Button>
         </nav>
       </div>
     </header>
@@ -96,7 +108,7 @@ const handleGetStarted = () => {
       <!-- Footer for unauthenticated users -->
       <footer class="border-t mt-auto flex-shrink-0">
         <div class="container mx-auto px-4 py-6 text-center text-muted-foreground">
-          <p>&copy; 2025 Your App. All rights reserved.</p>
+          <p>{{ $t('preauth.layout.footer.copyright') }}</p>
         </div>
       </footer>
     </main>

@@ -1,0 +1,17 @@
+{
+  "sidebar": {
+    "platform": "Platform"
+  },
+  "user": {
+    "actions": {
+      "upgradeToPro": "Upgrade to Pro",
+      "switchToLight": "Switch to Light",
+      "switchToDark": "Switch to Dark",
+      "account": "Account",
+      "billing": "Billing",
+      "notifications": "Notifications",
+      "logout": "Log out"
+    },
+    "loginPrompt": "Please log in to access your account."
+  }
+}

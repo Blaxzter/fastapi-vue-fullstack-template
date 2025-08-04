@@ -1,0 +1,87 @@
+{
+  "layout": {
+    "appName": "Your App",
+    "navigation": {
+      "about": "About",
+      "signIn": "Sign In",
+      "goToDashboard": "Go to Dashboard"
+    },
+    "footer": {
+      "copyright": "© 2025 Your App. All rights reserved."
+    }
+  },
+  "about": {
+    "backToHome": "Back to Home",
+    "sections": {
+      "development": {
+        "description": "This is a full-stack template designed to accelerate development with modern best practices. The architecture follows clean code principles and includes comprehensive tooling for development, testing, and deployment.",
+        "title": "Development"
+      },
+      "features": {
+        "apiIntegration": {
+          "description": "RESTful API with automatic documentation and type-safe client generation.",
+          "title": "API Integration"
+        },
+        "authentication": {
+          "description": "Secure user authentication with Auth0 integration and session management.",
+          "title": "Authentication"
+        },
+        "responsiveDesign": {
+          "description": "Mobile-first design that works seamlessly across all devices.",
+          "title": "Responsive Design"
+        },
+        "title": "Features"
+      },
+      "techStack": {
+        "backend": {
+          "items": {
+            "0": "FastAPI framework",
+            "1": "Python with type hints",
+            "2": "SQLAlchemy ORM",
+            "3": "Alembic for migrations",
+            "4": "PostgreSQL database",
+            "5": "OAuth2 with JWT tokens",
+            "6": "Docker containerization"
+          },
+          "title": "Backend"
+        },
+        "frontend": {
+          "items": {
+            "0": "Vue.js 3 with Composition API",
+            "1": "TypeScript for type safety",
+            "2": "Vue Router for navigation",
+            "3": "Pinia for state management",
+            "4": "Tailwind CSS for styling",
+            "5": "Shadcn/ui components",
+            "6": "Auth0 for authentication"
+          },
+          "title": "Frontend"
+        },
+        "title": "Technology Stack"
+      }
+    },
+    "subtitle": "Learn more about this application and the technology stack.",
+    "title": "About"
+  },
+  "landing": {
+    "authNote": "Secure authentication powered by Auth0",
+    "features": {
+      "easyToUse": {
+        "description": "Intuitive interface designed for productivity and ease of use.",
+        "title": "Easy to Use"
+      },
+      "fastSecure": {
+        "description": "Built with modern technologies for optimal performance and security.",
+        "title": "Fast & Secure"
+      },
+      "scalable": {
+        "description": "Architecture designed to grow with your needs and requirements.",
+        "title": "Scalable"
+      }
+    },
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "subtitle": "A modern full-stack application built with FastAPI and Vue.js. Sign in to access your dashboard and start managing your data.",
+    "welcome": "Welcome to Your App"
+  }
+}

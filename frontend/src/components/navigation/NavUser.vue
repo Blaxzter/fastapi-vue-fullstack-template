@@ -12,6 +12,7 @@ import {
   Sparkles,
   Sun,
 } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 
 import { useAuthStore } from '@/stores/auth'
 
@@ -35,6 +36,7 @@ import {
 const { isMobile } = useSidebar()
 const authStore = useAuthStore()
 const mode = useColorMode()
+const { t } = useI18n()
 
 // Get user data from Auth0
 const user = computed(() => authStore.user)
@@ -114,7 +116,7 @@ const initials = computed(() => {
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <Sparkles />
-              Upgrade to Pro
+              {{ $t('navigation.user.actions.upgradeToPro') }}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
@@ -122,34 +124,38 @@ const initials = computed(() => {
             <DropdownMenuItem @click="mode = mode === 'dark' ? 'light' : 'dark'">
               <Sun v-if="mode === 'dark'" />
               <Moon v-else />
-              {{ mode === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+              {{
+                mode === 'dark'
+                  ? $t('navigation.user.actions.switchToLight')
+                  : $t('navigation.user.actions.switchToDark')
+              }}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem @click="$router.push({ name: 'settings' })">
               <BadgeCheck />
-              Account
+              {{ $t('navigation.user.actions.account') }}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <CreditCard />
-              Billing
+              {{ $t('navigation.user.actions.billing') }}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Bell />
-              Notifications
+              {{ $t('navigation.user.actions.notifications') }}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem @click="authStore.logout">
             <LogOut />
-            Log out
+            {{ $t('navigation.user.actions.logout') }}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </SidebarMenuItem>
   </SidebarMenu>
   <div v-else>
-    <p>Please log in to access your account.</p>
+    <p>{{ $t('navigation.user.loginPrompt') }}</p>
   </div>
 </template>

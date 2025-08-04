@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const { t } = useI18n()
 
 const handleGetStarted = () => {
   const redirectUri = `${window.location.origin}/app/home`
@@ -25,17 +27,16 @@ const navigateToAbout = () => {
 <template>
   <div class="text-center space-y-8">
     <div class="space-y-4">
-      <h1 class="text-4xl font-bold tracking-tight">Welcome to Your App</h1>
+      <h1 class="text-4xl font-bold tracking-tight">{{ $t('preauth.landing.welcome') }}</h1>
       <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
-        A modern full-stack application built with FastAPI and Vue.js. Sign in to access your
-        dashboard and start managing your data.
+        {{ $t('preauth.landing.subtitle') }}
       </p>
     </div>
 
     <div class="space-y-4">
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <Button @click="handleGetStarted" size="lg" class="px-8 py-3 text-lg font-medium">
-          Get Started
+          {{ $t('preauth.landing.getStarted') }}
         </Button>
         <Button
           @click="navigateToAbout"
@@ -43,29 +44,35 @@ const navigateToAbout = () => {
           size="lg"
           class="px-8 py-3 text-lg font-medium"
         >
-          Learn More
+          {{ $t('preauth.landing.learnMore') }}
         </Button>
       </div>
-      <p class="text-sm text-muted-foreground">Secure authentication powered by Auth0</p>
+      <p class="text-sm text-muted-foreground">{{ $t('preauth.landing.authNote') }}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
       <div class="p-6 border rounded-lg">
-        <h3 class="text-lg font-semibold mb-2">Fast & Secure</h3>
+        <h3 class="text-lg font-semibold mb-2">
+          {{ $t('preauth.landing.features.fastSecure.title') }}
+        </h3>
         <p class="text-muted-foreground">
-          Built with modern technologies for optimal performance and security.
+          {{ $t('preauth.landing.features.fastSecure.description') }}
         </p>
       </div>
       <div class="p-6 border rounded-lg">
-        <h3 class="text-lg font-semibold mb-2">Easy to Use</h3>
+        <h3 class="text-lg font-semibold mb-2">
+          {{ $t('preauth.landing.features.easyToUse.title') }}
+        </h3>
         <p class="text-muted-foreground">
-          Intuitive interface designed for productivity and ease of use.
+          {{ $t('preauth.landing.features.easyToUse.description') }}
         </p>
       </div>
       <div class="p-6 border rounded-lg">
-        <h3 class="text-lg font-semibold mb-2">Scalable</h3>
+        <h3 class="text-lg font-semibold mb-2">
+          {{ $t('preauth.landing.features.scalable.title') }}
+        </h3>
         <p class="text-muted-foreground">
-          Architecture designed to grow with your needs and requirements.
+          {{ $t('preauth.landing.features.scalable.description') }}
         </p>
       </div>
     </div>

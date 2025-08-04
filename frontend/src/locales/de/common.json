@@ -1,0 +1,35 @@
+{
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "subtitle": "Seite nicht gefunden",
+      "description": "Die Seite, die Sie suchen, existiert nicht.",
+      "goHome": "Zurück zur Startseite"
+    }
+  },
+  "actions": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "submit": "Absenden",
+    "reset": "Zurücksetzen",
+    "confirm": "Bestätigen"
+  },
+  "states": {
+    "loading": "Lädt...",
+    "saving": "Speichere...",
+    "success": "Erfolgreich!",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Info"
+  },
+  "language": {
+    "switch": "Sprache wechseln",
+    "current": "Aktuelle Sprache"
+  }
+}

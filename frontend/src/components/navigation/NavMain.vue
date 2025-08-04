@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ChevronRight, type LucideIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -15,6 +16,7 @@ import {
 } from '@/components/ui/sidebar'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const props = defineProps<{
   open: boolean
@@ -48,7 +50,7 @@ const handleSidebarToggle = (item: { isActive?: boolean; routeName?: string; url
 
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupLabel>{{ $t('navigation.sidebar.platform') }}</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible
         v-for="item in items"
