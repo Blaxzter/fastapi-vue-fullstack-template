@@ -7,15 +7,17 @@ This directory is where you should create your FastAPI route modules to organize
 Each route file should follow this structure:
 
 ```python
-from fastapi import APIRouter
-from app.api.deps import DBDep, CurrentUser
+from fastapi import APIRouter, Depends
+from app.api.deps import DBDep, auth0
 
 router = APIRouter(prefix="/your-prefix", tags=["your-tag"])
 
 @router.get("/")
-async def your_endpoint(session: DBDep, current_user: CurrentUser):
+async def your_endpoint(session: DBDep, claims: dict = Depends(auth0.require_auth())):
     """Your endpoint description"""
-    # Your logic here
+    # Your logic here - user info available in claims dict
+    user_id = claims.get("sub")  # Auth0 user ID
+    user_email = claims.get("email")  # User email
     pass
 ```
 
@@ -27,59 +29,54 @@ Authentication endpoints for user login and token management.
 
 **Recommended Endpoints:**
 
--   `POST /login/access-token` - User authentication (OAuth2 password bearer)
--   `POST /login/test-token` - Validate token
--   `POST /login/recover-password` - Password recovery
--   `POST /login/reset-password` - Password reset
-
 ### `users.py` (Recommended)
 
 User management endpoints.
 
 **Typical Endpoints:**
 
--   `GET /users/me` - Get current user profile
--   `PATCH /users/me` - Update profile
--   `PATCH /users/me/password` - Change password
--   `POST /users/signup` - User registration
--   Admin endpoints for user management (if needed)
+- `GET /users/me` - Get current user profile
+- `PATCH /users/me` - Update profile
+- `PATCH /users/me/password` - Change password
+- `POST /users/signup` - User registration
+- Admin endpoints for user management (if needed)
 
 ### Your Domain-Specific Routes
 
 Create additional route files based on your application's needs:
 
--   `products.py` for e-commerce
--   `posts.py` for blog/social features
--   `orders.py` for order management
--   `analytics.py` for reporting endpoints
--   etc.
+- `products.py` for e-commerce
+- `posts.py` for blog/social features
+- `orders.py` for order management
+- `analytics.py` for reporting endpoints
+- etc.
 
 ## Best Practices
 
 ### Route Organization
 
--   One route file per logical domain/resource
--   Use descriptive prefixes and tags
--   Group related endpoints together
--   Keep authentication logic in `login.py`
+- One route file per logical domain/resource
+- Use descriptive prefixes and tags
+- Group related endpoints together
+- Keep authentication logic in `login.py`
 
 ### Authentication Patterns
 
--   Use `CurrentUser` dependency for authenticated endpoints
--   Use `get_current_active_superuser` for admin-only endpoints
--   Implement proper error handling with HTTPException
+- Use `claims: dict = Depends(auth0.require_auth())` for authenticated endpoints
+- Access user information through the `claims` dict containing Auth0 user data
+- Implement proper error handling with HTTPException
 
 ### Common Dependencies
 
--   `DBDep` for database operations
--   `CurrentUser` for authenticated routes
--   Custom dependencies for specific validation logic
+- `DBDep` for database operations
+- `claims: dict = Depends(auth0.require_auth())` for authenticated routes
+- Custom dependencies for specific validation logic
 
 ### Response Models
 
--   Define Pydantic models for request/response validation
--   Use appropriate HTTP status codes
--   Include proper error responses
+- Define Pydantic models for request/response validation
+- Use appropriate HTTP status codes
+- Include proper error responses
 
 ## Registration
 
