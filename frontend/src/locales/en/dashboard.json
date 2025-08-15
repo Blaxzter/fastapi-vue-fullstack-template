@@ -1,0 +1,43 @@
+{
+  "home": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back! Here's what's happening with your application.",
+    "stats": {
+      "totalUsers": {
+        "title": "Total Users",
+        "value": "1,234",
+        "change": "+12% from last month"
+      },
+      "revenue": {
+        "title": "Revenue",
+        "value": "$45,678",
+        "change": "+8% from last month"
+      },
+      "activeSessions": {
+        "title": "Active Sessions",
+        "value": "892",
+        "change": "+5% from last hour"
+      }
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "items": {
+        "newUser": {
+          "title": "New user registered",
+          "email": "john@example.com",
+          "time": "2 minutes ago"
+        },
+        "payment": {
+          "title": "Payment received",
+          "amount": "$299.00 from Premium plan",
+          "time": "15 minutes ago"
+        },
+        "backup": {
+          "title": "System backup completed",
+          "description": "All data backed up successfully",
+          "time": "1 hour ago"
+        }
+      }
+    }
+  }
+}

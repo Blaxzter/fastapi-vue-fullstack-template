@@ -1,13 +1,14 @@
-import './index.css'
-
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import { createAuth0 } from '@auth0/auth0-vue'
 
-import App from './App.vue'
-import router from './router'
+import { createAuth0 } from '@auth0/auth0-vue'
+import { createPinia } from 'pinia'
 
 import { client } from '@/client/client.gen'
+import i18n from '@/locales/i18n.ts'
+
+import App from './App.vue'
+import './index.css'
+import router from './router'
 
 client.setConfig({
   baseURL: import.meta.env.VITE_API_URL,
@@ -29,5 +30,6 @@ app.use(
 
 app.use(createPinia())
 app.use(router)
+app.use(i18n)
 
 app.mount('#app')

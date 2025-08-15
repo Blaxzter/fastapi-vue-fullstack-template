@@ -21,7 +21,7 @@ useColorMode()
       <div
         class="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto"
       ></div>
-      <p class="text-muted-foreground">Loading...</p>
+      <p class="text-muted-foreground">{{ $t('utils.loading') }}</p>
     </div>
   </div>
 

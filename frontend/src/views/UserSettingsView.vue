@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-5xl space-y-8">
     <!-- Header -->
     <div class="pb-3">
-      <h1 class="text-3xl font-bold tracking-tight">User Settings</h1>
+      <h1 class="text-3xl font-bold tracking-tight">{{ $t('user.settings.title') }}</h1>
       <p class="text-muted-foreground mt-2">
-        Manage your account settings and profile information.
+        {{ $t('user.settings.subtitle') }}
       </p>
     </div>
 
@@ -23,6 +23,9 @@
 
       <!-- Password Reset (Auth0 users only) -->
       <PasswordResetCard v-if="authProvider.isAuth0" />
+
+      <!-- Language Settings -->
+      <LanguageSettingsCard />
     </div>
   </div>
 </template>
@@ -30,15 +33,19 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { type User, useAuthStore } from '@/stores/auth'
 
 import CurrentProfileCard from '@/components/account/user/CurrentProfileCard.vue'
 import EditProfileForm from '@/components/account/user/EditProfileForm.vue'
+import LanguageSettingsCard from '@/components/account/user/LanguageSettingsCard.vue'
 import PasswordResetCard from '@/components/account/user/PasswordResetCard.vue'
 import { useAuthProvider } from '@/components/account/user/useAuthProvider.ts'
 
 // Store
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 // Computed properties
 const user = computed(() => authStore.user)

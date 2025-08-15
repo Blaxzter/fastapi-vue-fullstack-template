@@ -3,10 +3,10 @@
     <CardHeader>
       <CardTitle class="flex items-center gap-2">
         <EditIcon class="h-5 w-5" />
-        Update Profile
+        {{ $t('user.settings.profile.edit.title') }}
       </CardTitle>
       <CardDescription>
-        Update your profile information. Changes will be processed through Auth0.
+        {{ $t('user.settings.profile.edit.subtitle') }}
       </CardDescription>
     </CardHeader>
     <CardContent>
@@ -14,11 +14,17 @@
         <!-- Name Field -->
         <FormField v-slot="{ componentField }" name="name">
           <FormItem>
-            <FormLabel>Display Name</FormLabel>
+            <FormLabel>{{ $t('user.settings.profile.edit.fields.displayName.label') }}</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Enter your display name" v-bind="componentField" />
+              <Input
+                type="text"
+                :placeholder="$t('user.settings.profile.edit.fields.displayName.placeholder')"
+                v-bind="componentField"
+              />
             </FormControl>
-            <FormDescription> This is your display name that others will see. </FormDescription>
+            <FormDescription>{{
+              $t('user.settings.profile.edit.fields.displayName.description')
+            }}</FormDescription>
             <FormMessage />
           </FormItem>
         </FormField>
@@ -26,11 +32,17 @@
         <!-- Nickname Field -->
         <FormField v-slot="{ componentField }" name="nickname">
           <FormItem>
-            <FormLabel>Nickname</FormLabel>
+            <FormLabel>{{ $t('user.settings.profile.edit.fields.nickname.label') }}</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Enter your nickname" v-bind="componentField" />
+              <Input
+                type="text"
+                :placeholder="$t('user.settings.profile.edit.fields.nickname.placeholder')"
+                v-bind="componentField"
+              />
             </FormControl>
-            <FormDescription> A shorter name or alias for your profile. </FormDescription>
+            <FormDescription>{{
+              $t('user.settings.profile.edit.fields.nickname.description')
+            }}</FormDescription>
             <FormMessage />
           </FormItem>
         </FormField>
@@ -38,16 +50,16 @@
         <!-- Picture URL Field -->
         <FormField v-if="canEditProfilePicture" v-slot="{ componentField }" name="picture">
           <FormItem>
-            <FormLabel>Profile Picture URL</FormLabel>
+            <FormLabel>{{ $t('user.settings.profile.edit.fields.picture.label') }}</FormLabel>
             <FormControl>
               <Input
                 type="url"
-                placeholder="https://example.com/your-picture.jpg"
+                :placeholder="$t('user.settings.profile.edit.fields.picture.placeholder')"
                 v-bind="componentField"
               />
             </FormControl>
             <FormDescription>
-              URL to your profile picture. Must be a valid image URL.
+              {{ $t('user.settings.profile.edit.fields.picture.description') }}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -56,16 +68,16 @@
         <!-- Bio/Description Field -->
         <FormField v-slot="{ componentField }" name="bio">
           <FormItem>
-            <FormLabel>Bio</FormLabel>
+            <FormLabel>{{ $t('user.settings.profile.edit.fields.bio.label') }}</FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Tell us a little about yourself"
+                :placeholder="$t('user.settings.profile.edit.fields.bio.placeholder')"
                 class="min-h-[100px]"
                 v-bind="componentField"
               />
             </FormControl>
             <FormDescription>
-              A short biography or description about yourself (optional).
+              {{ $t('user.settings.profile.edit.fields.bio.description') }}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -75,8 +87,9 @@
         <div v-if="!canEditProfilePicture" class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <p class="text-sm text-blue-700">
             <InfoIcon class="h-4 w-4 inline mr-1" />
-            Profile picture changes are not available for {{ authProviderName }} accounts. Please
-            update your profile picture through your {{ authProviderName }} account settings.
+            {{
+              $t('user.settings.profile.edit.providerLimitation', { provider: authProviderName })
+            }}
           </p>
         </div>
 
@@ -85,10 +98,14 @@
           <Button type="submit" :disabled="isSubmitting" class="flex items-center gap-2">
             <LoaderIcon v-if="isSubmitting" class="h-4 w-4 animate-spin" />
             <SaveIcon v-else class="h-4 w-4" />
-            {{ isSubmitting ? 'Updating...' : 'Update Profile' }}
+            {{
+              isSubmitting
+                ? $t('user.settings.profile.edit.actions.updating')
+                : $t('user.settings.profile.edit.actions.update')
+            }}
           </Button>
           <Button type="button" variant="outline" @click="resetForm" :disabled="isSubmitting">
-            Reset
+            {{ $t('user.settings.profile.edit.actions.reset') }}
           </Button>
         </div>
       </form>
@@ -102,6 +119,7 @@ import { onMounted, ref } from 'vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { EditIcon, InfoIcon, LoaderIcon, SaveIcon } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
+import { useI18n } from 'vue-i18n'
 import { toast } from 'vue-sonner'
 
 import { useAuthenticatedClient } from '@/composables/useAuthenticatedClient'
@@ -133,6 +151,7 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+const { t } = useI18n()
 
 // Validation schema
 const profileSchema = toTypedSchema(zUserProfileUpdate)
@@ -175,7 +194,7 @@ onMounted(() => {
 // Form submission
 const onSubmit = form.handleSubmit(async (values) => {
   if (!props.user) {
-    showError('User not authenticated')
+    showError(t('user.settings.profile.edit.authError'))
     return
   }
 
@@ -186,7 +205,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     emit('profile-updated', values)
   } catch (error) {
     console.error('Error updating profile:', error)
-    showError('Failed to update profile. Please try again.')
+    showError(t('user.settings.profile.edit.error'))
   } finally {
     isSubmitting.value = false
   }
@@ -236,7 +255,7 @@ const resetForm = () => {
 
 // Toast functions
 const showSuccess = () => {
-  toast.success('Profile updated successfully!')
+  toast.success(t('user.settings.profile.edit.success'))
 }
 
 const showError = (message: string) => {

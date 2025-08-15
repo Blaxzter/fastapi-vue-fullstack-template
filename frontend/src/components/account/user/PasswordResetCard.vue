@@ -3,17 +3,16 @@
     <CardHeader>
       <CardTitle class="flex items-center gap-2">
         <KeyIcon class="h-5 w-5" />
-        Password Reset
+        {{ $t('user.settings.password.title') }}
       </CardTitle>
-      <CardDescription> Reset your password via email </CardDescription>
+      <CardDescription>{{ $t('user.settings.password.subtitle') }}</CardDescription>
     </CardHeader>
     <CardContent>
       <div class="space-y-4">
         <div class="p-4 bg-muted rounded-lg">
-          <h4 class="font-medium mb-2">Password Reset</h4>
+          <h4 class="font-medium mb-2">{{ $t('user.settings.password.section.title') }}</h4>
           <p class="text-sm text-muted-foreground mb-3">
-            Click the button below to receive a password reset email. You'll receive an email with
-            instructions to reset your password.
+            {{ $t('user.settings.password.section.description') }}
           </p>
           <Button
             @click="handlePasswordReset"
@@ -23,7 +22,11 @@
             class="w-full sm:w-auto"
           >
             <MailIcon class="h-4 w-4 mr-2" />
-            {{ isLoading ? 'Sending...' : 'Send Password Reset Email' }}
+            {{
+              isLoading
+                ? $t('user.settings.password.section.sending')
+                : $t('user.settings.password.section.button')
+            }}
           </Button>
         </div>
 
@@ -42,6 +45,7 @@ import { computed, ref } from 'vue'
 
 import axios from 'axios'
 import { KeyIcon, MailIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 
 import { useAuthStore } from '@/stores/auth'
 
@@ -50,6 +54,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 // Store
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 // Reactive state
 const isLoading = ref(false)
@@ -74,8 +79,8 @@ const messageClass = computed(() => {
 const handlePasswordReset = async () => {
   if (!user.value?.email) {
     message.value = {
-      title: 'Error',
-      description: 'User email not found.',
+      title: t('user.settings.password.messages.error.title'),
+      description: t('user.settings.password.messages.error.emailNotFound'),
       type: 'error',
     }
     return
@@ -99,17 +104,16 @@ const handlePasswordReset = async () => {
     await axios.request(options)
 
     message.value = {
-      title: 'Success!',
-      description:
-        'Password reset email has been sent. Please check your inbox and follow the instructions.',
+      title: t('user.settings.password.messages.success.title'),
+      description: t('user.settings.password.messages.success.description'),
       type: 'success',
     }
   } catch (error) {
     console.error('Password reset error:', error)
 
     message.value = {
-      title: 'Error',
-      description: 'Failed to send password reset email. Please try again later.',
+      title: t('user.settings.password.messages.error.title'),
+      description: t('user.settings.password.messages.error.sendFailed'),
       type: 'error',
     }
   } finally {

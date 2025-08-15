@@ -3,9 +3,9 @@
     <CardHeader>
       <CardTitle class="flex items-center gap-2">
         <UserIcon class="h-5 w-5" />
-        Current Profile
+        {{ $t('user.settings.profile.current.title') }}
       </CardTitle>
-      <CardDescription> Your current profile information from Auth0 </CardDescription>
+      <CardDescription>{{ $t('user.settings.profile.current.subtitle') }}</CardDescription>
     </CardHeader>
     <CardContent>
       <div class="flex items-start gap-6">
@@ -23,24 +23,42 @@
         <div class="flex-1 grid gap-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label class="text-sm font-medium text-muted-foreground">Name</Label>
-              <p class="text-sm">{{ user?.name || 'Not provided' }}</p>
+              <Label class="text-sm font-medium text-muted-foreground">{{
+                $t('user.settings.profile.current.fields.name')
+              }}</Label>
+              <p class="text-sm">
+                {{ user?.name || $t('user.settings.profile.current.fields.notProvided') }}
+              </p>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <Label class="text-sm font-medium text-muted-foreground">Email</Label>
+                <Label class="text-sm font-medium text-muted-foreground">{{
+                  $t('user.settings.profile.current.fields.email')
+                }}</Label>
                 <Badge variant="outline">
-                  {{ user?.email_verified ? 'Verified' : 'Unverified' }}
+                  {{
+                    user?.email_verified
+                      ? $t('user.settings.profile.current.fields.verified')
+                      : $t('user.settings.profile.current.fields.unverified')
+                  }}
                 </Badge>
               </div>
-              <p class="text-sm">{{ user?.email || 'Not provided' }}</p>
+              <p class="text-sm">
+                {{ user?.email || $t('user.settings.profile.current.fields.notProvided') }}
+              </p>
             </div>
             <div>
-              <Label class="text-sm font-medium text-muted-foreground">Nickname</Label>
-              <p class="text-sm">{{ user?.nickname || 'Not provided' }}</p>
+              <Label class="text-sm font-medium text-muted-foreground">{{
+                $t('user.settings.profile.current.fields.nickname')
+              }}</Label>
+              <p class="text-sm">
+                {{ user?.nickname || $t('user.settings.profile.current.fields.notProvided') }}
+              </p>
             </div>
             <div>
-              <Label class="text-sm font-medium text-muted-foreground">Auth Provider</Label>
+              <Label class="text-sm font-medium text-muted-foreground">{{
+                $t('user.settings.profile.current.fields.authProvider')
+              }}</Label>
               <Badge
                 :variant="authProvider.variant"
                 class="text-xs flex items-center gap-2 w-fit mt-1"
@@ -60,6 +78,7 @@
 import { computed } from 'vue'
 
 import { UserIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -75,6 +94,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 
 // Computed properties
 const displayName = computed(
