@@ -20,6 +20,21 @@
     "reset": "Reset",
     "confirm": "Confirm"
   },
+  "dialog": {
+    "confirm": {
+      "title": "Confirm Action",
+      "confirmText": "Confirm",
+      "cancelText": "Cancel"
+    },
+    "alert": {
+      "title": "Alert",
+      "okText": "OK"
+    },
+    "info": {
+      "title": "Information",
+      "okText": "OK"
+    }
+  },
   "states": {
     "loading": "Loading...",
     "saving": "Saving...",

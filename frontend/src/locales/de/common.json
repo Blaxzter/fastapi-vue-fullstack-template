@@ -20,6 +20,21 @@
     "reset": "Zurücksetzen",
     "confirm": "Bestätigen"
   },
+  "dialog": {
+    "confirm": {
+      "title": "Aktion bestätigen",
+      "confirmText": "Bestätigen",
+      "cancelText": "Abbrechen"
+    },
+    "alert": {
+      "title": "Hinweis",
+      "okText": "OK"
+    },
+    "info": {
+      "title": "Information",
+      "okText": "OK"
+    }
+  },
   "states": {
     "loading": "Lädt...",
     "saving": "Speichere...",

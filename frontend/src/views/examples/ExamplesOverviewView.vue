@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { CodeIcon, LayoutGridIcon, NavigationIcon } from 'lucide-vue-next'
+import { CodeIcon, LayoutGridIcon, NavigationIcon, MessageSquareIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -59,6 +59,12 @@ const examples = [
     description: 'Explores various layout options and responsive design patterns.',
     route: 'layout-demo',
     icon: LayoutGridIcon,
+  },
+  {
+    title: 'Dialog Examples',
+    description: 'Interactive examples of confirmation dialogs, alerts, and info messages.',
+    route: 'dialog-examples',
+    icon: MessageSquareIcon,
   },
 ]
 

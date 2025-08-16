@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 import 'vue-sonner/style.css'
 
 import { Toaster } from '@/components/ui/sonner'
+import GlobalDialog from '@/components/GlobalDialog.vue'
 
 const auth0 = useAuth0()
 const isLoading = auth0.isLoading
@@ -15,6 +16,8 @@ useColorMode()
 
 <template>
   <Toaster />
+  <GlobalDialog />
+
   <!-- Loading state -->
   <div v-if="isLoading" class="min-h-screen flex items-center justify-center bg-background">
     <div class="text-center space-y-4">

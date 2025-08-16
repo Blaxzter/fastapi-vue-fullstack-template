@@ -87,6 +87,14 @@ const router = createRouter({
             breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'Layout Demo' }],
           },
         },
+        {
+          path: 'dialog-examples',
+          name: 'dialog-examples',
+          component: () => import('@/components/DialogExamples.vue'),
+          meta: {
+            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'Dialog Examples' }],
+          },
+        },
       ],
     },
     {
