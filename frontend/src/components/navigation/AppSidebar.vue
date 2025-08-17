@@ -92,6 +92,10 @@ const data = {
           title: 'Layout Demo',
           routeName: 'layout-demo',
         },
+        {
+          title: 'Dialog Examples',
+          routeName: 'dialog-examples',
+        },
       ],
     },
     {

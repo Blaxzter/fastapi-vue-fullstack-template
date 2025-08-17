@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+
 import { defineStore } from 'pinia'
 
 export interface DialogConfig {
@@ -24,7 +25,7 @@ export const useDialogStore = defineStore('dialog', () => {
     title: '',
     text: '',
     type: 'confirm',
-    variant: 'default'
+    variant: 'default',
   })
 
   const confirm = (config: DialogConfig): Promise<boolean> => {
@@ -41,7 +42,7 @@ export const useDialogStore = defineStore('dialog', () => {
         onCancel: () => {
           close()
           resolve(false)
-        }
+        },
       }
     })
   }
@@ -56,7 +57,7 @@ export const useDialogStore = defineStore('dialog', () => {
         onConfirm: () => {
           close()
           resolve()
-        }
+        },
       }
     })
   }
@@ -69,6 +70,6 @@ export const useDialogStore = defineStore('dialog', () => {
     dialog,
     confirm,
     alert,
-    close
+    close,
   }
 })

@@ -5,7 +5,8 @@ import { RouterView } from 'vue-router'
 import 'vue-sonner/style.css'
 
 import { Toaster } from '@/components/ui/sonner'
-import GlobalDialog from '@/components/GlobalDialog.vue'
+
+import GlobalDialog from '@/components/utils/GlobalDialog.vue'
 
 const auth0 = useAuth0()
 const isLoading = auth0.isLoading

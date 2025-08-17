@@ -60,7 +60,11 @@ const router = createRouter({
           name: 'test',
           component: () => import('@/views/examples/ApiExampleView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'API Example' }],
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Examples', to: { name: 'examples' } },
+              { title: 'API Example' },
+            ],
           },
         },
         {
@@ -76,7 +80,11 @@ const router = createRouter({
           name: 'breadcrumb-examples',
           component: () => import('@/views/examples/BreadcrumbExamplesView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'Breadcrumb Examples' }],
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Examples', to: { name: 'examples' } },
+              { title: 'Breadcrumb Examples' },
+            ],
           },
         },
         {
@@ -84,15 +92,23 @@ const router = createRouter({
           name: 'layout-demo',
           component: () => import('@/views/examples/LayoutDemoView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'Layout Demo' }],
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Examples', to: { name: 'examples' } },
+              { title: 'Layout Demo' },
+            ],
           },
         },
         {
           path: 'dialog-examples',
           name: 'dialog-examples',
-          component: () => import('@/components/DialogExamples.vue'),
+          component: () => import('@/views/examples/DialogExamples.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples', to: { name: 'examples' } }, { title: 'Dialog Examples' }],
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Examples', to: { name: 'examples' } },
+              { title: 'Dialog Examples' },
+            ],
           },
         },
       ],

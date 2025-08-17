@@ -3,12 +3,7 @@
     <DialogContent class="sm:max-w-md">
       <DialogHeader>
         <DialogTitle class="flex items-center gap-2">
-          <component
-            :is="titleIcon"
-            v-if="titleIcon"
-            class="h-5 w-5"
-            :class="titleIconClass"
-          />
+          <component :is="titleIcon" v-if="titleIcon" class="h-5 w-5" :class="titleIconClass" />
           {{ dialogTitle }}
         </DialogTitle>
         <DialogDescription class="text-left">
@@ -24,11 +19,7 @@
             @click="handleCancel"
             class="flex items-center gap-2"
           >
-            <component
-              :is="cancelIcon"
-              v-if="cancelIcon"
-              class="h-4 w-4"
-            />
+            <component :is="cancelIcon" v-if="cancelIcon" class="h-4 w-4" />
             {{ cancelText }}
           </Button>
           <Button
@@ -37,11 +28,7 @@
             @click="handleConfirm"
             class="flex items-center gap-2"
           >
-            <component
-              :is="confirmIcon"
-              v-if="confirmIcon"
-              class="h-4 w-4"
-            />
+            <component :is="confirmIcon" v-if="confirmIcon" class="h-4 w-4" />
             {{ confirmText }}
           </Button>
         </template>
@@ -53,11 +40,7 @@
             @click="handleConfirm"
             class="flex items-center gap-2"
           >
-            <component
-              :is="confirmIcon"
-              v-if="confirmIcon"
-              class="h-4 w-4"
-            />
+            <component :is="confirmIcon" v-if="confirmIcon" class="h-4 w-4" />
             {{ okText }}
           </Button>
         </template>
@@ -68,8 +51,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+
+import { AlertCircleIcon, AlertTriangleIcon, CheckIcon, InfoIcon, XIcon } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
+
 import { useDialogStore } from '@/stores/dialog'
+
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -78,14 +66,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import {
-  CheckIcon,
-  XIcon,
-  AlertTriangleIcon,
-  InfoIcon,
-  AlertCircleIcon,
-} from 'lucide-vue-next'
 
 const { t } = useI18n()
 const dialogStore = useDialogStore()
@@ -167,9 +147,7 @@ const titleIconClass = computed(() => {
 
   switch (config.type) {
     case 'alert':
-      return config.variant === 'destructive'
-        ? 'text-destructive'
-        : 'text-yellow-600'
+      return config.variant === 'destructive' ? 'text-destructive' : 'text-yellow-600'
     case 'info':
       return 'text-blue-600'
     default:

@@ -27,7 +27,10 @@ export function useDialog() {
    * Show an info dialog
    */
   const info = (config: Omit<DialogConfig, 'type'> | string): Promise<void> => {
-    const dialogConfig = typeof config === 'string' ? { text: config, type: 'info' } : { ...config, type: 'info' as const }
+    const dialogConfig =
+      typeof config === 'string'
+        ? { text: config, type: 'info' }
+        : { ...config, type: 'info' as const }
     return dialogStore.alert(dialogConfig)
   }
 
@@ -35,9 +38,10 @@ export function useDialog() {
    * Show a destructive confirmation dialog (for dangerous actions)
    */
   const confirmDestructive = (config: DialogConfig | string): Promise<boolean> => {
-    const dialogConfig = typeof config === 'string'
-      ? { text: config, variant: 'destructive' as const }
-      : { ...config, variant: 'destructive' as const }
+    const dialogConfig =
+      typeof config === 'string'
+        ? { text: config, variant: 'destructive' as const }
+        : { ...config, variant: 'destructive' as const }
     return dialogStore.confirm(dialogConfig)
   }
 
@@ -46,6 +50,6 @@ export function useDialog() {
     alert,
     info,
     confirmDestructive,
-    close: dialogStore.close
+    close: dialogStore.close,
   }
 }

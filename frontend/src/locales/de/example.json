@@ -1,0 +1,69 @@
+{
+  "dialogExamples": {
+    "title": "Dialog Beispiele",
+    "cards": {
+      "basicConfirm": {
+        "title": "Einfache Bestätigung",
+        "description": "Einfacher Bestätigungsdialog",
+        "button": "Bestätigungsdialog zeigen"
+      },
+      "customConfirm": {
+        "title": "Benutzerdefinierte Bestätigung",
+        "description": "Bestätigung mit benutzerdefiniertem Text und Icons",
+        "button": "Benutzerdefinierte Bestätigung zeigen"
+      },
+      "destructiveConfirm": {
+        "title": "Destruktive Bestätigung",
+        "description": "Bestätigung für gefährliche Aktionen",
+        "button": "Element löschen"
+      },
+      "alert": {
+        "title": "Hinweis Dialog",
+        "description": "Einfache Hinweisnachricht",
+        "button": "Hinweis zeigen"
+      },
+      "info": {
+        "title": "Info Dialog",
+        "description": "Informationsdialog",
+        "button": "Info zeigen"
+      },
+      "quickConfirm": {
+        "title": "Schnelle Bestätigung",
+        "description": "Nur Text-Syntax verwenden",
+        "button": "Schnelle Bestätigung"
+      }
+    },
+    "result": {
+      "title": "Letztes Ergebnis:",
+      "confirmed": "Benutzer hat bestätigt",
+      "cancelled": "Benutzer hat abgebrochen"
+    },
+    "dialogs": {
+      "basicConfirm": {
+        "text": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren möchten?"
+      },
+      "customConfirm": {
+        "title": "Benutzerdefinierte Bestätigung",
+        "text": "Diese Aktion speichert Ihre Änderungen. Möchten Sie fortfahren?",
+        "confirmText": "Änderungen speichern",
+        "cancelText": "Weiter bearbeiten"
+      },
+      "destructiveConfirm": {
+        "title": "Element löschen",
+        "text": "Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie dieses Element löschen möchten?",
+        "confirmText": "Löschen",
+        "successMessage": "Element wurde erfolgreich gelöscht!"
+      },
+      "alert": {
+        "title": "Wichtiger Hinweis",
+        "text": "Ihre Änderungen wurden erfolgreich gespeichert."
+      },
+      "info": {
+        "text": "Dies sind einige nützliche Informationen für den Benutzer."
+      },
+      "quickConfirm": {
+        "text": "Möchten Sie fortfahren?"
+      }
+    }
+  }
+}

@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { CodeIcon, LayoutGridIcon, NavigationIcon, MessageSquareIcon } from 'lucide-vue-next'
+import { CodeIcon, LayoutGridIcon, MessageSquareIcon, NavigationIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
