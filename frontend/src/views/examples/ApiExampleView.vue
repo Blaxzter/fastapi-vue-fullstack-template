@@ -1,11 +1,9 @@
 <template>
   <div class="mx-auto max-w-6xl space-y-6">
     <div class="space-y-4">
-      <h1 class="text-2xl font-bold">API Example & Documentation</h1>
+      <h1 class="text-2xl font-bold">{{ $t('example.apiExample.title') }}</h1>
       <p class="text-muted-foreground">
-        This example demonstrates how to use the
-        <code class="px-1 py-0.5 bg-muted rounded text-sm">useAuthenticatedClient</code>
-        composable to make authenticated API calls and work with auto-generated Zod schemas.
+        {{ $t('example.apiExample.description') }}
       </p>
     </div>
 
@@ -13,22 +11,29 @@
     <div class="grid gap-6 md:grid-cols-2">
       <!-- useAuthenticatedClient Documentation -->
       <div class="space-y-4 p-6 border rounded-lg">
-        <h2 class="text-xl font-semibold">🔐 useAuthenticatedClient</h2>
+        <h2 class="text-xl font-semibold">
+          {{ $t('example.apiExample.useAuthenticatedClient.title') }}
+        </h2>
         <p class="text-sm text-muted-foreground">
-          A composable that provides an authenticated HTTP client with automatic error handling and
-          token management.
+          {{ $t('example.apiExample.useAuthenticatedClient.description') }}
         </p>
         <div class="space-y-3">
-          <h3 class="text-sm font-medium">Key Features:</h3>
+          <h3 class="text-sm font-medium">
+            {{ $t('example.apiExample.useAuthenticatedClient.keyFeatures') }}
+          </h3>
           <ul class="text-sm space-y-1 text-muted-foreground ml-4">
-            <li>• Automatic Bearer token injection</li>
-            <li>• Comprehensive error handling</li>
-            <li>• Type-safe API calls</li>
-            <li>• Auth0 integration</li>
+            <li>• {{ $t('example.apiExample.useAuthenticatedClient.features.automaticToken') }}</li>
+            <li>• {{ $t('example.apiExample.useAuthenticatedClient.features.errorHandling') }}</li>
+            <li>• {{ $t('example.apiExample.useAuthenticatedClient.features.typeSafe') }}</li>
+            <li>
+              • {{ $t('example.apiExample.useAuthenticatedClient.features.auth0Integration') }}
+            </li>
           </ul>
         </div>
         <div class="space-y-2">
-          <h3 class="text-sm font-medium">Usage:</h3>
+          <h3 class="text-sm font-medium">
+            {{ $t('example.apiExample.useAuthenticatedClient.usage') }}
+          </h3>
           <pre
             class="text-xs bg-muted p-2 rounded overflow-x-auto"
           ><code>const apiClient = useAuthenticatedClient()
@@ -41,26 +46,40 @@ const response = await apiClient.post({
 
       <!-- API Client Generation Documentation -->
       <div class="space-y-4 p-6 border rounded-lg">
-        <h2 class="text-xl font-semibold">⚡ API Client Generation</h2>
+        <h2 class="text-xl font-semibold">
+          {{ $t('example.apiExample.apiClientGeneration.title') }}
+        </h2>
         <p class="text-sm text-muted-foreground">
-          Auto-generate TypeScript types and Zod schemas from your FastAPI OpenAPI specification.
+          {{ $t('example.apiExample.apiClientGeneration.description') }}
         </p>
         <div class="space-y-3">
-          <h3 class="text-sm font-medium">Generated Files:</h3>
+          <h3 class="text-sm font-medium">
+            {{ $t('example.apiExample.apiClientGeneration.generatedFiles') }}
+          </h3>
           <ul class="text-sm space-y-1 text-muted-foreground ml-4">
-            <li>• <code>types.gen.ts</code> - TypeScript interfaces</li>
-            <li>• <code>zod.gen.ts</code> - Zod validation schemas</li>
-            <li>• <code>client.gen.ts</code> - HTTP client methods</li>
+            <li>
+              • <code>{{ $t('example.apiExample.apiClientGeneration.files.types') }}</code>
+            </li>
+            <li>
+              • <code>{{ $t('example.apiExample.apiClientGeneration.files.zod') }}</code>
+            </li>
+            <li>
+              • <code>{{ $t('example.apiExample.apiClientGeneration.files.client') }}</code>
+            </li>
           </ul>
         </div>
         <div class="space-y-2">
-          <h3 class="text-sm font-medium">Generate Command:</h3>
+          <h3 class="text-sm font-medium">
+            {{ $t('example.apiExample.apiClientGeneration.generateCommand') }}
+          </h3>
           <pre
             class="text-xs bg-muted p-2 rounded overflow-x-auto"
           ><code>pnpm run generate-client</code></pre>
         </div>
         <div class="space-y-2">
-          <h3 class="text-sm font-medium">VS Code Task:</h3>
+          <h3 class="text-sm font-medium">
+            {{ $t('example.apiExample.apiClientGeneration.vscodeTask') }}
+          </h3>
           <pre
             class="text-xs bg-muted p-2 rounded overflow-x-auto"
           ><code>Ctrl+Shift+P → "Update Client"</code></pre>
@@ -71,21 +90,26 @@ const response = await apiClient.post({
     <!-- Form Example Section -->
     <div class="space-y-4 p-6 border rounded-lg">
       <div class="flex items-center gap-2">
-        <h2 class="text-xl font-semibold">🚀 Live Example</h2>
-        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Try it out!</span>
+        <h2 class="text-xl font-semibold">{{ $t('example.apiExample.liveExample.title') }}</h2>
+        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">{{
+          $t('example.apiExample.liveExample.badge')
+        }}</span>
       </div>
       <p class="text-sm text-muted-foreground">
-        Submit the form below to see the authenticated API client in action. The form uses Zod
-        validation generated from the backend API schema.
+        {{ $t('example.apiExample.liveExample.description') }}
       </p>
 
       <!-- Form -->
       <form @submit="onSubmit" class="space-y-4 max-w-md">
         <FormField v-slot="{ componentField }" name="name">
           <FormItem>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>{{ $t('example.apiExample.liveExample.form.nameLabel') }}</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Enter your name" v-bind="componentField" />
+              <Input
+                type="text"
+                :placeholder="$t('example.apiExample.liveExample.form.namePlaceholder')"
+                v-bind="componentField"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -93,22 +117,32 @@ const response = await apiClient.post({
 
         <FormField v-slot="{ componentField }" name="age">
           <FormItem>
-            <FormLabel>Age (optional)</FormLabel>
+            <FormLabel>{{ $t('example.apiExample.liveExample.form.ageLabel') }}</FormLabel>
             <FormControl>
-              <Input type="number" placeholder="Enter your age" v-bind="componentField" />
+              <Input
+                type="number"
+                :placeholder="$t('example.apiExample.liveExample.form.agePlaceholder')"
+                v-bind="componentField"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
 
         <Button type="submit" :disabled="isSubmitting" class="w-full">
-          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+          {{
+            isSubmitting
+              ? $t('example.apiExample.liveExample.form.submittingButton')
+              : $t('example.apiExample.liveExample.form.submitButton')
+          }}
         </Button>
       </form>
 
       <!-- Code Example -->
       <div class="mt-6 space-y-2">
-        <h3 class="text-sm font-medium">Code Implementation:</h3>
+        <h3 class="text-sm font-medium">
+          {{ $t('example.apiExample.liveExample.codeImplementation') }}
+        </h3>
         <pre
           class="text-xs bg-muted p-3 rounded overflow-x-auto"
         ><code>// 1. Import the composable and types
@@ -138,7 +172,9 @@ const response = await apiClient.post({
       <div v-if="apiResponse" class="p-4 bg-green-50 border border-green-200 rounded-lg">
         <div class="flex items-center gap-2 mb-2">
           <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-          <h3 class="font-semibold text-green-800">✅ API Response Success</h3>
+          <h3 class="font-semibold text-green-800">
+            {{ $t('example.apiExample.response.success') }}
+          </h3>
         </div>
         <pre class="text-sm text-green-700 overflow-auto bg-green-100 p-2 rounded">{{
           JSON.stringify(apiResponse, null, 2)
@@ -149,7 +185,7 @@ const response = await apiClient.post({
       <div v-if="apiError" class="p-4 bg-red-50 border border-red-200 rounded-lg">
         <div class="flex items-center gap-2 mb-2">
           <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-          <h3 class="font-semibold text-red-800">❌ API Error</h3>
+          <h3 class="font-semibold text-red-800">{{ $t('example.apiExample.response.error') }}</h3>
         </div>
         <pre class="text-sm text-red-700 overflow-auto bg-red-100 p-2 rounded">{{
           JSON.stringify(apiError, null, 2)
@@ -158,16 +194,15 @@ const response = await apiClient.post({
 
       <!-- API Integration Tips -->
       <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h3 class="font-semibold text-blue-800 mb-2">💡 Tips for API Integration</h3>
+        <h3 class="font-semibold text-blue-800 mb-2">
+          {{ $t('example.apiExample.integrationTips.title') }}
+        </h3>
         <ul class="text-sm text-blue-700 space-y-1">
-          <li>
-            • Run <code class="px-1 bg-blue-100 rounded">pnpm run generate-client</code> after
-            backend schema changes
-          </li>
-          <li>• Use VS Code task "Update Client" for quick regeneration</li>
-          <li>• The composable handles authentication, errors, and retries automatically</li>
-          <li>• Zod schemas provide runtime validation matching your backend</li>
-          <li>• TypeScript types ensure compile-time safety</li>
+          <li>• {{ $t('example.apiExample.integrationTips.tips.regenerateClient') }}</li>
+          <li>• {{ $t('example.apiExample.integrationTips.tips.vscodeTask') }}</li>
+          <li>• {{ $t('example.apiExample.integrationTips.tips.automaticHandling') }}</li>
+          <li>• {{ $t('example.apiExample.integrationTips.tips.zodValidation') }}</li>
+          <li>• {{ $t('example.apiExample.integrationTips.tips.typescriptSafety') }}</li>
         </ul>
       </div>
     </div>
@@ -179,8 +214,6 @@ import { ref } from 'vue'
 
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-
-import { useBreadcrumbStore } from '@/stores/breadcrumb'
 
 import { useAuthenticatedClient } from '@/composables/useAuthenticatedClient'
 

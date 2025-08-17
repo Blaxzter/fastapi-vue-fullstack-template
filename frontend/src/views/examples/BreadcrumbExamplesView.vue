@@ -1,9 +1,9 @@
 <template>
   <div class="mx-auto max-w-6xl space-y-6">
     <div class="space-y-4">
-      <h1 class="text-2xl font-bold">Dynamic Breadcrumb Examples</h1>
+      <h1 class="text-2xl font-bold">{{ $t('example.breadcrumbExamples.title') }}</h1>
       <p class="text-muted-foreground">
-        This page demonstrates different ways to use dynamic breadcrumbs.
+        {{ $t('example.breadcrumbExamples.description') }}
       </p>
     </div>
 
@@ -11,48 +11,62 @@
       <!-- Example 1: Static override -->
       <Card>
         <CardHeader>
-          <CardTitle>Static Override</CardTitle>
+          <CardTitle>{{ $t('example.breadcrumbExamples.staticOverride.title') }}</CardTitle>
           <CardDescription>
-            Breadcrumb is set statically when the component mounts.
+            {{ $t('example.breadcrumbExamples.staticOverride.description') }}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button @click="setStaticBreadcrumb">Set Static Breadcrumb</Button>
+          <Button @click="setStaticBreadcrumb">{{
+            $t('example.breadcrumbExamples.staticOverride.button')
+          }}</Button>
         </CardContent>
       </Card>
 
       <!-- Example 2: Dynamic based on data -->
       <Card>
         <CardHeader>
-          <CardTitle>Dynamic from Data</CardTitle>
-          <CardDescription> Breadcrumb changes based on user selection. </CardDescription>
+          <CardTitle>{{ $t('example.breadcrumbExamples.dynamicFromData.title') }}</CardTitle>
+          <CardDescription>
+            {{ $t('example.breadcrumbExamples.dynamicFromData.description') }}
+          </CardDescription>
         </CardHeader>
         <CardContent class="space-y-4">
           <div class="space-y-2">
-            <Label>Select a category:</Label>
-            <select
-              v-model="selectedCategory"
-              @change="updateBreadcrumbFromData"
-              class="w-full p-2 border rounded"
-            >
-              <option value="">Choose...</option>
-              <option value="electronics">Electronics</option>
-              <option value="clothing">Clothing</option>
-              <option value="books">Books</option>
-            </select>
+            <Label>{{ $t('example.breadcrumbExamples.dynamicFromData.selectCategory') }}</Label>
+            <Select v-model="selectedCategory" @update:model-value="updateBreadcrumbFromData">
+              <SelectTrigger class="w-full">
+                <SelectValue
+                  :placeholder="$t('example.breadcrumbExamples.dynamicFromData.choose')"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="electronics">
+                  {{ $t('example.breadcrumbExamples.dynamicFromData.categories.electronics') }}
+                </SelectItem>
+                <SelectItem value="clothing">
+                  {{ $t('example.breadcrumbExamples.dynamicFromData.categories.clothing') }}
+                </SelectItem>
+                <SelectItem value="books">
+                  {{ $t('example.breadcrumbExamples.dynamicFromData.categories.books') }}
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div v-if="selectedCategory" class="space-y-2">
-            <Label>Select an item:</Label>
-            <select
-              v-model="selectedItem"
-              @change="updateBreadcrumbFromData"
-              class="w-full p-2 border rounded"
-            >
-              <option value="">Choose...</option>
-              <option v-for="item in availableItems" :key="item.id" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
+            <Label>{{ $t('example.breadcrumbExamples.dynamicFromData.selectItem') }}</Label>
+            <Select v-model="selectedItem" @update:model-value="updateBreadcrumbFromData">
+              <SelectTrigger class="w-full">
+                <SelectValue
+                  :placeholder="$t('example.breadcrumbExamples.dynamicFromData.choose')"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem v-for="item in availableItems" :key="item.id" :value="item.id">
+                  {{ $t(`example.breadcrumbExamples.dynamicFromData.items.${item.id}`) }}
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -60,24 +74,35 @@
       <!-- Example 3: Reset to route default -->
       <Card>
         <CardHeader>
-          <CardTitle>Reset to Default</CardTitle>
-          <CardDescription> Reset breadcrumb back to route meta definition. </CardDescription>
+          <CardTitle>{{ $t('example.breadcrumbExamples.resetToDefault.title') }}</CardTitle>
+          <CardDescription>
+            {{ $t('example.breadcrumbExamples.resetToDefault.description') }}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button @click="resetBreadcrumb" variant="outline">Reset to Route Default</Button>
+          <Button @click="resetBreadcrumb" variant="outline">{{
+            $t('example.breadcrumbExamples.resetToDefault.button')
+          }}</Button>
         </CardContent>
       </Card>
 
       <!-- Example 4: Add breadcrumb dynamically -->
       <Card>
         <CardHeader>
-          <CardTitle>Add Breadcrumb</CardTitle>
-          <CardDescription> Add additional breadcrumb items dynamically. </CardDescription>
+          <CardTitle>{{ $t('example.breadcrumbExamples.addBreadcrumb.title') }}</CardTitle>
+          <CardDescription>
+            {{ $t('example.breadcrumbExamples.addBreadcrumb.description') }}
+          </CardDescription>
         </CardHeader>
         <CardContent class="space-y-4">
           <div class="flex gap-2">
-            <Input v-model="newBreadcrumbTitle" placeholder="Breadcrumb title" />
-            <Button @click="addNewBreadcrumb">Add</Button>
+            <Input
+              v-model="newBreadcrumbTitle"
+              :placeholder="$t('example.breadcrumbExamples.addBreadcrumb.placeholder')"
+            />
+            <Button @click="addNewBreadcrumb">{{
+              $t('example.breadcrumbExamples.addBreadcrumb.button')
+            }}</Button>
           </div>
         </CardContent>
       </Card>
@@ -90,15 +115,25 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { type BreadcrumbItem, useBreadcrumbStore } from '@/stores/breadcrumb'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 // Breadcrumb store
 const breadcrumbStore = useBreadcrumbStore()
+const { t } = useI18n()
 
 // Component state
 const selectedCategory = ref('')
@@ -108,19 +143,19 @@ const newBreadcrumbTitle = ref('')
 // Mock data for demonstration
 const categories = {
   electronics: [
-    { id: 'laptop', name: 'Laptop' },
-    { id: 'phone', name: 'Smartphone' },
-    { id: 'tablet', name: 'Tablet' },
+    { id: 'laptop', name: 'laptop' },
+    { id: 'phone', name: 'phone' },
+    { id: 'tablet', name: 'tablet' },
   ],
   clothing: [
-    { id: 'shirt', name: 'T-Shirt' },
-    { id: 'jeans', name: 'Jeans' },
-    { id: 'jacket', name: 'Jacket' },
+    { id: 'shirt', name: 'shirt' },
+    { id: 'jeans', name: 'jeans' },
+    { id: 'jacket', name: 'jacket' },
   ],
   books: [
-    { id: 'fiction', name: 'Fiction' },
-    { id: 'technical', name: 'Technical' },
-    { id: 'biography', name: 'Biography' },
+    { id: 'fiction', name: 'fiction' },
+    { id: 'technical', name: 'technical' },
+    { id: 'biography', name: 'biography' },
   ],
 }
 
@@ -132,21 +167,24 @@ const availableItems = computed(() => {
 // Breadcrumb functions
 const setStaticBreadcrumb = () => {
   breadcrumbStore.setBreadcrumbs([
-    { title: 'Home', to: { name: 'home' } },
-    { title: 'Examples', to: '/breadcrumb-examples' },
-    { title: 'Static Example' },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.examples'), to: '/breadcrumb-examples' },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.staticExample') },
   ])
 }
 
 const updateBreadcrumbFromData = () => {
   const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', to: { name: 'home' } },
-    { title: 'Examples', to: { name: 'breadcrumb-examples' } },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.examples'),
+      to: { name: 'breadcrumb-examples' },
+    },
   ]
 
   if (selectedCategory.value) {
     breadcrumbs.push({
-      title: selectedCategory.value.charAt(0).toUpperCase() + selectedCategory.value.slice(1),
+      title: t(`example.breadcrumbExamples.dynamicFromData.categories.${selectedCategory.value}`),
       to: `/examples/${selectedCategory.value}`,
     })
 
@@ -154,7 +192,7 @@ const updateBreadcrumbFromData = () => {
       const item = availableItems.value.find((i) => i.id === selectedItem.value)
       if (item) {
         breadcrumbs.push({
-          title: item.name,
+          title: t(`example.breadcrumbExamples.dynamicFromData.items.${item.id}`),
         })
       }
     }
@@ -180,8 +218,8 @@ const addNewBreadcrumb = () => {
 // Set initial breadcrumb when component mounts
 onMounted(() => {
   breadcrumbStore.setBreadcrumbs([
-    { title: 'Home', to: { name: 'home' } },
-    { title: 'Breadcrumb Examples' },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
+    { title: t('example.breadcrumbExamples.breadcrumbItems.breadcrumbExamples') },
   ])
 })
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div class="mx-auto max-w-6xl space-y-6">
     <div class="space-y-2">
-      <h1 class="text-3xl font-bold tracking-tight">Examples Overview</h1>
+      <h1 class="text-3xl font-bold tracking-tight">{{ $t('example.examplesOverview.title') }}</h1>
       <p class="text-muted-foreground">
-        Explore various examples and demonstrations of the application's features.
+        {{ $t('example.examplesOverview.description') }}
       </p>
     </div>
 
@@ -21,9 +21,9 @@
         </div>
 
         <div class="space-y-2">
-          <h3 class="font-semibold">{{ example.title }}</h3>
+          <h3 class="font-semibold">{{ example.title.value }}</h3>
           <p class="text-sm text-muted-foreground">
-            {{ example.description }}
+            {{ example.description.value }}
           </p>
         </div>
 
@@ -36,33 +36,39 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { CodeIcon, LayoutGridIcon, MessageSquareIcon, NavigationIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const examples = [
   {
-    title: 'API Example',
-    description: 'Demonstrates API integration and data fetching patterns.',
+    title: computed(() => t('example.examplesOverview.examples.apiExample.title')),
+    description: computed(() => t('example.examplesOverview.examples.apiExample.description')),
     route: 'test',
     icon: CodeIcon,
   },
   {
-    title: 'Breadcrumb Examples',
-    description: 'Shows different breadcrumb navigation patterns and configurations.',
+    title: computed(() => t('example.examplesOverview.examples.breadcrumbExamples.title')),
+    description: computed(() =>
+      t('example.examplesOverview.examples.breadcrumbExamples.description'),
+    ),
     route: 'breadcrumb-examples',
     icon: NavigationIcon,
   },
   {
-    title: 'Layout Demo',
-    description: 'Explores various layout options and responsive design patterns.',
+    title: computed(() => t('example.examplesOverview.examples.layoutDemo.title')),
+    description: computed(() => t('example.examplesOverview.examples.layoutDemo.description')),
     route: 'layout-demo',
     icon: LayoutGridIcon,
   },
   {
-    title: 'Dialog Examples',
-    description: 'Interactive examples of confirmation dialogs, alerts, and info messages.',
+    title: computed(() => t('example.examplesOverview.examples.dialogExamples.title')),
+    description: computed(() => t('example.examplesOverview.examples.dialogExamples.description')),
     route: 'dialog-examples',
     icon: MessageSquareIcon,
   },
