@@ -115,22 +115,23 @@ export function useAuthenticatedClient() {
   }
 
   /**
-   * HTTP method shortcuts using the generic function
+   * HTTP method shortcuts with proper generic type support
+   * Usage: await get<UserProfile[]>({ url: '/api/v1/users/' })
    */
-  const get = async (options: Parameters<typeof client.get>[0]) =>
-    makeAuthenticatedRequest('get', options)
+  const get = async <T>(options: Parameters<typeof client.get>[0]): Promise<T> =>
+    makeAuthenticatedRequest<T>('get', options)
 
-  const post = async (options: Parameters<typeof client.post>[0]) =>
-    makeAuthenticatedRequest('post', options)
+  const post = async <T>(options: Parameters<typeof client.post>[0]): Promise<T> =>
+    makeAuthenticatedRequest<T>('post', options)
 
-  const put = async (options: Parameters<typeof client.put>[0]) =>
-    makeAuthenticatedRequest('put', options)
+  const put = async <T>(options: Parameters<typeof client.put>[0]): Promise<T> =>
+    makeAuthenticatedRequest<T>('put', options)
 
-  const del = async (options: Parameters<typeof client.delete>[0]) =>
-    makeAuthenticatedRequest('delete', options)
+  const del = async <T = void>(options: Parameters<typeof client.delete>[0]): Promise<T> =>
+    makeAuthenticatedRequest<T>('delete', options)
 
-  const patch = async (options: Parameters<typeof client.patch>[0]) =>
-    makeAuthenticatedRequest('patch', options)
+  const patch = async <T>(options: Parameters<typeof client.patch>[0]): Promise<T> =>
+    makeAuthenticatedRequest<T>('patch', options)
 
   return {
     getAuthToken,
