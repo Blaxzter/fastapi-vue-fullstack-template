@@ -1,5 +1,5 @@
-import process from 'node:process'
 import { defineConfig, devices } from '@playwright/test'
+import process from 'node:process'
 
 /**
  * Read environment variables from file.
@@ -45,23 +45,59 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // Setup project
+    { name: 'setup', testMatch: '**/setup/*.setup.ts' },
+
+    // Public tests (no authentication required)
     {
-      name: 'chromium',
+      name: 'chromium-public',
       use: {
         ...devices['Desktop Chrome'],
       },
+      testMatch: '**/tests/public/**/*.spec.ts',
     },
     {
-      name: 'firefox',
+      name: 'firefox-public',
       use: {
         ...devices['Desktop Firefox'],
       },
+      testMatch: '**/tests/public/**/*.spec.ts',
     },
     {
-      name: 'webkit',
+      name: 'webkit-public',
       use: {
         ...devices['Desktop Safari'],
       },
+      testMatch: '**/tests/public/**/*.spec.ts',
+    },
+
+    // Authenticated tests
+    {
+      name: 'chromium-auth',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'e2e/.auth/user.json',
+      },
+      dependencies: ['setup'],
+      testMatch: '**/tests/authenticated/**/*.spec.ts',
+    },
+    {
+      name: 'firefox-auth',
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'e2e/.auth/user.json',
+      },
+      dependencies: ['setup'],
+      testMatch: '**/tests/authenticated/**/*.spec.ts',
+    },
+    {
+      name: 'webkit-auth',
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'e2e/.auth/user.json',
+      },
+      dependencies: ['setup'],
+      testMatch: '**/tests/authenticated/**/*.spec.ts',
     },
 
     /* Test against mobile viewports. */
