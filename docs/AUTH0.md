@@ -32,7 +32,7 @@ auth0 login --scopes create:client_grants,read:users,update:users
 # Your backend will validate JWT tokens against this API's audience identifier.
 # Note: Use your actual production domain as the identifier (e.g., https://api.yourdomain.com)
 # This is a logical identifier, not an actual URL - it stays the same across all environments
-# 
+#
 # Don't have a domain yet? Use any unique identifier like:
 # - https://api.myproject.dev
 # - https://myproject-api.com (even if you don't own it)
@@ -43,7 +43,6 @@ auth0 apis create \
   --identifier "https://api.yourdomain.com" \
   --signing-alg "RS256" \
   --token-lifetime 86400 \
-  --offline-access true \
   --scopes "" \
   --no-input \
   --json
