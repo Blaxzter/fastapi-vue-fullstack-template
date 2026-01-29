@@ -6,25 +6,29 @@
 ## Technology Stack and Features
 
 -   ⚡ [**FastAPI**](https://fastapi.tiangolo.com) for the Python backend API.
-    -   🧰 [SQLModel](https://sqlmodel.tiangolo.com) for the Python SQL database interactions (ORM).
-    -   🔍 [Pydantic](https://docs.pydantic.dev), used by FastAPI, for the data validation and settings management.
+    -   🧰 [SQLModel](https://sqlmodel.tiangolo.com) for ORM/database interactions.
+    -   🔍 [Pydantic](https://docs.pydantic.dev) v2 for data validation and settings.
     -   💾 [PostgreSQL](https://www.postgresql.org) as the SQL database.
+    -   🧭 [Alembic](https://alembic.sqlalchemy.org/) for migrations.
+    -   🔐 Auth0 integration via `auth0-fastapi-api` and JWTs (`pyjwt`).
 -   🚀 [Vue 3](https://vuejs.org) for the frontend.
-    -   💃 Using TypeScript, Composition API, Vite, and other parts of a modern frontend stack.
-    -   🎨 [PrimeVue](https://primevue.org) for the frontend components with Aura theme.
-    -   🔄 [@tanstack/vue-query](https://tanstack.com/query/latest) for server state management.
+    -   💃 TypeScript, Composition API, and [Vite](https://vite.dev).
+    -   🎨 [Tailwind CSS v4](https://tailwindcss.com) for styling.
+    -   🧩 [shadcn-vue](https://www.shadcn-vue.com/) (built on [reka-ui](https://reka-ui.com)) for UI components.
     -   📦 [Pinia](https://pinia.vuejs.org) for client state management.
-    -   🎭 [Playwright](https://playwright.dev) for End-to-End testing.
-    -   🦇 Dark mode support with PrimeVue theming.
-    -   🤖 An automatically generated frontend client with type safety.
+    -   🧭 [Vue Router](https://router.vuejs.org) for routing.
+    -   🔐 [Auth0](https://auth0.com) SPA authentication.
+    -   ✅ [Zod](https://zod.dev) + [Vee-Validate](https://vee-validate.logaretm.com) for forms/validation.
+    -   🌍 [Vue I18n](https://vue-i18n.intlify.dev) for localization.
+    -   🤖 Auto-generated TypeScript API client via `@hey-api/openapi-ts`.
+    -   🎭 [Playwright](https://playwright.dev) for end-to-end testing.
 -   🐋 [Docker Compose](https://www.docker.com) for development and production.
 -   🔒 Secure password hashing by default.
--   🔑 JWT (JSON Web Token) authentication.
--   📫 Email based password recovery.
--   ✅ Tests with [Pytest](https://pytest.org).
+-   📫 Email based password recovery with MJML templates.
+-   ✅ Tests with [Pytest](https://pytest.org) and Playwright.
 -   📞 [Traefik](https://traefik.io) as a reverse proxy / load balancer.
--   🚢 Deployment instructions using Docker Compose, including how to set up a frontend Traefik proxy to handle automatic HTTPS certificates.
--   🏭 CI (continuous integration) and CD (continuous deployment) based on GitHub Actions.
+-   🧹 Linting & formatting with Ruff, Mypy, ESLint, and Prettier.
+-   🏭 CI/CD based on GitHub Actions.
 
 ### Home Screen
 

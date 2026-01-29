@@ -2,6 +2,13 @@
 
 This directory is where you should create your FastAPI route modules to organize your application's REST API endpoints.
 
+## Tech Stack
+
+-   **FastAPI** routers and dependency injection
+-   **Auth0** auth via `app.api.deps.auth0`
+-   **SQLModel + AsyncSession** via `DBDep`
+-   **Pydantic** schemas for request/response models
+
 ## Route Structure Guidelines
 
 Each route file should follow this structure:

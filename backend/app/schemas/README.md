@@ -3,6 +3,11 @@
 This directory contains Pydantic schemas used for request and response validation in the FastAPI application.
 Depending on how big your application is, you might want to organize schemas into subdirectories.
 
+## Tech Stack
+
+-   **Pydantic v2** for schema validation
+-   **FastAPI** request/response models
+
 ## Schema Structure Guidelines
 
 Each schema file should follow this structure:

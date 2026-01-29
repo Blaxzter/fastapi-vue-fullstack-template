@@ -12,9 +12,14 @@ A modern Vue 3 + TypeScript frontend application with a comprehensive UI compone
 - **Auth0** - Secure authentication and user management
 - **Pinia** - Intuitive state management for Vue
 - **Vue Router** - Official routing library for Vue.js
+- **Vue I18n** - Localization and translation support
+- **Vee-Validate + Zod** - Form handling and validation
+- **VueUse** - Composables/utilities for Vue
 - **Lucide Vue Next** - Beautiful & consistent icon library
-- **Zod** - TypeScript-first schema validation
 - **Axios** - Promise-based HTTP client
+- **OpenAPI TS** - Auto-generated API client
+- **Playwright** - End-to-end testing
+- **pnpm** - Package manager
 
 ## Features
 

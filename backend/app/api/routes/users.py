@@ -1,11 +1,14 @@
+import uuid
 from typing import Any
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.deps import auth0
+from app.api.deps import DBDep, auth0
 from app.core.auth import get_management_api_token
 from app.core.config import settings
+from app.crud.user import user as crud_user
+from app.schemas.user import UserCreate, UserRead, UserUpdate
 from app.schemas.users import UserProfile, UserProfileUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -98,3 +101,54 @@ async def get_auth0_management_url(
         "management_url": f"https://{settings.AUTH0_DOMAIN}/login",
         "note": "For email and password changes, please use Auth0's account management",
     }
+
+
+@router.get("/", response_model=list[UserRead])
+async def list_users(
+    session: DBDep,
+    skip: int = 0,
+    limit: int = 100,
+    _: dict = Depends(auth0.require_auth()),
+) -> Any:
+    return await crud_user.get_multi(session, skip=skip, limit=limit)
+
+
+@router.get("/{user_id}", response_model=UserRead)
+async def get_user(
+    user_id: uuid.UUID,
+    session: DBDep,
+    _: dict = Depends(auth0.require_auth()),
+) -> Any:
+    return await crud_user.get(session, id=user_id, raise_404_error=True)
+
+
+@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+async def create_user(
+    user_in: UserCreate,
+    session: DBDep,
+    _: dict = Depends(auth0.require_auth()),
+) -> Any:
+    return await crud_user.create(session, obj_in=user_in)
+
+
+@router.patch("/{user_id}", response_model=UserRead)
+async def update_user(
+    user_id: uuid.UUID,
+    user_in: UserUpdate,
+    session: DBDep,
+    _: dict = Depends(auth0.require_auth()),
+) -> Any:
+    user = await crud_user.get(session, id=user_id, raise_404_error=True)
+    return await crud_user.update(session, db_obj=user, obj_in=user_in)
+
+
+@router.delete("/{user_id}", response_model=UserRead)
+async def delete_user(
+    user_id: uuid.UUID,
+    session: DBDep,
+    _: dict = Depends(auth0.require_auth()),
+) -> Any:
+    user = await crud_user.get(session, id=user_id, raise_404_error=True)
+    await session.delete(user)
+    await session.commit()
+    return user
