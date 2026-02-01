@@ -123,7 +123,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def remove_multi(self, db: AsyncSession, *, ids: list[int]) -> bool:
         await db.execute(delete(self.model).where(self.model.id.in_(ids)))
-        await db.commit()
         return True
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
@@ -140,7 +139,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         db_obj = self.model(**obj_in_data)  # type: ignore
         db.add(db_obj)
-        await db.commit()
+        await db.flush()
         await db.refresh(db_obj)
         return db_obj
 
@@ -160,7 +159,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj.sqlmodel_update(update_data)
 
         db.add(db_obj)
-        await db.commit()
+        await db.flush()
         if not skip_refresh:
             await db.refresh(db_obj)
         else:
@@ -175,7 +174,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             return None
 
         await db.delete(obj)
-        await db.commit()
         return obj
 
     async def iterate(

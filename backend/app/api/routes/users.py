@@ -1,67 +1,48 @@
 import uuid
 from typing import Any
 
-import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.deps import DBDep, auth0
-from app.core.auth import get_management_api_token
+from app.api.deps import CurrentSuperuser, CurrentUser, DBDep, auth0, current_user
 from app.core.config import settings
 from app.crud.user import user as crud_user
+from app.logic.auth0.auth0_service import update_auth0_user
 from app.schemas.user import UserCreate, UserRead, UserUpdate
-from app.schemas.users import UserProfile, UserProfileUpdate
+from app.schemas.users import ProfileInit, UserProfile, UserProfileUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-async def update_auth0_user(user_id: str, update_data: UserProfileUpdate) -> bool:
-    """Update user profile in Auth0 using Management API."""
-    try:
-        token = await get_management_api_token()
-
-        # Prepare user update payload
-        user_data: dict[str, Any] = {}
-        if update_data.name is not None:
-            user_data["name"] = update_data.name
-        if update_data.nickname is not None:
-            user_data["nickname"] = update_data.nickname
-        if update_data.picture is not None:
-            user_data["picture"] = str(update_data.picture)
-
-        # Add bio to user_metadata
-        if update_data.bio is not None:
-            user_data["user_metadata"] = {"bio": update_data.bio}
-
-        if not user_data:
-            return True
-
-        # Update user via Management API
-        url = f"https://{settings.AUTH0_DOMAIN}/api/v2/users/{user_id}"
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        }
-
-        async with httpx.AsyncClient() as client:
-            response = await client.patch(url, json=user_data, headers=headers)
-            return response.status_code == 200
-
-    except Exception as e:
-        print(f"Error updating Auth0 user: {e}")
-        return False
-
-
-@router.get("/me", response_model=UserProfile)
+@router.post("/me", response_model=UserProfile)
 async def get_current_user_profile(
+    profile_init: ProfileInit | None = None,
+    *,
+    session: DBDep,
     claims: dict = Depends(auth0.require_auth()),
 ) -> Any:
-    """Get current user profile information."""
-    return UserProfile(**claims)
+    """Get current user profile information.
+
+    Accepts optional profile data from frontend for user initialization.
+    This allows the frontend to send email/name from Auth0 ID token
+    when the user first logs in.
+    """
+    # Pass profile data to current_user dependency for potential user creation
+    profile_dict = profile_init.model_dump() if profile_init else None
+    user_dep = current_user(profile_data=profile_dict)
+    current_user_obj = await user_dep(session, claims)
+
+    return UserProfile(
+        **claims,
+        roles=current_user_obj.roles,
+        is_admin=current_user_obj.is_admin,
+        is_active=current_user_obj.is_active,
+    )
 
 
 @router.patch("/me", response_model=UserProfile)
 async def update_user_profile(
     user_update: UserProfileUpdate,
+    _: CurrentUser,
     claims: dict = Depends(auth0.require_auth()),
 ) -> Any:
     """Update current user profile information using Auth0 Management API."""
@@ -89,12 +70,17 @@ async def update_user_profile(
     if user_update.bio is not None:
         updated_user["bio"] = user_update.bio
 
-    return UserProfile(**updated_user)
+    return UserProfile(
+        **updated_user,
+        roles=current_user.roles,
+        is_admin=current_user.is_admin,
+        is_active=current_user.is_active,
+    )
 
 
 @router.get("/auth0-management-url")
 async def get_auth0_management_url(
-    _: dict = Depends(auth0.require_auth()),
+    _: CurrentUser,
 ) -> dict[str, str]:
     """Get the Auth0 management URL for advanced account settings."""
     return {
@@ -106,9 +92,9 @@ async def get_auth0_management_url(
 @router.get("/", response_model=list[UserRead])
 async def list_users(
     session: DBDep,
+    _: CurrentSuperuser,
     skip: int = 0,
     limit: int = 100,
-    _: dict = Depends(auth0.require_auth()),
 ) -> Any:
     return await crud_user.get_multi(session, skip=skip, limit=limit)
 
@@ -117,7 +103,7 @@ async def list_users(
 async def get_user(
     user_id: uuid.UUID,
     session: DBDep,
-    _: dict = Depends(auth0.require_auth()),
+    _: CurrentSuperuser,
 ) -> Any:
     return await crud_user.get(session, id=user_id, raise_404_error=True)
 
@@ -126,7 +112,7 @@ async def get_user(
 async def create_user(
     user_in: UserCreate,
     session: DBDep,
-    _: dict = Depends(auth0.require_auth()),
+    _: CurrentUser,
 ) -> Any:
     return await crud_user.create(session, obj_in=user_in)
 
@@ -136,7 +122,7 @@ async def update_user(
     user_id: uuid.UUID,
     user_in: UserUpdate,
     session: DBDep,
-    _: dict = Depends(auth0.require_auth()),
+    _: CurrentUser,
 ) -> Any:
     user = await crud_user.get(session, id=user_id, raise_404_error=True)
     return await crud_user.update(session, db_obj=user, obj_in=user_in)
@@ -146,7 +132,7 @@ async def update_user(
 async def delete_user(
     user_id: uuid.UUID,
     session: DBDep,
-    _: dict = Depends(auth0.require_auth()),
+    _: CurrentUser,
 ) -> Any:
     user = await crud_user.get(session, id=user_id, raise_404_error=True)
     await session.delete(user)

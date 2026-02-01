@@ -1,6 +1,7 @@
 import { authGuard } from '@auth0/auth0-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { useAuthStore } from '@/stores/auth'
 import type { BreadcrumbItem } from '@/stores/breadcrumb'
 
 // Extend route meta to include breadcrumbs and layout
@@ -8,6 +9,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     breadcrumbs?: BreadcrumbItem[]
     layout?: 'preauth' | 'postauth' | 'minimal'
+    requiresRole?: string | string[]
   }
 }
 
@@ -76,6 +78,26 @@ const router = createRouter({
           },
         },
         {
+          path: 'projects',
+          name: 'projects',
+          component: () => import('@/views/projects/ProjectsView.vue'),
+          meta: {
+            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Projects' }],
+          },
+        },
+        {
+          path: 'projects/:projectId',
+          name: 'project-detail',
+          component: () => import('@/views/projects/ProjectDetailView.vue'),
+          meta: {
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Projects', to: { name: 'projects' } },
+              { title: 'Project' },
+            ],
+          },
+        },
+        {
           path: 'breadcrumb-examples',
           name: 'breadcrumb-examples',
           component: () => import('@/views/examples/BreadcrumbExamplesView.vue'),
@@ -133,6 +155,46 @@ const router = createRouter({
       redirect: { name: 'not-found' },
     },
   ],
+})
+
+const normalizeRoles = (roles: string | string[]) => (Array.isArray(roles) ? roles : [roles])
+
+router.beforeEach(async (to) => {
+  const authStore = useAuthStore()
+
+  console.log('Auth0 isLoading:', authStore.auth0.isLoading)
+
+  // Wait for Auth0 to finish loading before checking authentication
+  while (authStore.auth0.isLoading) {
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+
+  console.log('Checking access for route:', to.name)
+  // print auth store authenticated status and roles
+  console.log('User is authenticated:', authStore.isAuthenticated)
+  console.log('User roles:', authStore.roles)
+
+  if (authStore.isAuthenticated) {
+    try {
+      await authStore.ensureProfile()
+    } catch (error) {
+      console.error('Failed to load user profile for role check:', error)
+      if (to.meta.requiresRole) {
+        return { name: 'home' }
+      }
+    }
+  }
+
+  if (!to.meta.requiresRole) return true
+  if (!authStore.isAuthenticated) return true
+
+  const requiredRoles = normalizeRoles(to.meta.requiresRole)
+  const hasAllRoles = requiredRoles.every((role) => authStore.roles.includes(role))
+  if (!hasAllRoles) {
+    return { name: 'home' }
+  }
+
+  return true
 })
 
 export default router

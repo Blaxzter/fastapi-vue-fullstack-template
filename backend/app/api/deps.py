@@ -39,7 +39,15 @@ def _normalize_required_roles(
 async def _get_or_create_user(
     session: AsyncSession,
     claims: dict,
+    profile_data: dict | None = None,
 ) -> User:
+    """Get existing user or create new one with optional profile data from frontend.
+
+    Args:
+        session: Database session
+        claims: Auth0 JWT claims
+        profile_data: Optional profile data from frontend (email, name) for user creation
+    """
     auth0_sub = claims.get("sub")
     if not auth0_sub:
         raise HTTPException(
@@ -51,22 +59,38 @@ async def _get_or_create_user(
     if user:
         return user
 
+    # Use profile_data from frontend if available, fallback to claims
+    email = None
+    name = None
+    if profile_data:
+        email = profile_data.get("email")
+        name = profile_data.get("name") or profile_data.get("nickname")
+
+    # Fallback to claims if profile_data not provided
+    if not email:
+        email = claims.get("email")
+    if not name:
+        name = claims.get("name") or claims.get("nickname")
+
     user_in = UserCreate(
         auth0_sub=auth0_sub,
-        email=claims.get("email"),
-        name=claims.get("name") or claims.get("nickname"),
+        email=email,
+        name=name,
     )
     return await crud_user.create(session, obj_in=user_in)
 
 
-def current_user(required_roles: str | Iterable[str] | None = None):
+def current_user(
+    required_roles: str | Iterable[str] | None = None,
+    profile_data: dict | None = None,
+):
     required_roles_list = _normalize_required_roles(required_roles)
 
     async def _current_user(
         session: DBDep,
         claims: dict = Depends(auth0.require_auth()),
     ) -> User:
-        user = await _get_or_create_user(session, claims)
+        user = await _get_or_create_user(session, claims, profile_data)
 
         if not user.is_active:
             raise HTTPException(

@@ -51,6 +51,241 @@ export const zHttpValidationError = z.object({
 });
 
 /**
+ * ProfileInit
+ * Profile data from Auth0 ID token for user initialization.
+ */
+export const zProfileInit = z.object({
+    email: z.optional(z.union([
+        z.email(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    nickname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+}).register(z.globalRegistry, {
+    description: 'Profile data from Auth0 ID token for user initialization.'
+});
+
+/**
+ * ProjectCreate
+ */
+export const zProjectCreate = z.object({
+    name: z.string().min(1).max(200).register(z.globalRegistry, {
+        description: 'Project name'
+    }),
+    description: z.optional(z.union([
+        z.string().max(1000),
+        z.null()
+    ])),
+    status: z.optional(z.enum([
+        'active',
+        'archived'
+    ]).register(z.globalRegistry, {
+        description: 'Project status'
+    })),
+    owner_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ]))
+});
+
+/**
+ * ProjectRead
+ */
+export const zProjectRead = z.object({
+    name: z.string().min(1).max(200).register(z.globalRegistry, {
+        description: 'Project name'
+    }),
+    description: z.optional(z.union([
+        z.string().max(1000),
+        z.null()
+    ])),
+    status: z.optional(z.enum([
+        'active',
+        'archived'
+    ]).register(z.globalRegistry, {
+        description: 'Project status'
+    })),
+    owner_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    id: z.uuid(),
+    created_at: z.iso.datetime(),
+    updated_at: z.iso.datetime()
+});
+
+/**
+ * ProjectListResponse
+ */
+export const zProjectListResponse = z.object({
+    items: z.array(zProjectRead),
+    total: z.int(),
+    skip: z.int(),
+    limit: z.int()
+});
+
+/**
+ * ProjectUpdate
+ */
+export const zProjectUpdate = z.object({
+    name: z.optional(z.union([
+        z.string().min(1).max(200),
+        z.null()
+    ])),
+    description: z.optional(z.union([
+        z.string().max(1000),
+        z.null()
+    ])),
+    status: z.optional(z.union([
+        z.enum([
+            'active',
+            'archived'
+        ]),
+        z.null()
+    ])),
+    owner_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ]))
+});
+
+/**
+ * TaskCreate
+ */
+export const zTaskCreate = z.object({
+    project_id: z.uuid().register(z.globalRegistry, {
+        description: 'Parent project ID'
+    }),
+    title: z.string().min(1).max(200).register(z.globalRegistry, {
+        description: 'Task title'
+    }),
+    description: z.optional(z.union([
+        z.string().max(2000),
+        z.null()
+    ])),
+    status: z.optional(z.enum([
+        'todo',
+        'in_progress',
+        'done'
+    ]).register(z.globalRegistry, {
+        description: 'Task status'
+    })),
+    priority: z.optional(z.int().gte(1).lte(5).register(z.globalRegistry, {
+        description: 'Task priority (1-5)'
+    })).default(3),
+    due_date: z.optional(z.union([
+        z.iso.date(),
+        z.null()
+    ]))
+});
+
+/**
+ * TaskRead
+ */
+export const zTaskRead = z.object({
+    project_id: z.uuid().register(z.globalRegistry, {
+        description: 'Parent project ID'
+    }),
+    title: z.string().min(1).max(200).register(z.globalRegistry, {
+        description: 'Task title'
+    }),
+    description: z.optional(z.union([
+        z.string().max(2000),
+        z.null()
+    ])),
+    status: z.optional(z.enum([
+        'todo',
+        'in_progress',
+        'done'
+    ]).register(z.globalRegistry, {
+        description: 'Task status'
+    })),
+    priority: z.optional(z.int().gte(1).lte(5).register(z.globalRegistry, {
+        description: 'Task priority (1-5)'
+    })).default(3),
+    due_date: z.optional(z.union([
+        z.iso.date(),
+        z.null()
+    ])),
+    id: z.uuid(),
+    created_at: z.iso.datetime(),
+    updated_at: z.iso.datetime()
+});
+
+/**
+ * TaskListResponse
+ */
+export const zTaskListResponse = z.object({
+    items: z.array(zTaskRead),
+    total: z.int(),
+    skip: z.int(),
+    limit: z.int()
+});
+
+/**
+ * TaskUpdate
+ */
+export const zTaskUpdate = z.object({
+    title: z.optional(z.union([
+        z.string().min(1).max(200),
+        z.null()
+    ])),
+    description: z.optional(z.union([
+        z.string().max(2000),
+        z.null()
+    ])),
+    status: z.optional(z.union([
+        z.enum([
+            'todo',
+            'in_progress',
+            'done'
+        ]),
+        z.null()
+    ])),
+    priority: z.optional(z.union([
+        z.int().gte(1).lte(5),
+        z.null()
+    ])),
+    due_date: z.optional(z.union([
+        z.iso.date(),
+        z.null()
+    ])),
+    project_id: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ]))
+});
+
+/**
+ * UserCreate
+ */
+export const zUserCreate = z.object({
+    auth0_sub: z.string().register(z.globalRegistry, {
+        description: 'Auth0 subject identifier'
+    }),
+    email: z.optional(z.union([
+        z.email(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    roles: z.optional(z.array(z.string()).register(z.globalRegistry, {
+        description: 'List of role identifiers'
+    })),
+    is_active: z.optional(z.boolean().register(z.globalRegistry, {
+        description: 'Whether the user is active'
+    })).default(true)
+});
+
+/**
  * UserProfile
  */
 export const zUserProfile = z.object({
@@ -78,7 +313,13 @@ export const zUserProfile = z.object({
     email_verified: z.optional(z.union([
         z.boolean(),
         z.null()
-    ]))
+    ])),
+    roles: z.optional(z.array(z.string()).register(z.globalRegistry, {
+        description: "User's roles"
+    })),
+    is_admin: z.optional(z.boolean().register(z.globalRegistry, {
+        description: 'Whether user has admin role'
+    })).default(false)
 });
 
 /**
@@ -103,6 +344,48 @@ export const zUserProfileUpdate = z.object({
     ]))
 });
 
+/**
+ * UserRead
+ */
+export const zUserRead = z.object({
+    id: z.uuid(),
+    auth0_sub: z.string(),
+    email: z.optional(z.union([
+        z.email(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    roles: z.array(z.string()),
+    is_active: z.boolean(),
+    created_at: z.iso.datetime(),
+    updated_at: z.iso.datetime()
+});
+
+/**
+ * UserUpdate
+ */
+export const zUserUpdate = z.object({
+    email: z.optional(z.union([
+        z.email(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    roles: z.optional(z.union([
+        z.array(z.string()),
+        z.null()
+    ])),
+    is_active: z.optional(z.union([
+        z.boolean(),
+        z.null()
+    ]))
+});
+
 export const zHttpException = z.object({
     detail: z.string()
 });
@@ -118,17 +401,6 @@ export const zTestExampleEndpointData = z.object({
  */
 export const zTestExampleEndpointResponse = zExampleResponse;
 
-export const zUsersGetCurrentUserProfileData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-/**
- * Successful Response
- */
-export const zUsersGetCurrentUserProfileResponse = zUserProfile;
-
 export const zUsersUpdateUserProfileData = z.object({
     body: zUserProfileUpdate,
     path: z.optional(z.never()),
@@ -139,6 +411,20 @@ export const zUsersUpdateUserProfileData = z.object({
  * Successful Response
  */
 export const zUsersUpdateUserProfileResponse = zUserProfile;
+
+export const zUsersGetCurrentUserProfileData = z.object({
+    body: z.optional(z.union([
+        zProfileInit,
+        z.null()
+    ])),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersGetCurrentUserProfileResponse = zUserProfile;
 
 export const zUsersGetAuth0ManagementUrlData = z.object({
     body: z.optional(z.never()),
@@ -153,3 +439,276 @@ export const zUsersGetAuth0ManagementUrlData = z.object({
 export const zUsersGetAuth0ManagementUrlResponse = z.object({}).register(z.globalRegistry, {
     description: 'Successful Response'
 });
+
+export const zUsersListUsersData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        skip: z.optional(z.int()).default(0),
+        limit: z.optional(z.int()).default(100)
+    }))
+});
+
+/**
+ * Response Users-List Users
+ * Successful Response
+ */
+export const zUsersListUsersResponse = z.array(zUserRead).register(z.globalRegistry, {
+    description: 'Successful Response'
+});
+
+export const zUsersCreateUserData = z.object({
+    body: zUserCreate,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersCreateUserResponse = zUserRead;
+
+export const zUsersDeleteUserData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        user_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersDeleteUserResponse = zUserRead;
+
+export const zUsersGetUserData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        user_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersGetUserResponse = zUserRead;
+
+export const zUsersUpdateUserData = z.object({
+    body: zUserUpdate,
+    path: z.object({
+        user_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zUsersUpdateUserResponse = zUserRead;
+
+export const zProjectsListProjectsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        skip: z.optional(z.int()).default(0),
+        limit: z.optional(z.int()).default(50),
+        search: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        status: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        owner_id: z.optional(z.union([
+            z.uuid(),
+            z.null()
+        ])),
+        sort_by: z.optional(z.enum([
+            'name',
+            'status',
+            'created_at',
+            'updated_at'
+        ])),
+        sort_dir: z.optional(z.enum([
+            'asc',
+            'desc'
+        ]))
+    }))
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsListProjectsResponse = zProjectListResponse;
+
+export const zProjectsCreateProjectData = z.object({
+    body: zProjectCreate,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsCreateProjectResponse = zProjectRead;
+
+export const zProjectsListMyProjectsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        skip: z.optional(z.int()).default(0),
+        limit: z.optional(z.int()).default(50),
+        search: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        status: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        sort_by: z.optional(z.enum([
+            'name',
+            'status',
+            'created_at',
+            'updated_at'
+        ])),
+        sort_dir: z.optional(z.enum([
+            'asc',
+            'desc'
+        ]))
+    }))
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsListMyProjectsResponse = zProjectListResponse;
+
+export const zProjectsDeleteProjectData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        project_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsDeleteProjectResponse = zProjectRead;
+
+export const zProjectsGetProjectData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        project_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsGetProjectResponse = zProjectRead;
+
+export const zProjectsUpdateProjectData = z.object({
+    body: zProjectUpdate,
+    path: z.object({
+        project_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zProjectsUpdateProjectResponse = zProjectRead;
+
+export const zTasksListTasksData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        skip: z.optional(z.int()).default(0),
+        limit: z.optional(z.int()).default(50),
+        search: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        status: z.optional(z.union([
+            z.string(),
+            z.null()
+        ])),
+        project_id: z.optional(z.union([
+            z.uuid(),
+            z.null()
+        ])),
+        sort_by: z.optional(z.enum([
+            'title',
+            'status',
+            'priority',
+            'due_date',
+            'created_at',
+            'updated_at'
+        ])),
+        sort_dir: z.optional(z.enum([
+            'asc',
+            'desc'
+        ]))
+    }))
+});
+
+/**
+ * Successful Response
+ */
+export const zTasksListTasksResponse = zTaskListResponse;
+
+export const zTasksCreateTaskData = z.object({
+    body: zTaskCreate,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zTasksCreateTaskResponse = zTaskRead;
+
+export const zTasksDeleteTaskData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        task_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zTasksDeleteTaskResponse = zTaskRead;
+
+export const zTasksGetTaskData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        task_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zTasksGetTaskResponse = zTaskRead;
+
+export const zTasksUpdateTaskData = z.object({
+    body: zTaskUpdate,
+    path: z.object({
+        task_id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+/**
+ * Successful Response
+ */
+export const zTasksUpdateTaskResponse = zTaskRead;

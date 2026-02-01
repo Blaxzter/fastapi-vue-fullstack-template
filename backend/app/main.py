@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
@@ -5,6 +7,23 @@ from fastapi.routing import APIRoute
 
 from app.api.api import api_router
 from app.core.config import settings
+from app.core.logger import get_logger
+from app.core.middleware import RequestLoggingMiddleware
+
+# Configure logging levels for various loggers
+logger = get_logger("main")
+
+# Configure logging levels for third-party libraries to reduce noise
+LOGGER_LEVELS = {
+    "httpcore.http11": logging.WARNING,
+    "httpcore.connection": logging.WARNING,
+    "httpx": logging.WARNING,
+    "uvicorn.access": logging.WARNING,  # Disable default uvicorn request logging (we use our custom logger)
+    "sqlalchemy.engine": logging.WARNING,
+}
+
+for logger_name, level in LOGGER_LEVELS.items():
+    logging.getLogger(logger_name).setLevel(level)
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -56,6 +75,9 @@ app = FastAPI(
 
 app.openapi = custom_openapi
 
+# Add request logging middleware (must be added before other middleware)
+app.add_middleware(RequestLoggingMiddleware)
+
 # Set all CORS enabled origins
 if settings.all_cors_origins:
     app.add_middleware(
@@ -84,6 +106,8 @@ app.include_router(
 
 if __name__ == "__main__":
     import uvicorn
+
+    logger.info("Starting FastAPI application")
 
     uvicorn.run(
         "app.main:app",

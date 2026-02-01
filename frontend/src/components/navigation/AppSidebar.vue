@@ -4,6 +4,7 @@ import {
   BookOpen,
   Bot,
   Command,
+  FolderKanban,
   Frame,
   GalleryVerticalEnd,
   Map,
@@ -55,6 +56,17 @@ const data = {
     },
   ],
   navMain: [
+    {
+      title: 'Starter',
+      routeName: 'projects',
+      icon: FolderKanban,
+      items: [
+        {
+          title: 'Projects',
+          routeName: 'projects',
+        },
+      ],
+    },
     {
       title: 'Playground',
       url: '#',

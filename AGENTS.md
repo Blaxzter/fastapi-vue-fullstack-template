@@ -103,8 +103,14 @@ When adding a new feature:
 
 Auth pattern (per routes README):
 
-- Use `claims: dict = Depends(auth0.require_auth())` in protected routes.
-- Use `claims.get("sub")` for Auth0 user id.
+- Use `CurrentUser` (from `app.api.deps`) for database-related endpoints that need:
+    - User validation (exists in database, is active)
+    - Role-based access control
+    - Database user object access
+- Use `CurrentSuperuser` for admin-only endpoints (e.g., delete, create users)
+- Use both `CurrentUser` and `claims: dict = Depends(auth0.require_auth())` when you need:
+    - Database validation AND Auth0 profile data (e.g., `/me` endpoints)
+- Use `auth0.require_auth()` alone only for Auth0-specific operations without database requirements
 
 Database migrations:
 

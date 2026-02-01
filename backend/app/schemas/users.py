@@ -1,4 +1,12 @@
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, EmailStr, Field, HttpUrl
+
+
+class ProfileInit(BaseModel):
+    """Profile data from Auth0 ID token for user initialization."""
+
+    email: EmailStr | None = None
+    name: str | None = None
+    nickname: str | None = None
 
 
 class UserProfileUpdate(BaseModel):
@@ -16,3 +24,5 @@ class UserProfile(BaseModel):
     picture: HttpUrl | None = None
     bio: str | None = None
     email_verified: bool | None = None
+    roles: list[str] = Field(default_factory=list, description="User's roles")
+    is_admin: bool = Field(default=False, description="Whether user has admin role")

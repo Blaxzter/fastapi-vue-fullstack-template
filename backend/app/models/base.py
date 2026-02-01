@@ -12,10 +12,13 @@ class Base(SQLModel, ABC):
     by all database models. It includes automatic timestamping and sensible
     defaults for primary keys.
 
+    All datetime fields are stored as UTC without timezone info (TIMESTAMP WITHOUT TIME ZONE).
+    The application treats all datetimes as UTC.
+
     Attributes:
         id: Primary key field with auto-increment
-        created_at: Timestamp when the record was created (auto-set on insert)
-        updated_at: Timestamp when the record was last updated (auto-set on insert/update)
+        created_at: Timestamp when the record was created (auto-set on insert, UTC)
+        updated_at: Timestamp when the record was last updated (auto-set on insert/update, UTC)
     """
 
     id: uuid.UUID = Field(
@@ -25,17 +28,14 @@ class Base(SQLModel, ABC):
         index=True,
     )
 
-    # Let SQLModel handle the column creation automatically
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
-        description="When this record was created",
-        # SQLModel will create the column automatically
+        default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+        description="When this record was created (UTC)",
     )
 
     updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
-        description="When this record was last updated",
-        # You'll need to handle updates in your application logic
+        default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+        description="When this record was last updated (UTC)",
     )
 
     def __repr__(self) -> str:
@@ -52,7 +52,7 @@ class SoftDeleteBase(Base):
 
     deleted_at: datetime | None = Field(
         default=None,
-        description="When this record was deleted (null if not deleted)",
+        description="When this record was deleted (null if not deleted, UTC)",
     )
 
     is_deleted: bool = Field(
@@ -62,7 +62,7 @@ class SoftDeleteBase(Base):
     def soft_delete(self) -> None:
         """Mark this record as deleted."""
         self.is_deleted = True
-        self.deleted_at = datetime.now(timezone.utc)
+        self.deleted_at = datetime.now(timezone.utc).replace(tzinfo=None)
 
     def restore(self) -> None:
         """Restore a soft-deleted record."""
