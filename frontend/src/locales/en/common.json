@@ -1,50 +1,50 @@
 {
-  "errors": {
-    "notFound": {
-      "title": "404",
-      "subtitle": "Page not found",
-      "description": "The page you're looking for doesn't exist.",
-      "goHome": "Go back home"
-    }
-  },
-  "actions": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "delete": "Delete",
-    "close": "Close",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "submit": "Submit",
-    "reset": "Reset",
-    "confirm": "Confirm"
-  },
-  "dialog": {
-    "confirm": {
-      "title": "Confirm Action",
-      "confirmText": "Confirm",
-      "cancelText": "Cancel"
+    "actions": {
+        "back": "Back",
+        "cancel": "Cancel",
+        "close": "Close",
+        "confirm": "Confirm",
+        "delete": "Delete",
+        "edit": "Edit",
+        "next": "Next",
+        "previous": "Previous",
+        "reset": "Reset",
+        "save": "Save",
+        "submit": "Submit"
     },
-    "alert": {
-      "title": "Alert",
-      "okText": "OK"
+    "dialog": {
+        "alert": {
+            "okText": "OK",
+            "title": "Alert"
+        },
+        "confirm": {
+            "cancelText": "Cancel",
+            "confirmText": "Confirm",
+            "title": "Confirm Action"
+        },
+        "info": {
+            "okText": "OK",
+            "title": "Information"
+        }
     },
-    "info": {
-      "title": "Information",
-      "okText": "OK"
+    "errors": {
+        "notFound": {
+            "description": "The page you're looking for doesn't exist.",
+            "goHome": "Go back home",
+            "subtitle": "Page not found",
+            "title": "404"
+        }
+    },
+    "language": {
+        "current": "Current language",
+        "switch": "Switch language"
+    },
+    "states": {
+        "error": "Error",
+        "info": "Info",
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "success": "Success!",
+        "warning": "Warning"
     }
-  },
-  "states": {
-    "loading": "Loading...",
-    "saving": "Saving...",
-    "success": "Success!",
-    "error": "Error",
-    "warning": "Warning",
-    "info": "Info"
-  },
-  "language": {
-    "switch": "Switch language",
-    "current": "Current language"
-  }
 }

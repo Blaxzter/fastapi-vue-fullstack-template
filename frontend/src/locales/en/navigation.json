@@ -1,17 +1,17 @@
 {
-  "sidebar": {
-    "platform": "Platform"
-  },
-  "user": {
-    "actions": {
-      "upgradeToPro": "Upgrade to Pro",
-      "switchToLight": "Switch to Light",
-      "switchToDark": "Switch to Dark",
-      "account": "Account",
-      "billing": "Billing",
-      "notifications": "Notifications",
-      "logout": "Log out"
+    "sidebar": {
+        "platform": "Platform"
     },
-    "loginPrompt": "Please log in to access your account."
-  }
+    "user": {
+        "actions": {
+            "account": "Account",
+            "billing": "Billing",
+            "logout": "Log out",
+            "notifications": "Notifications",
+            "switchToDark": "Switch to Dark",
+            "switchToLight": "Switch to Light",
+            "upgradeToPro": "Upgrade to Pro"
+        },
+        "loginPrompt": "Please log in to access your account."
+    }
 }

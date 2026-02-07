@@ -33,6 +33,10 @@ target_metadata = SQLModel.metadata
 
 
 def get_url():
+    # Allow override via environment variable (used in tests)
+    db_url = os.getenv("DATABASE_URL")
+    if db_url:
+        return db_url
     return str(settings.SQLALCHEMY_DATABASE_URI)
 
 

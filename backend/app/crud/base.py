@@ -110,7 +110,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         ids: list[str] | None = None,
         select_in_load: list[str] | None = None,
     ) -> Sequence[ModelType]:
-        query = select(self.model).slice(skip, limit)
+        query = select(self.model).offset(skip).limit(limit)
         if ids:
             query = query.where(self.model.id.in_(ids))
 
@@ -126,11 +126,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return True
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
-        # get all fields from obj_in that have type datetime
+        # get all fields from obj_in that have type datetime or date
         datetime_fields = [
             (property, value)
             for property, value in vars(obj_in).items()
-            if type(value) is datetime.datetime
+            if type(value) in (datetime.datetime, datetime.date)
         ]
 
         obj_in_data = jsonable_encoder(obj_in)

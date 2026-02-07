@@ -42,7 +42,7 @@ async def get_current_user_profile(
 @router.patch("/me", response_model=UserProfile)
 async def update_user_profile(
     user_update: UserProfileUpdate,
-    _: CurrentUser,
+    current_user: CurrentUser,
     claims: dict = Depends(auth0.require_auth()),
 ) -> Any:
     """Update current user profile information using Auth0 Management API."""

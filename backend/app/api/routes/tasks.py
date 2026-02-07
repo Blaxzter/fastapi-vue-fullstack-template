@@ -43,7 +43,7 @@ async def list_tasks(
     skip: int = 0,
     limit: int = 50,
     search: str | None = None,
-    status: str | None = None,
+    task_status: str | None = None,
     project_id: uuid.UUID | None = None,
     sort_by: TaskSortField = "created_at",
     sort_dir: SortDirection = "desc",
@@ -61,7 +61,7 @@ async def list_tasks(
         skip=skip,
         limit=limit,
         search=search,
-        status=status,
+        status=task_status,
         project_id=project_id,
         sort_by=sort_by,
         sort_dir=sort_dir,
@@ -69,7 +69,7 @@ async def list_tasks(
     total = await crud_task.get_count_filtered(
         session,
         search=search,
-        status=status,
+        status=task_status,
         project_id=project_id,
     )
     return TaskListResponse(items=items, total=total, skip=skip, limit=limit)

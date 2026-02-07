@@ -1,50 +1,50 @@
 {
-  "errors": {
-    "notFound": {
-      "title": "404",
-      "subtitle": "Seite nicht gefunden",
-      "description": "Die Seite, die Sie suchen, existiert nicht.",
-      "goHome": "Zurück zur Startseite"
-    }
-  },
-  "actions": {
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "close": "Schließen",
-    "back": "Zurück",
-    "next": "Weiter",
-    "previous": "Vorherige",
-    "submit": "Absenden",
-    "reset": "Zurücksetzen",
-    "confirm": "Bestätigen"
-  },
-  "dialog": {
-    "confirm": {
-      "title": "Aktion bestätigen",
-      "confirmText": "Bestätigen",
-      "cancelText": "Abbrechen"
+    "actions": {
+        "back": "Zurück",
+        "cancel": "Abbrechen",
+        "close": "Schließen",
+        "confirm": "Bestätigen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "next": "Weiter",
+        "previous": "Vorherige",
+        "reset": "Zurücksetzen",
+        "save": "Speichern",
+        "submit": "Absenden"
     },
-    "alert": {
-      "title": "Hinweis",
-      "okText": "OK"
+    "dialog": {
+        "alert": {
+            "okText": "OK",
+            "title": "Hinweis"
+        },
+        "confirm": {
+            "cancelText": "Abbrechen",
+            "confirmText": "Bestätigen",
+            "title": "Aktion bestätigen"
+        },
+        "info": {
+            "okText": "OK",
+            "title": "Information"
+        }
     },
-    "info": {
-      "title": "Information",
-      "okText": "OK"
+    "errors": {
+        "notFound": {
+            "description": "Die Seite, die Sie suchen, existiert nicht.",
+            "goHome": "Zurück zur Startseite",
+            "subtitle": "Seite nicht gefunden",
+            "title": "404"
+        }
+    },
+    "language": {
+        "current": "Aktuelle Sprache",
+        "switch": "Sprache wechseln"
+    },
+    "states": {
+        "error": "Fehler",
+        "info": "Info",
+        "loading": "Lädt...",
+        "saving": "Speichere...",
+        "success": "Erfolgreich!",
+        "warning": "Warnung"
     }
-  },
-  "states": {
-    "loading": "Lädt...",
-    "saving": "Speichere...",
-    "success": "Erfolgreich!",
-    "error": "Fehler",
-    "warning": "Warnung",
-    "info": "Info"
-  },
-  "language": {
-    "switch": "Sprache wechseln",
-    "current": "Aktuelle Sprache"
-  }
 }

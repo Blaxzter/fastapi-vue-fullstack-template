@@ -1,43 +1,43 @@
 {
-  "home": {
-    "title": "Dashboard",
-    "subtitle": "Welcome back! Here's what's happening with your application.",
-    "stats": {
-      "totalUsers": {
-        "title": "Total Users",
-        "value": "1,234",
-        "change": "+12% from last month"
-      },
-      "revenue": {
-        "title": "Revenue",
-        "value": "$45,678",
-        "change": "+8% from last month"
-      },
-      "activeSessions": {
-        "title": "Active Sessions",
-        "value": "892",
-        "change": "+5% from last hour"
-      }
-    },
-    "recentActivity": {
-      "title": "Recent Activity",
-      "items": {
-        "newUser": {
-          "title": "New user registered",
-          "email": "john@example.com",
-          "time": "2 minutes ago"
+    "home": {
+        "recentActivity": {
+            "items": {
+                "backup": {
+                    "description": "All data backed up successfully",
+                    "time": "1 hour ago",
+                    "title": "System backup completed"
+                },
+                "newUser": {
+                    "email": "john@example.com",
+                    "time": "2 minutes ago",
+                    "title": "New user registered"
+                },
+                "payment": {
+                    "amount": "$299.00 from Premium plan",
+                    "time": "15 minutes ago",
+                    "title": "Payment received"
+                }
+            },
+            "title": "Recent Activity"
         },
-        "payment": {
-          "title": "Payment received",
-          "amount": "$299.00 from Premium plan",
-          "time": "15 minutes ago"
+        "stats": {
+            "activeSessions": {
+                "change": "+5% from last hour",
+                "title": "Active Sessions",
+                "value": "892"
+            },
+            "revenue": {
+                "change": "+8% from last month",
+                "title": "Revenue",
+                "value": "$45,678"
+            },
+            "totalUsers": {
+                "change": "+12% from last month",
+                "title": "Total Users",
+                "value": "1,234"
+            }
         },
-        "backup": {
-          "title": "System backup completed",
-          "description": "All data backed up successfully",
-          "time": "1 hour ago"
-        }
-      }
+        "subtitle": "Welcome back! Here's what's happening with your application.",
+        "title": "Dashboard"
     }
-  }
 }
