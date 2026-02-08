@@ -6,26 +6,26 @@ This document explains how layouts are organized using Vue Router's nested route
 
 ### 1. PostAuth Layout (`/app/*`)
 
--   **Path Prefix**: `/app/`
--   **Component**: `PostAuth.vue`
--   **Includes**: Sidebar navigation, breadcrumbs, header with user controls
--   **Use for**: Main dashboard, settings, user management, etc.
--   **Authentication**: Protected with `authGuard`
+- **Path Prefix**: `/app/`
+- **Component**: `PostAuth.vue`
+- **Includes**: Sidebar navigation, breadcrumbs, header with user controls
+- **Use for**: Main dashboard, settings, user management, etc.
+- **Authentication**: Protected with `authGuard`
 
 ### 2. PreAuth Layout (`/`)
 
--   **Path Prefix**: `/`
--   **Component**: `PreAuth.vue`
--   **Includes**: Simple header with login button
--   **Use for**: Landing pages, marketing pages, public documentation
--   **Authentication**: Public access
+- **Path Prefix**: `/`
+- **Component**: `PreAuth.vue`
+- **Includes**: Simple header with login button
+- **Use for**: Landing pages, marketing pages, public documentation
+- **Authentication**: Public access
 
 ### 3. Minimal Layout (`/minimal/*`)
 
--   **Path Prefix**: `/minimal/`
--   **Component**: `Minimal.vue`
--   **Includes**: Just the page content, no header or navigation
--   **Use for**: Error pages, full-screen experiences, focused tasks
+- **Path Prefix**: `/minimal/`
+- **Component**: `Minimal.vue`
+- **Includes**: Just the page content, no header or navigation
+- **Use for**: Error pages, full-screen experiences, focused tasks
 
 ## Route Structure
 
@@ -36,7 +36,6 @@ This document explains how layouts are organized using Vue Router's nested route
 ├── /app (redirects to /app/home)
 ├── /app/home (dashboard)
 ├── /app/settings (user settings)
-├── /app/test (test page)
 ├── /app/breadcrumb-examples (examples)
 └── /app/users/:id (user detail)
 ```

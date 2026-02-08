@@ -1,43 +1,43 @@
 {
-  "home": {
-    "title": "Dashboard",
-    "subtitle": "Willkommen zurück! Hier ist, was mit Ihrer Anwendung passiert.",
-    "stats": {
-      "totalUsers": {
-        "title": "Benutzer insgesamt",
-        "value": "1.234",
-        "change": "+12% seit letztem Monat"
-      },
-      "revenue": {
-        "title": "Umsatz",
-        "value": "45.678€",
-        "change": "+8% seit letztem Monat"
-      },
-      "activeSessions": {
-        "title": "Aktive Sitzungen",
-        "value": "892",
-        "change": "+5% seit letzter Stunde"
-      }
-    },
-    "recentActivity": {
-      "title": "Letzte Aktivitäten",
-      "items": {
-        "newUser": {
-          "title": "Neuer Benutzer registriert",
-          "email": "john@example.com",
-          "time": "vor 2 Minuten"
+    "home": {
+        "recentActivity": {
+            "items": {
+                "backup": {
+                    "description": "Alle Daten erfolgreich gesichert",
+                    "time": "vor 1 Stunde",
+                    "title": "System-Backup abgeschlossen"
+                },
+                "newUser": {
+                    "email": "john{'@'}example.com",
+                    "time": "vor 2 Minuten",
+                    "title": "Neuer Benutzer registriert"
+                },
+                "payment": {
+                    "amount": "299,00€ vom Premium-Plan",
+                    "time": "vor 15 Minuten",
+                    "title": "Zahlung erhalten"
+                }
+            },
+            "title": "Letzte Aktivitäten"
         },
-        "payment": {
-          "title": "Zahlung erhalten",
-          "amount": "299,00€ vom Premium-Plan",
-          "time": "vor 15 Minuten"
+        "stats": {
+            "activeSessions": {
+                "change": "+5% seit letzter Stunde",
+                "title": "Aktive Sitzungen",
+                "value": "892"
+            },
+            "revenue": {
+                "change": "+8% seit letztem Monat",
+                "title": "Umsatz",
+                "value": "45.678€"
+            },
+            "totalUsers": {
+                "change": "+12% seit letztem Monat",
+                "title": "Benutzer insgesamt",
+                "value": "1.234"
+            }
         },
-        "backup": {
-          "title": "System-Backup abgeschlossen",
-          "description": "Alle Daten erfolgreich gesichert",
-          "time": "vor 1 Stunde"
-        }
-      }
+        "subtitle": "Willkommen zurück! Hier ist, was mit Ihrer Anwendung passiert.",
+        "title": "Dashboard"
     }
-  }
 }

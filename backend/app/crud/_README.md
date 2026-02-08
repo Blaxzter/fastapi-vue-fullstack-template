@@ -2,6 +2,12 @@
 
 This directory contains CRUD (Create, Read, Update, Delete) utilities for database operations in the FastAPI application. The CRUD system is built around a base class that provides common database operations using SQLModel and AsyncSession.
 
+## Tech Stack
+
+-   **SQLModel** + **SQLAlchemy (async)** for ORM/data access
+-   **Pydantic** schemas for input/output typing
+-   **FastAPI** for HTTP exceptions in CRUD helpers
+
 ## Architecture Overview
 
 The CRUD system follows a consistent pattern:

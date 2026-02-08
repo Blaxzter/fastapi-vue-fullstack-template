@@ -110,7 +110,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         ids: list[str] | None = None,
         select_in_load: list[str] | None = None,
     ) -> Sequence[ModelType]:
-        query = select(self.model).slice(skip, limit)
+        query = select(self.model).offset(skip).limit(limit)
         if ids:
             query = query.where(self.model.id.in_(ids))
 
@@ -123,15 +123,14 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def remove_multi(self, db: AsyncSession, *, ids: list[int]) -> bool:
         await db.execute(delete(self.model).where(self.model.id.in_(ids)))
-        await db.commit()
         return True
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
-        # get all fields from obj_in that have type datetime
+        # get all fields from obj_in that have type datetime or date
         datetime_fields = [
             (property, value)
             for property, value in vars(obj_in).items()
-            if type(value) is datetime.datetime
+            if type(value) in (datetime.datetime, datetime.date)
         ]
 
         obj_in_data = jsonable_encoder(obj_in)
@@ -140,7 +139,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         db_obj = self.model(**obj_in_data)  # type: ignore
         db.add(db_obj)
-        await db.commit()
+        await db.flush()
         await db.refresh(db_obj)
         return db_obj
 
@@ -160,7 +159,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj.sqlmodel_update(update_data)
 
         db.add(db_obj)
-        await db.commit()
+        await db.flush()
         if not skip_refresh:
             await db.refresh(db_obj)
         else:
@@ -175,7 +174,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             return None
 
         await db.delete(obj)
-        await db.commit()
         return obj
 
     async def iterate(

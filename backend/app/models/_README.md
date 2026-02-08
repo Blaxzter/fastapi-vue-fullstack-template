@@ -3,6 +3,12 @@
 Uses the [SQLModel](https://sqlmodel.tiangolo.com/) library to define the data models for the application.
 Based on [Pydantic](https://pydantic-docs.helpmanual.io/) and [SQLAlchemy](https://www.sqlalchemy.org/), it provides a powerful way to define models that can be used for both data validation and database interaction.
 
+## Tech Stack
+
+-   **SQLModel** models with async SQLAlchemy
+-   **Pydantic v2** field validation
+-   **PostgreSQL** as the primary database
+
 ## Base Model
 
 All models should inherit from the `Base` class which provides common fields:

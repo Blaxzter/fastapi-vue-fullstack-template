@@ -1,35 +1,74 @@
 {
-  "errors": {
-    "notFound": {
-      "title": "404",
-      "subtitle": "Seite nicht gefunden",
-      "description": "Die Seite, die Sie suchen, existiert nicht.",
-      "goHome": "Zurück zur Startseite"
+    "actions": {
+        "back": "Zurück",
+        "cancel": "Abbrechen",
+        "close": "Schließen",
+        "confirm": "Bestätigen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "next": "Weiter",
+        "previous": "Vorherige",
+        "reset": "Zurücksetzen",
+        "save": "Speichern",
+        "submit": "Absenden"
+    },
+    "dialog": {
+        "alert": {
+            "okText": "OK",
+            "title": "Hinweis"
+        },
+        "confirm": {
+            "cancelText": "Abbrechen",
+            "confirmText": "Bestätigen",
+            "title": "Aktion bestätigen"
+        },
+        "info": {
+            "okText": "OK",
+            "title": "Information"
+        }
+    },
+    "errors": {
+        "api": {
+            "codes": {},
+            "createProject": "Projekt konnte nicht erstellt werden",
+            "createTask": "Aufgabe konnte nicht erstellt werden",
+            "default": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+            "deleteProject": "Projekt konnte nicht gelöscht werden",
+            "deleteTask": "Aufgabe konnte nicht gelöscht werden",
+            "forbidden": "Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.",
+            "loadProject": "Projekt konnte nicht geladen werden",
+            "loadProjects": "Projekte konnten nicht geladen werden",
+            "loadTasks": "Aufgaben konnten nicht geladen werden",
+            "network": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
+            "notFoundResource": "Die angeforderte Ressource wurde nicht gefunden",
+            "projectNameRequired": "Projektname ist erforderlich",
+            "rateLimited": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",
+            "server": "Unerwarteter Fehler auf dem Server.",
+            "statusFallback": "Anfrage fehlgeschlagen mit Status {status}",
+            "taskTitleRequired": "Aufgabentitel ist erforderlich",
+            "timeout": "Zeitüberschreitung der Anfrage. Der Server antwortet zu langsam.",
+            "unauthorized": "Authentifizierung fehlgeschlagen. Bitte melden Sie sich erneut an.",
+            "updateProject": "Projekt konnte nicht aktualisiert werden",
+            "updateTask": "Aufgabe konnte nicht aktualisiert werden",
+            "validation": "Validierungsfehler: {message}"
+        },
+        "notFound": {
+            "description": "Die Seite, die Sie suchen, existiert nicht.",
+            "goHome": "Zurück zur Startseite",
+            "subtitle": "Seite nicht gefunden",
+            "title": "404"
+        }
+    },
+    "language": {
+        "current": "Aktuelle Sprache",
+        "switch": "Sprache wechseln"
+    },
+    "states": {
+        "error": "Fehler",
+        "info": "Info",
+        "loading": "Lädt...",
+        "saving": "Speichere...",
+        "success": "Erfolgreich!",
+        "warning": "Warnung"
     }
-  },
-  "actions": {
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "close": "Schließen",
-    "back": "Zurück",
-    "next": "Weiter",
-    "previous": "Vorherige",
-    "submit": "Absenden",
-    "reset": "Zurücksetzen",
-    "confirm": "Bestätigen"
-  },
-  "states": {
-    "loading": "Lädt...",
-    "saving": "Speichere...",
-    "success": "Erfolgreich!",
-    "error": "Fehler",
-    "warning": "Warnung",
-    "info": "Info"
-  },
-  "language": {
-    "switch": "Sprache wechseln",
-    "current": "Aktuelle Sprache"
-  }
 }

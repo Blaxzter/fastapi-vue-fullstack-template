@@ -5,6 +5,18 @@
 * [Docker](https://www.docker.com/).
 * [uv](https://docs.astral.sh/uv/) for Python package and environment management.
 
+## Tech Stack
+
+-   **Python 3.10+**
+-   **FastAPI** for the web API
+-   **SQLModel + SQLAlchemy (async)** for ORM/data access
+-   **Pydantic v2 + pydantic-settings** for validation and config
+-   **PostgreSQL** with `psycopg` + `asyncpg`
+-   **Alembic** for migrations
+-   **Auth0** via `auth0-fastapi-api` + JWT (`pyjwt`)
+-   **httpx** for outbound HTTP calls
+-   **Pytest, Ruff, Mypy, Pre-commit** for testing and linting
+
 ## Docker Compose
 
 Start the local development environment with Docker Compose following the guide in [../development.md](../development.md).
@@ -27,7 +39,7 @@ $ source .venv/bin/activate
 
 Make sure your editor is using the correct Python virtual environment, with the interpreter at `backend/.venv/bin/python`.
 
-Modify or add SQLModel models for data and SQL tables in `./backend/app/models.py`, API endpoints in `./backend/app/api/`, CRUD (Create, Read, Update, Delete) utils in `./backend/app/crud.py`.
+Modify or add SQLModel models in `./backend/app/models/`, API endpoints in `./backend/app/api/routes/`, CRUD utilities in `./backend/app/crud/`, schemas in `./backend/app/schemas/`, and business logic in `./backend/app/logic/`.
 
 ## VS Code
 

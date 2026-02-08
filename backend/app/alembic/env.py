@@ -1,4 +1,7 @@
 import os
+import re
+from datetime import datetime
+from pathlib import Path
 from logging.config import fileConfig
 
 from alembic import context
@@ -30,7 +33,65 @@ target_metadata = SQLModel.metadata
 
 
 def get_url():
+    # Allow override via environment variable (used in tests)
+    db_url = os.getenv("DATABASE_URL")
+    if db_url:
+        return db_url
     return str(settings.SQLALCHEMY_DATABASE_URI)
+
+
+_REV_ID_PATTERN = re.compile(r"^(?P<date>\d{8})_(?P<seq>\d{4})$")
+
+
+def _get_versions_dir() -> Path:
+    base_dir = Path(config.config_file_name).resolve().parent
+    script_location = config.get_main_option("script_location")
+    return (base_dir / script_location / "versions").resolve()
+
+
+def _next_revision_id() -> str:
+    date_prefix = datetime.now().strftime("%Y%m%d")
+    max_seq = 0
+    versions_dir = _get_versions_dir()
+    if versions_dir.exists():
+        for path in versions_dir.glob("*.py"):
+            try:
+                contents = path.read_text(encoding="utf-8")
+            except OSError:
+                continue
+            match = re.search(
+                r"^revision\s*=\s*['\"]([^'\"]+)['\"]",
+                contents,
+                re.MULTILINE,
+            )
+            if not match:
+                continue
+            rev_id = match.group(1)
+            parsed = _REV_ID_PATTERN.match(rev_id)
+            if not parsed or parsed.group("date") != date_prefix:
+                continue
+            seq = int(parsed.group("seq"))
+            if seq > max_seq:
+                max_seq = seq
+    return f"{date_prefix}_{max_seq + 1:04d}"
+
+
+def process_revision_directives(context, revision, directives):
+    if getattr(config.cmd_opts, "rev_id", None):
+        return
+    if directives:
+        directives[0].rev_id = _next_revision_id()
+
+
+def _should_run_online_migrations() -> bool:
+    cmd_opts = getattr(config, "cmd_opts", None)
+    if cmd_opts is None:
+        return True
+    if getattr(cmd_opts, "cmd", None) == "revision" and not getattr(
+        cmd_opts, "autogenerate", False
+    ):
+        return False
+    return True
 
 
 def run_migrations_offline():
@@ -47,7 +108,11 @@ def run_migrations_offline():
     """
     url = get_url()
     context.configure(
-        url=url, target_metadata=target_metadata, literal_binds=True, compare_type=True
+        url=url,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        compare_type=True,
+        process_revision_directives=process_revision_directives,
     )
 
     with context.begin_transaction():
@@ -71,7 +136,10 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata, compare_type=True
+            connection=connection,
+            target_metadata=target_metadata,
+            compare_type=True,
+            process_revision_directives=process_revision_directives,
         )
 
         with context.begin_transaction():
@@ -81,4 +149,7 @@ def run_migrations_online():
 if context.is_offline_mode():
     run_migrations_offline()
 else:
-    run_migrations_online()
+    if _should_run_online_migrations():
+        run_migrations_online()
+    else:
+        run_migrations_offline()

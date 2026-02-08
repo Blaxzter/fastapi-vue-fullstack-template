@@ -1,83 +1,83 @@
 {
-  "settings": {
-    "title": "User Settings",
-    "subtitle": "Manage your account settings and profile information.",
-    "profile": {
-      "current": {
-        "title": "Current Profile",
-        "subtitle": "Your current profile information from Auth0",
-        "fields": {
-          "name": "Name",
-          "email": "Email",
-          "nickname": "Nickname",
-          "authProvider": "Auth Provider",
-          "notProvided": "Not provided",
-          "verified": "Verified",
-          "unverified": "Unverified"
-        }
-      },
-      "edit": {
-        "title": "Update Profile",
-        "subtitle": "Update your profile information. Changes will be processed through Auth0.",
-        "fields": {
-          "displayName": {
-            "label": "Display Name",
-            "placeholder": "Enter your display name",
-            "description": "This is your display name that others will see."
-          },
-          "nickname": {
-            "label": "Nickname",
-            "placeholder": "Enter your nickname",
-            "description": "A shorter name or alias for your profile."
-          },
-          "picture": {
-            "label": "Profile Picture URL",
-            "placeholder": "https://example.com/your-picture.jpg",
-            "description": "URL to your profile picture. Must be a valid image URL."
-          },
-          "bio": {
-            "label": "Bio",
-            "placeholder": "Tell us a little about yourself",
-            "description": "A short biography or description about yourself (optional)."
-          }
+    "settings": {
+        "language": {
+            "current": "Current Language",
+            "currentDescription": "Select your preferred language for the application interface.",
+            "description": "Choose your preferred language for the interface.",
+            "title": "Language & Region"
         },
-        "providerLimitation": "Profile picture changes are not available for {provider} accounts. Please update your profile picture through your {provider} account settings.",
-        "actions": {
-          "update": "Update Profile",
-          "updating": "Updating...",
-          "reset": "Reset"
+        "password": {
+            "messages": {
+                "error": {
+                    "emailNotFound": "User email not found.",
+                    "sendFailed": "Failed to send password reset email. Please try again later.",
+                    "title": "Error"
+                },
+                "success": {
+                    "description": "Password reset email has been sent. Please check your inbox and follow the instructions.",
+                    "title": "Success!"
+                }
+            },
+            "section": {
+                "button": "Send Password Reset Email",
+                "description": "Click the button below to receive a password reset email. You'll receive an email with instructions to reset your password.",
+                "sending": "Sending...",
+                "title": "Password Reset"
+            },
+            "subtitle": "Reset your password via email",
+            "title": "Password Reset"
         },
-        "success": "Profile updated successfully!",
-        "error": "Failed to update profile. Please try again.",
-        "authError": "User not authenticated"
-      }
-    },
-    "password": {
-      "title": "Password Reset",
-      "subtitle": "Reset your password via email",
-      "section": {
-        "title": "Password Reset",
-        "description": "Click the button below to receive a password reset email. You'll receive an email with instructions to reset your password.",
-        "button": "Send Password Reset Email",
-        "sending": "Sending..."
-      },
-      "messages": {
-        "success": {
-          "title": "Success!",
-          "description": "Password reset email has been sent. Please check your inbox and follow the instructions."
+        "profile": {
+            "current": {
+                "fields": {
+                    "authProvider": "Auth Provider",
+                    "email": "Email",
+                    "name": "Name",
+                    "nickname": "Nickname",
+                    "notProvided": "Not provided",
+                    "unverified": "Unverified",
+                    "verified": "Verified"
+                },
+                "subtitle": "Your current profile information from Auth0",
+                "title": "Current Profile"
+            },
+            "edit": {
+                "actions": {
+                    "reset": "Reset",
+                    "update": "Update Profile",
+                    "updating": "Updating..."
+                },
+                "authError": "User not authenticated",
+                "error": "Failed to update profile. Please try again.",
+                "fields": {
+                    "bio": {
+                        "description": "A short biography or description about yourself (optional).",
+                        "label": "Bio",
+                        "placeholder": "Tell us a little about yourself"
+                    },
+                    "displayName": {
+                        "description": "This is your display name that others will see.",
+                        "label": "Display Name",
+                        "placeholder": "Enter your display name"
+                    },
+                    "nickname": {
+                        "description": "A shorter name or alias for your profile.",
+                        "label": "Nickname",
+                        "placeholder": "Enter your nickname"
+                    },
+                    "picture": {
+                        "description": "URL to your profile picture. Must be a valid image URL.",
+                        "label": "Profile Picture URL",
+                        "placeholder": "https://example.com/your-picture.jpg"
+                    }
+                },
+                "providerLimitation": "Profile picture changes are not available for {provider} accounts. Please update your profile picture through your {provider} account settings.",
+                "subtitle": "Update your profile information. Changes will be processed through Auth0.",
+                "success": "Profile updated successfully!",
+                "title": "Update Profile"
+            }
         },
-        "error": {
-          "title": "Error",
-          "emailNotFound": "User email not found.",
-          "sendFailed": "Failed to send password reset email. Please try again later."
-        }
-      }
-    },
-    "language": {
-      "title": "Language & Region",
-      "description": "Choose your preferred language for the interface.",
-      "current": "Current Language",
-      "currentDescription": "Select your preferred language for the application interface."
+        "subtitle": "Manage your account settings and profile information.",
+        "title": "User Settings"
     }
-  }
 }

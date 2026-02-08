@@ -1,35 +1,74 @@
 {
-  "errors": {
-    "notFound": {
-      "title": "404",
-      "subtitle": "Page not found",
-      "description": "The page you're looking for doesn't exist.",
-      "goHome": "Go back home"
+    "actions": {
+        "back": "Back",
+        "cancel": "Cancel",
+        "close": "Close",
+        "confirm": "Confirm",
+        "delete": "Delete",
+        "edit": "Edit",
+        "next": "Next",
+        "previous": "Previous",
+        "reset": "Reset",
+        "save": "Save",
+        "submit": "Submit"
+    },
+    "dialog": {
+        "alert": {
+            "okText": "OK",
+            "title": "Alert"
+        },
+        "confirm": {
+            "cancelText": "Cancel",
+            "confirmText": "Confirm",
+            "title": "Confirm Action"
+        },
+        "info": {
+            "okText": "OK",
+            "title": "Information"
+        }
+    },
+    "errors": {
+        "api": {
+            "codes": {},
+            "createProject": "Failed to create project",
+            "createTask": "Failed to create task",
+            "default": "An unexpected error occurred. Please try again.",
+            "deleteProject": "Failed to delete project",
+            "deleteTask": "Failed to delete task",
+            "forbidden": "You do not have permission to access this resource.",
+            "loadProject": "Failed to load project",
+            "loadProjects": "Failed to load projects",
+            "loadTasks": "Failed to load tasks",
+            "network": "Network error. Please check your internet connection.",
+            "notFoundResource": "The requested resource was not found",
+            "projectNameRequired": "Project name is required",
+            "rateLimited": "Too many requests. Please try again later.",
+            "server": "Unexpected error occurred on the server.",
+            "statusFallback": "Request failed with status {status}",
+            "taskTitleRequired": "Task title is required",
+            "timeout": "Request timeout. The server is taking too long to respond.",
+            "unauthorized": "Authentication failed. Please log in again.",
+            "updateProject": "Failed to update project",
+            "updateTask": "Failed to update task",
+            "validation": "Validation error: {message}"
+        },
+        "notFound": {
+            "description": "The page you're looking for doesn't exist.",
+            "goHome": "Go back home",
+            "subtitle": "Page not found",
+            "title": "404"
+        }
+    },
+    "language": {
+        "current": "Current language",
+        "switch": "Switch language"
+    },
+    "states": {
+        "error": "Error",
+        "info": "Info",
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "success": "Success!",
+        "warning": "Warning"
     }
-  },
-  "actions": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "delete": "Delete",
-    "close": "Close",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "submit": "Submit",
-    "reset": "Reset",
-    "confirm": "Confirm"
-  },
-  "states": {
-    "loading": "Loading...",
-    "saving": "Saving...",
-    "success": "Success!",
-    "error": "Error",
-    "warning": "Warning",
-    "info": "Info"
-  },
-  "language": {
-    "switch": "Switch language",
-    "current": "Current language"
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "sidebar": {
-    "platform": "Plattform"
-  },
-  "user": {
-    "actions": {
-      "upgradeToPro": "Auf Pro upgraden",
-      "switchToLight": "Zu Hell wechseln",
-      "switchToDark": "Zu Dunkel wechseln",
-      "account": "Konto",
-      "billing": "Abrechnung",
-      "notifications": "Benachrichtigungen",
-      "logout": "Abmelden"
+    "sidebar": {
+        "platform": "Plattform"
     },
-    "loginPrompt": "Bitte melden Sie sich an, um auf Ihr Konto zuzugreifen."
-  }
+    "user": {
+        "actions": {
+            "account": "Konto",
+            "billing": "Abrechnung",
+            "logout": "Abmelden",
+            "notifications": "Benachrichtigungen",
+            "switchToDark": "Zu Dunkel wechseln",
+            "switchToLight": "Zu Hell wechseln",
+            "upgradeToPro": "Auf Pro upgraden"
+        },
+        "loginPrompt": "Bitte melden Sie sich an, um auf Ihr Konto zuzugreifen."
+    }
 }

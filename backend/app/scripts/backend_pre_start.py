@@ -31,7 +31,7 @@ async def init() -> None:
 
 async def main() -> None:
     logger.info("Initializing service")
-    init()
+    await init()
     logger.info("Service finished initializing")
 
 

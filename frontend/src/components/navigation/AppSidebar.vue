@@ -4,6 +4,7 @@ import {
   BookOpen,
   Bot,
   Command,
+  FolderKanban,
   Frame,
   GalleryVerticalEnd,
   Map,
@@ -56,6 +57,17 @@ const data = {
   ],
   navMain: [
     {
+      title: 'Starter',
+      routeName: 'projects',
+      icon: FolderKanban,
+      items: [
+        {
+          title: 'Projects',
+          routeName: 'projects',
+        },
+      ],
+    },
+    {
       title: 'Playground',
       url: '#',
       icon: SquareTerminal,
@@ -81,16 +93,16 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'Api Example View',
-          routeName: 'test',
-        },
-        {
           title: 'Breadcrumb Examples',
           routeName: 'breadcrumb-examples',
         },
         {
           title: 'Layout Demo',
           routeName: 'layout-demo',
+        },
+        {
+          title: 'Dialog Examples',
+          routeName: 'dialog-examples',
         },
       ],
     },
