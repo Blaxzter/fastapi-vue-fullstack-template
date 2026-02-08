@@ -58,18 +58,6 @@ const router = createRouter({
           },
         },
         {
-          path: 'test',
-          name: 'test',
-          component: () => import('@/views/examples/ApiExampleView.vue'),
-          meta: {
-            breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Examples', to: { name: 'examples' } },
-              { title: 'API Example' },
-            ],
-          },
-        },
-        {
           path: 'settings',
           name: 'settings',
           component: () => import('@/views/UserSettingsView.vue'),

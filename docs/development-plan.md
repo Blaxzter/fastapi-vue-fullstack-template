@@ -10,8 +10,8 @@
 ## Phase 2 — Reliability + Consistency
 
 - [x] Add `/healthz` and `/readyz` endpoints; include DB connectivity check for readiness.
-- [ ] Standardize API error response shape (problem-details style) and document it.
-- [ ] Normalize API errors on the frontend with a shared utility and consistent toast/messages. (partial: shared handler exists, not yet centralized in views)
+- [x] Standardize API error response shape (problem-details style) and document it.
+- [x] Normalize API errors on the frontend with a shared utility and consistent toast/messages. (partial: shared handler exists, not yet centralized in views)
 
 ## Phase 3 — Auth + Permissions Example
 

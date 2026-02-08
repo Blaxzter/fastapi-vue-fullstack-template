@@ -166,6 +166,10 @@ eslint...................................................................Passed
 prettier.................................................................Passed
 ```
 
+## API Errors
+
+The backend returns standardized `application/problem+json` responses for errors. See `docs/api-errors.md` for the full shape and examples.
+
 ## URLs
 
 The production or staging URLs would use these same paths, but with your own domain.

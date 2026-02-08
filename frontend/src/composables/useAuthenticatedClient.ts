@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-vue'
 
 import { client } from '@/client/client.gen'
 import type { Auth } from '@/client/core/auth'
+import { normalizeApiError } from '@/lib/api-errors'
 
 /**
  * Composable for making authenticated API calls
@@ -43,53 +44,12 @@ export function useAuthenticatedClient() {
    */
   const handleApiError = (error: any): Error => {
     console.error('API Error:', error)
-
-    // If it's a standard axios error with a response (thrown error)
-    if (error.response) {
-      const status = error.response.status
-      const data = error.response.data
-
-      switch (status) {
-        case 500:
-          return new Error('Unexpected error occurred on the server')
-        case 401:
-          return new Error('Authentication failed. Please log in again.')
-        case 403:
-          return new Error('You do not have permission to access this resource')
-        case 404:
-          return new Error('The requested resource was not found')
-        case 422:
-          // Validation errors from FastAPI
-          const detail = data?.detail
-          if (Array.isArray(detail)) {
-            const messages = detail
-              .map((err: any) => `${err.loc?.join('.')}: ${err.msg}`)
-              .join(', ')
-            return new Error(`Validation error: ${messages}`)
-          }
-          return new Error(`Validation error: ${data?.detail || 'Invalid request data'}`)
-        case 429:
-          return new Error('Too many requests. Please try again later.')
-        default:
-          return new Error(
-            `Request failed with status ${status}: ${data?.detail || data?.message || 'Unknown error'}`,
-          )
-      }
-    }
-
-    // If it's a network error or other error
-    if (error.message) {
-      // Check for common network errors
-      if (error.message.includes('Network Error') || error.code === 'NETWORK_ERROR') {
-        return new Error('Network error. Please check your internet connection.')
-      }
-      if (error.message.includes('timeout')) {
-        return new Error('Request timeout. The server is taking too long to respond.')
-      }
-    }
-
-    // Fallback for unknown errors
-    return new Error('An unexpected error occurred. Please try again.')
+    const normalized = normalizeApiError(error)
+    const err = new Error(normalized.message)
+    ;(err as Error & { status?: number }).status = normalized.status
+    ;(err as Error & { detail?: string }).detail = normalized.detail
+    ;(err as Error & { errors?: unknown }).errors = normalized.errors
+    return err
   }
 
   /**

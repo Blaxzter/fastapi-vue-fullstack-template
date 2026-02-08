@@ -3,54 +3,6 @@
 import { z } from 'zod';
 
 /**
- * ExampleRequest
- */
-export const zExampleRequest = z.object({
-    name: z.string().register(z.globalRegistry, {
-        description: 'The name to be processed'
-    }),
-    age: z.optional(z.union([
-        z.int().gte(0),
-        z.null()
-    ]))
-});
-
-/**
- * ExampleResponse
- */
-export const zExampleResponse = z.object({
-    message: z.string().register(z.globalRegistry, {
-        description: 'The response message'
-    }),
-    claims: z.object({}).register(z.globalRegistry, {
-        description: 'The claims associated with the response'
-    }),
-    test_value: z.optional(z.union([
-        z.int().gt(0),
-        z.null()
-    ]))
-});
-
-/**
- * ValidationError
- */
-export const zValidationError = z.object({
-    loc: z.array(z.union([
-        z.string(),
-        z.int()
-    ])),
-    msg: z.string(),
-    type: z.string()
-});
-
-/**
- * HTTPValidationError
- */
-export const zHttpValidationError = z.object({
-    detail: z.optional(z.array(zValidationError))
-});
-
-/**
  * ProfileInit
  * Profile data from Auth0 ID token for user initialization.
  */
@@ -386,20 +338,35 @@ export const zUserUpdate = z.object({
     ]))
 });
 
-export const zHttpException = z.object({
-    detail: z.string()
+export const zValidationErrorItem = z.object({
+    loc: z.array(z.union([
+        z.string(),
+        z.int()
+    ])),
+    msg: z.string(),
+    type: z.string()
 });
 
-export const zTestExampleEndpointData = z.object({
-    body: zExampleRequest,
+export const zProblemDetails = z.object({
+    type: z.url().default('about:blank'),
+    title: z.string(),
+    status: z.int(),
+    detail: z.optional(z.string()),
+    instance: z.optional(z.string()),
+    errors: z.optional(z.array(zValidationErrorItem))
+});
+
+export const zHealthHealthCheckData = z.object({
+    body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-/**
- * Successful Response
- */
-export const zTestExampleEndpointResponse = zExampleResponse;
+export const zHealthReadinessCheckData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
 
 export const zUsersUpdateUserProfileData = z.object({
     body: zUserProfileUpdate,
@@ -635,7 +602,7 @@ export const zTasksListTasksData = z.object({
             z.string(),
             z.null()
         ])),
-        status: z.optional(z.union([
+        task_status: z.optional(z.union([
             z.string(),
             z.null()
         ])),

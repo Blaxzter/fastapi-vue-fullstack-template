@@ -93,10 +93,6 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'Api Example View',
-          routeName: 'test',
-        },
-        {
           title: 'Breadcrumb Examples',
           routeName: 'breadcrumb-examples',
         },

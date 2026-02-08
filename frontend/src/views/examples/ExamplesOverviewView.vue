@@ -47,12 +47,6 @@ const { t } = useI18n()
 
 const examples = [
   {
-    title: computed(() => t('example.examplesOverview.examples.apiExample.title')),
-    description: computed(() => t('example.examplesOverview.examples.apiExample.description')),
-    route: 'test',
-    icon: CodeIcon,
-  },
-  {
     title: computed(() => t('example.examplesOverview.examples.breadcrumbExamples.title')),
     description: computed(() =>
       t('example.examplesOverview.examples.breadcrumbExamples.description'),

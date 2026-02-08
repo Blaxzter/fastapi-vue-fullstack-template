@@ -1,60 +1,4 @@
 {
-    "apiExample": {
-        "apiClientGeneration": {
-            "description": "Auto-generate TypeScript types and Zod schemas from your FastAPI OpenAPI specification.",
-            "files": {
-                "client": "client.gen.ts - HTTP client methods",
-                "types": "types.gen.ts - TypeScript interfaces",
-                "zod": "zod.gen.ts - Zod validation schemas"
-            },
-            "generateCommand": "Generate Command:",
-            "generatedFiles": "Generated Files:",
-            "title": "⚡ API Client Generation",
-            "vscodeTask": "VS Code Task:"
-        },
-        "description": "This example demonstrates how to use the useAuthenticatedClient composable to make authenticated API calls and work with auto-generated Zod schemas.",
-        "integrationTips": {
-            "tips": {
-                "automaticHandling": "The composable handles authentication, errors, and retries automatically",
-                "regenerateClient": "Run pnpm run generate-client after backend schema changes",
-                "typescriptSafety": "TypeScript types ensure compile-time safety",
-                "vscodeTask": "Use VS Code task \"Update Client\" for quick regeneration",
-                "zodValidation": "Zod schemas provide runtime validation matching your backend"
-            },
-            "title": "💡 Tips for API Integration"
-        },
-        "liveExample": {
-            "badge": "Try it out!",
-            "codeImplementation": "Code Implementation:",
-            "description": "Submit the form below to see the authenticated API client in action. The form uses Zod validation generated from the backend API schema.",
-            "form": {
-                "ageLabel": "Age (optional)",
-                "agePlaceholder": "Enter your age",
-                "nameLabel": "Name",
-                "namePlaceholder": "Enter your name",
-                "submitButton": "Submit",
-                "submittingButton": "Submitting..."
-            },
-            "title": "🚀 Live Example"
-        },
-        "response": {
-            "error": "❌ API Error",
-            "success": "✅ API Response Success"
-        },
-        "title": "API Example & Documentation",
-        "useAuthenticatedClient": {
-            "description": "A composable that provides an authenticated HTTP client with automatic error handling and token management.",
-            "features": {
-                "auth0Integration": "Auth0 integration",
-                "automaticToken": "Automatic Bearer token injection",
-                "errorHandling": "Comprehensive error handling",
-                "typeSafe": "Type-safe API calls"
-            },
-            "keyFeatures": "Key Features:",
-            "title": "🔐 useAuthenticatedClient",
-            "usage": "Usage:"
-        }
-    },
     "breadcrumbExamples": {
         "addBreadcrumb": {
             "button": "Add",
@@ -174,10 +118,6 @@
     "examplesOverview": {
         "description": "Explore various examples and demonstrations of the application's features.",
         "examples": {
-            "apiExample": {
-                "description": "Demonstrates API integration and data fetching patterns.",
-                "title": "API Example"
-            },
             "breadcrumbExamples": {
                 "description": "Shows different breadcrumb navigation patterns and configurations.",
                 "title": "Breadcrumb Examples"

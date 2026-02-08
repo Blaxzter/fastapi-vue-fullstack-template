@@ -39,6 +39,7 @@ const enMessages: Messages = createMessagesFromModules(enModules)
 const deMessages: Messages = createMessagesFromModules(deModules)
 
 const i18n = createI18n({
+  legacy: false,
   locale: localStorage.getItem('locale') || 'en',
   fallbackLocale: 'en',
   messages: {

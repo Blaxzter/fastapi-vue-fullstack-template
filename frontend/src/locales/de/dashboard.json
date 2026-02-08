@@ -8,7 +8,7 @@
                     "title": "System-Backup abgeschlossen"
                 },
                 "newUser": {
-                    "email": "john@example.com",
+                    "email": "john{'@'}example.com",
                     "time": "vor 2 Minuten",
                     "title": "Neuer Benutzer registriert"
                 },

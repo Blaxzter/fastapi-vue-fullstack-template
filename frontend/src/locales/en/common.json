@@ -28,6 +28,30 @@
         }
     },
     "errors": {
+        "api": {
+            "codes": {},
+            "createProject": "Failed to create project",
+            "createTask": "Failed to create task",
+            "default": "An unexpected error occurred. Please try again.",
+            "deleteProject": "Failed to delete project",
+            "deleteTask": "Failed to delete task",
+            "forbidden": "You do not have permission to access this resource.",
+            "loadProject": "Failed to load project",
+            "loadProjects": "Failed to load projects",
+            "loadTasks": "Failed to load tasks",
+            "network": "Network error. Please check your internet connection.",
+            "notFoundResource": "The requested resource was not found",
+            "projectNameRequired": "Project name is required",
+            "rateLimited": "Too many requests. Please try again later.",
+            "server": "Unexpected error occurred on the server.",
+            "statusFallback": "Request failed with status {status}",
+            "taskTitleRequired": "Task title is required",
+            "timeout": "Request timeout. The server is taking too long to respond.",
+            "unauthorized": "Authentication failed. Please log in again.",
+            "updateProject": "Failed to update project",
+            "updateTask": "Failed to update task",
+            "validation": "Validation error: {message}"
+        },
         "notFound": {
             "description": "The page you're looking for doesn't exist.",
             "goHome": "Go back home",

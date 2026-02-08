@@ -12,73 +12,88 @@
           {{ project?.description || 'Track tasks and progress for this project.' }}
         </p>
       </div>
-      <Badge v-if="project" :variant="project.status === 'archived' ? 'secondary' : 'default'">
-        {{ project.status }}
-      </Badge>
-    </div>
-
-    <Card>
-      <CardHeader>
-        <CardTitle class="flex items-center gap-2">
-          <PlusIcon class="h-5 w-5" />
-          New task
-        </CardTitle>
-        <CardDescription>Add a task to keep the work moving.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form class="grid gap-4 md:grid-cols-3" @submit.prevent="createTask">
-          <div class="md:col-span-1">
-            <Label for="task-title">Title</Label>
-            <Input id="task-title" v-model="newTask.title" class="mt-2" />
-          </div>
-          <div class="md:col-span-1">
-            <Label for="task-status">Status</Label>
-            <Select v-model="newTask.status">
-              <SelectTrigger id="task-status" class="mt-2">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="todo">Todo</SelectItem>
-                <SelectItem value="in_progress">In progress</SelectItem>
-                <SelectItem value="done">Done</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div class="md:col-span-1">
-            <Label for="task-priority">Priority</Label>
-            <Select v-model="newTask.priority">
-              <SelectTrigger id="task-priority" class="mt-2">
-                <SelectValue placeholder="Priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="4">4</SelectItem>
-                <SelectItem value="5">5</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div class="md:col-span-2">
-            <Label for="task-description">Description</Label>
-            <Textarea id="task-description" v-model="newTask.description" class="mt-2" />
-          </div>
-          <div class="md:col-span-1">
-            <Label for="task-due-date">Due date</Label>
-            <Input id="task-due-date" type="date" v-model="newTask.due_date" class="mt-2" />
-          </div>
-          <div class="md:col-span-3 flex items-center gap-3">
-            <Button type="submit" :disabled="creating || !newTask.title.trim()">
+      <div class="flex items-center gap-2">
+        <Badge v-if="project" :variant="project.status === 'archived' ? 'secondary' : 'default'">
+          {{ project.status }}
+        </Badge>
+        <Dialog v-model:open="createDialogOpen">
+          <DialogTrigger as-child>
+            <Button>
               <PlusIcon class="h-4 w-4 mr-2" />
-              Add task
+              New task
             </Button>
-            <Button type="button" variant="ghost" @click="resetNewTask" :disabled="creating">
-              Reset
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle class="flex items-center gap-2">
+                <PlusIcon class="h-5 w-5" />
+                New task
+              </DialogTitle>
+              <DialogDescription>Add a task to keep the work moving.</DialogDescription>
+            </DialogHeader>
+            <form class="grid gap-4 md:grid-cols-3" @submit.prevent="createTask">
+              <div class="md:col-span-1">
+                <Label for="task-title">Title</Label>
+                <Input id="task-title" v-model="newTask.title" class="mt-2" />
+              </div>
+              <div class="md:col-span-1">
+                <Label for="task-status">Status</Label>
+                <Select v-model="newTask.status">
+                  <SelectTrigger id="task-status" class="mt-2">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">Todo</SelectItem>
+                    <SelectItem value="in_progress">In progress</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div class="md:col-span-1">
+                <Label for="task-priority">Priority</Label>
+                <Select v-model="newTask.priority">
+                  <SelectTrigger id="task-priority" class="mt-2">
+                    <SelectValue placeholder="Priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1</SelectItem>
+                    <SelectItem value="2">2</SelectItem>
+                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="4">4</SelectItem>
+                    <SelectItem value="5">5</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div class="md:col-span-2">
+                <Label for="task-description">Description</Label>
+                <Textarea id="task-description" v-model="newTask.description" class="mt-2" />
+              </div>
+              <div class="md:col-span-1">
+                <Label for="task-due-date">Due date</Label>
+                <Input id="task-due-date" type="date" v-model="newTask.due_date" class="mt-2" />
+              </div>
+              <div class="md:col-span-3 flex flex-wrap items-center gap-3">
+                <Button type="submit" :disabled="creating || !newTask.title.trim()">
+                  <PlusIcon class="h-4 w-4 mr-2" />
+                  Add task
+                </Button>
+                <Button type="button" variant="outline" @click="resetNewTask" :disabled="creating">
+                  Reset
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  @click="createDialogOpen = false"
+                  :disabled="creating"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
 
     <Card>
       <CardHeader class="space-y-3">
@@ -144,7 +159,7 @@
           </div>
 
           <div v-if="!tasks.length && !loading" class="text-center text-sm text-muted-foreground">
-            No tasks yet. Add one above.
+            No tasks yet. Add one with the New task button.
           </div>
         </div>
       </CardContent>
@@ -201,9 +216,7 @@
             <Input id="edit-task-due" type="date" v-model="editForm.due_date" class="mt-2" />
           </div>
           <div class="md:col-span-3 flex items-center gap-3">
-            <Button type="submit" :disabled="updating">
-              Save changes
-            </Button>
+            <Button type="submit" :disabled="updating"> Save changes </Button>
             <Button type="button" variant="ghost" @click="cancelEdit" :disabled="updating">
               Cancel
             </Button>
@@ -218,8 +231,9 @@
 import { computed, onMounted, ref, watch } from 'vue'
 
 import { PencilIcon, PlusIcon, Trash2Icon } from 'lucide-vue-next'
-import { toast } from 'vue-sonner'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
 import { useAuthenticatedClient } from '@/composables/useAuthenticatedClient'
 import { useDialog } from '@/composables/useDialog'
@@ -227,6 +241,14 @@ import { useDialog } from '@/composables/useDialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -245,10 +267,12 @@ import type {
   TaskRead,
   TaskUpdate,
 } from '@/client/types.gen'
+import { toastApiError } from '@/lib/api-errors'
 
 const route = useRoute()
 const router = useRouter()
 const dialog = useDialog()
+const { t } = useI18n()
 const { get, post, patch, delete: del } = useAuthenticatedClient()
 
 const project = ref<ProjectRead | null>(null)
@@ -257,6 +281,7 @@ const loading = ref(false)
 const creating = ref(false)
 const updating = ref(false)
 const total = ref(0)
+const createDialogOpen = ref(false)
 
 const projectId = computed(() => route.params.projectId as string)
 
@@ -278,11 +303,11 @@ const newTask = ref<TaskFormState>({
 })
 
 const editingTask = ref<TaskRead | null>(null)
-const editForm = ref<TaskUpdate & { priority: string }>({
+const editForm = ref<TaskUpdate>({
   title: '',
   description: '',
   status: 'todo',
-  priority: '3',
+  priority: 3,
   due_date: '',
 })
 
@@ -305,7 +330,7 @@ const loadProject = async () => {
     })) as { data: ProjectRead }
     project.value = response.data
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to load project')
+    toastApiError(error, t('common.errors.api.loadProject'))
   }
 }
 
@@ -334,7 +359,7 @@ const loadTasks = async () => {
     tasks.value = response.data.items
     total.value = response.data.total
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to load tasks')
+    toastApiError(error, t('common.errors.api.loadTasks'))
   } finally {
     loading.value = false
   }
@@ -350,9 +375,15 @@ const resetNewTask = () => {
   }
 }
 
+watch(createDialogOpen, (isOpen) => {
+  if (!isOpen) {
+    resetNewTask()
+  }
+})
+
 const createTask = async () => {
   if (!newTask.value.title.trim()) {
-    toast.error('Task title is required')
+    toast.error(t('common.errors.api.taskTitleRequired'))
     return
   }
   creating.value = true
@@ -369,10 +400,10 @@ const createTask = async () => {
       },
     })
     toast.success('Task created')
-    resetNewTask()
+    createDialogOpen.value = false
     await loadTasks()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to create task')
+    toastApiError(error, t('common.errors.api.createTask'))
   } finally {
     creating.value = false
   }
@@ -411,7 +442,7 @@ const updateTask = async () => {
     editingTask.value = null
     await loadTasks()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to update task')
+    toastApiError(error, t('common.errors.api.updateTask'))
   } finally {
     updating.value = false
   }
@@ -430,7 +461,7 @@ const removeTask = async (task: TaskRead) => {
     toast.success('Task deleted')
     await loadTasks()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to delete task')
+    toastApiError(error, t('common.errors.api.deleteTask'))
   }
 }
 

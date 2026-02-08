@@ -6,65 +6,85 @@
         <p class="text-muted-foreground">Create, track, and organize your project work.</p>
       </div>
       <div class="flex items-center gap-2">
+        <Dialog v-model:open="createDialogOpen">
+          <DialogTrigger as-child>
+            <Button>
+              <PlusIcon class="h-4 w-4 mr-2" />
+              New project
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle class="flex items-center gap-2">
+                <PlusIcon class="h-5 w-5" />
+                New project
+              </DialogTitle>
+              <DialogDescription>Start a project and add tasks as you go.</DialogDescription>
+            </DialogHeader>
+            <form class="grid gap-4" @submit.prevent="createProject">
+              <div>
+                <Label for="project-name">Name</Label>
+                <Input
+                  id="project-name"
+                  v-model="newProject.name"
+                  placeholder="Project name"
+                  class="mt-2"
+                />
+              </div>
+              <div>
+                <Label for="project-description">Description</Label>
+                <Textarea
+                  id="project-description"
+                  v-model="newProject.description"
+                  placeholder="Short description"
+                  class="mt-2 min-h-[64px]"
+                />
+              </div>
+              <div>
+                <Label for="project-status">Status</Label>
+                <Select v-model="newProject.status">
+                  <SelectTrigger id="project-status" class="mt-2 w-full">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="archived">Archived</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div class="flex flex-wrap items-center gap-3">
+                <Button type="submit" :disabled="creating || !newProject.name.trim()">
+                  <PlusIcon class="h-4 w-4 mr-2" />
+                  Create project
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  @click="resetNewProject"
+                  :disabled="creating"
+                >
+                  Reset
+                </Button>
+                <!-- spacer component -->
+                <div class="flex-1" />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  @click="createDialogOpen = false"
+                  :disabled="creating"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
         <Button variant="outline" @click="loadProjects" :disabled="loading">
           <RefreshCwIcon class="h-4 w-4 mr-2" />
           Refresh
         </Button>
       </div>
     </div>
-
-    <Card>
-      <CardHeader>
-        <CardTitle class="flex items-center gap-2">
-          <PlusIcon class="h-5 w-5" />
-          New project
-        </CardTitle>
-        <CardDescription>Start a project and add tasks as you go.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form class="grid gap-4 md:grid-cols-3" @submit.prevent="createProject">
-          <div class="md:col-span-1">
-            <Label for="project-name">Name</Label>
-            <Input
-              id="project-name"
-              v-model="newProject.name"
-              placeholder="Project name"
-              class="mt-2"
-            />
-          </div>
-          <div class="md:col-span-1">
-            <Label for="project-status">Status</Label>
-            <Select v-model="newProject.status">
-              <SelectTrigger id="project-status" class="mt-2">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div class="md:col-span-1">
-            <Label for="project-description">Description</Label>
-            <Textarea
-              id="project-description"
-              v-model="newProject.description"
-              placeholder="Short description"
-              class="mt-2 min-h-[80px]"
-            />
-          </div>
-          <div class="md:col-span-3 flex items-center gap-3">
-            <Button type="submit" :disabled="creating || !newProject.name.trim()">
-              <PlusIcon class="h-4 w-4 mr-2" />
-              Create project
-            </Button>
-            <Button type="button" variant="ghost" @click="resetNewProject" :disabled="creating">
-              Reset
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
 
     <Card>
       <CardHeader class="space-y-3">
@@ -134,8 +154,11 @@
             </div>
           </div>
 
-          <div v-if="!projects.length && !loading" class="text-center text-sm text-muted-foreground">
-            No projects found. Create your first project above.
+          <div
+            v-if="!projects.length && !loading"
+            class="text-center text-sm text-muted-foreground"
+          >
+            No projects found. Create your first project with the New project button.
           </div>
         </div>
       </CardContent>
@@ -150,15 +173,23 @@
         <CardDescription>Update details and save changes.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form class="grid gap-4 md:grid-cols-3" @submit.prevent="updateProject">
-          <div class="md:col-span-1">
+        <form class="grid gap-4" @submit.prevent="updateProject">
+          <div>
             <Label for="edit-project-name">Name</Label>
             <Input id="edit-project-name" v-model="editForm.name" class="mt-2" />
           </div>
-          <div class="md:col-span-1">
+          <div>
+            <Label for="edit-project-description">Description</Label>
+            <Textarea
+              id="edit-project-description"
+              v-model="editForm.description"
+              class="mt-2 min-h-[64px]"
+            />
+          </div>
+          <div>
             <Label for="edit-project-status">Status</Label>
             <Select v-model="editForm.status">
-              <SelectTrigger id="edit-project-status" class="mt-2">
+              <SelectTrigger id="edit-project-status" class="mt-2 w-full">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
@@ -167,18 +198,8 @@
               </SelectContent>
             </Select>
           </div>
-          <div class="md:col-span-1">
-            <Label for="edit-project-description">Description</Label>
-            <Textarea
-              id="edit-project-description"
-              v-model="editForm.description"
-              class="mt-2 min-h-[80px]"
-            />
-          </div>
-          <div class="md:col-span-3 flex items-center gap-3">
-            <Button type="submit" :disabled="updating">
-              Save changes
-            </Button>
+          <div class="flex items-center gap-3">
+            <Button type="submit" :disabled="updating"> Save changes </Button>
             <Button type="button" variant="ghost" @click="cancelEdit" :disabled="updating">
               Cancel
             </Button>
@@ -190,17 +211,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
-import {
-  ArrowRightIcon,
-  PencilIcon,
-  PlusIcon,
-  RefreshCwIcon,
-  Trash2Icon,
-} from 'lucide-vue-next'
-import { toast } from 'vue-sonner'
+import { ArrowRightIcon, PencilIcon, PlusIcon, RefreshCwIcon, Trash2Icon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
 import { useAuthenticatedClient } from '@/composables/useAuthenticatedClient'
 import { useDialog } from '@/composables/useDialog'
@@ -208,6 +224,14 @@ import { useDialog } from '@/composables/useDialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -225,9 +249,11 @@ import type {
   ProjectRead,
   ProjectUpdate,
 } from '@/client/types.gen'
+import { toastApiError } from '@/lib/api-errors'
 
 const router = useRouter()
 const dialog = useDialog()
+const { t } = useI18n()
 const { get, post, patch, delete: del } = useAuthenticatedClient()
 
 const projects = ref<ProjectRead[]>([])
@@ -235,13 +261,24 @@ const loading = ref(false)
 const creating = ref(false)
 const updating = ref(false)
 const total = ref(0)
+const createDialogOpen = ref(false)
 
 const filters = ref({
   search: '',
   status: 'all',
 })
 
-type ProjectFormState = Pick<ProjectCreate, 'name' | 'description' | 'status'>
+type ProjectFormState = {
+  name: string
+  description: string
+  status: ProjectCreate['status']
+}
+
+type ProjectEditFormState = {
+  name: string
+  description: string
+  status: ProjectUpdate['status']
+}
 
 const newProject = ref<ProjectFormState>({
   name: '',
@@ -250,7 +287,7 @@ const newProject = ref<ProjectFormState>({
 })
 
 const editingProject = ref<ProjectRead | null>(null)
-const editForm = ref<ProjectUpdate>({
+const editForm = ref<ProjectEditFormState>({
   name: '',
   description: '',
   status: 'active',
@@ -282,7 +319,7 @@ const loadProjects = async () => {
     projects.value = response.data.items
     total.value = response.data.total
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to load projects')
+    toastApiError(error, t('common.errors.api.loadProjects'))
   } finally {
     loading.value = false
   }
@@ -292,9 +329,15 @@ const resetNewProject = () => {
   newProject.value = { name: '', description: '', status: 'active' }
 }
 
+watch(createDialogOpen, (isOpen) => {
+  if (!isOpen) {
+    resetNewProject()
+  }
+})
+
 const createProject = async () => {
   if (!newProject.value.name.trim()) {
-    toast.error('Project name is required')
+    toast.error(t('common.errors.api.projectNameRequired'))
     return
   }
 
@@ -309,10 +352,10 @@ const createProject = async () => {
       },
     })
     toast.success('Project created')
-    resetNewProject()
+    createDialogOpen.value = false
     await loadProjects()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to create project')
+    toastApiError(error, t('common.errors.api.createProject'))
   } finally {
     creating.value = false
   }
@@ -347,7 +390,7 @@ const updateProject = async () => {
     editingProject.value = null
     await loadProjects()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to update project')
+    toastApiError(error, t('common.errors.api.updateProject'))
   } finally {
     updating.value = false
   }
@@ -366,7 +409,7 @@ const removeProject = async (project: ProjectRead) => {
     toast.success('Project deleted')
     await loadProjects()
   } catch (error) {
-    toast.error(error instanceof Error ? error.message : 'Failed to delete project')
+    toastApiError(error, t('common.errors.api.deleteProject'))
   }
 }
 

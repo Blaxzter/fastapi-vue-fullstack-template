@@ -30,13 +30,13 @@ const languages = [
   {
     code: 'en',
     name: 'English',
-    flag: '🇺🇸',
+    flag: 'us',
     nativeName: 'English',
   },
   {
     code: 'de',
     name: 'German',
-    flag: '🇩🇪',
+    flag: 'de',
     nativeName: 'Deutsch',
   },
 ]
@@ -55,7 +55,7 @@ const changeLanguage = (languageCode: string) => {
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button :variant="variant" :size="size" class="gap-2">
-        <span class="text-lg">{{ currentLanguage.flag }}</span>
+        <span :class="`fi fi-${currentLanguage.flag}`" class="h-4 w-6 rounded-sm" />
         <span v-if="showText" class="hidden sm:inline">{{ currentLanguage.nativeName }}</span>
         <GlobeIcon v-else class="h-4 w-4" />
         <ChevronDownIcon class="h-3 w-3 opacity-50" />
@@ -69,7 +69,7 @@ const changeLanguage = (languageCode: string) => {
         :class="{ 'bg-accent': language.code === locale }"
         class="cursor-pointer gap-3"
       >
-        <span class="text-lg">{{ language.flag }}</span>
+        <span :class="`fi fi-${language.flag}`" class="h-4 w-6 rounded-sm" />
         <div class="flex flex-col">
           <span class="font-medium">{{ language.nativeName }}</span>
           <span class="text-xs text-muted-foreground">{{ language.name }}</span>

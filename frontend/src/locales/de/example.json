@@ -1,60 +1,4 @@
 {
-    "apiExample": {
-        "apiClientGeneration": {
-            "description": "Automatische Generierung von TypeScript-Typen und Zod-Schemas aus Ihrer FastAPI OpenAPI-Spezifikation.",
-            "files": {
-                "client": "client.gen.ts - HTTP-Client-Methoden",
-                "types": "types.gen.ts - TypeScript-Schnittstellen",
-                "zod": "zod.gen.ts - Zod-Validierungsschemas"
-            },
-            "generateCommand": "Generierungs-Befehl:",
-            "generatedFiles": "Generierte Dateien:",
-            "title": "⚡ API Client Generierung",
-            "vscodeTask": "VS Code Aufgabe:"
-        },
-        "description": "Dieses Beispiel demonstriert, wie das useAuthenticatedClient-Composable verwendet wird, um authentifizierte API-Aufrufe zu machen und mit automatisch generierten Zod-Schemas zu arbeiten.",
-        "integrationTips": {
-            "tips": {
-                "automaticHandling": "Das Composable behandelt Authentifizierung, Fehler und Wiederholungen automatisch",
-                "regenerateClient": "Führen Sie pnpm run generate-client nach Backend-Schema-Änderungen aus",
-                "typescriptSafety": "TypeScript-Typen gewährleisten Compile-Zeit-Sicherheit",
-                "vscodeTask": "Verwenden Sie VS Code Aufgabe \"Update Client\" für schnelle Regenerierung",
-                "zodValidation": "Zod-Schemas bieten Laufzeit-Validierung passend zu Ihrem Backend"
-            },
-            "title": "💡 Tipps für API-Integration"
-        },
-        "liveExample": {
-            "badge": "Probieren Sie es aus!",
-            "codeImplementation": "Code-Implementierung:",
-            "description": "Senden Sie das untenstehende Formular ab, um den authentifizierten API-Client in Aktion zu sehen. Das Formular verwendet Zod-Validierung, die aus dem Backend-API-Schema generiert wurde.",
-            "form": {
-                "ageLabel": "Alter (optional)",
-                "agePlaceholder": "Geben Sie Ihr Alter ein",
-                "nameLabel": "Name",
-                "namePlaceholder": "Geben Sie Ihren Namen ein",
-                "submitButton": "Absenden",
-                "submittingButton": "Wird gesendet..."
-            },
-            "title": "🚀 Live Beispiel"
-        },
-        "response": {
-            "error": "❌ API Fehler",
-            "success": "✅ API Antwort Erfolgreich"
-        },
-        "title": "API Beispiel & Dokumentation",
-        "useAuthenticatedClient": {
-            "description": "Ein Composable, das einen authentifizierten HTTP-Client mit automatischer Fehlerbehandlung und Token-Verwaltung bereitstellt.",
-            "features": {
-                "auth0Integration": "Auth0-Integration",
-                "automaticToken": "Automatische Bearer-Token-Einbindung",
-                "errorHandling": "Umfassende Fehlerbehandlung",
-                "typeSafe": "Typsichere API-Aufrufe"
-            },
-            "keyFeatures": "Hauptfunktionen:",
-            "title": "🔐 useAuthenticatedClient",
-            "usage": "Verwendung:"
-        }
-    },
     "breadcrumbExamples": {
         "addBreadcrumb": {
             "button": "Hinzufügen",
@@ -174,10 +118,6 @@
     "examplesOverview": {
         "description": "Entdecken Sie verschiedene Beispiele und Demonstrationen der Anwendungsfeatures.",
         "examples": {
-            "apiExample": {
-                "description": "Demonstriert API-Integration und Datenabruf-Muster.",
-                "title": "API Beispiel"
-            },
             "breadcrumbExamples": {
                 "description": "Zeigt verschiedene Breadcrumb-Navigationsmuster und Konfigurationen.",
                 "title": "Breadcrumb Beispiele"
