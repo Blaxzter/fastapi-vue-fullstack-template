@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { UserIcon } from 'lucide-vue-next'
+import { useColorMode } from '@vueuse/core'
+import { MoonIcon, SunIcon, UserIcon } from 'lucide-vue-next'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
@@ -14,6 +15,7 @@ import LanguageSwitch from '@/components/utils/LanguageSwitch.vue'
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const mode = useColorMode()
 
 // Toggle between fixed header with scrollable content vs full-height layout
 const useFixedHeader = ref(true)
@@ -55,6 +57,17 @@ const handleGetStarted = () => {
         <nav class="flex items-center space-x-2">
           <!-- Language Switch -->
           <LanguageSwitch variant="ghost" size="sm" :show-text="false" />
+
+          <!-- Theme Toggle -->
+          <Button
+            variant="ghost"
+            size="sm"
+            @click="mode = mode === 'dark' ? 'light' : 'dark'"
+            :aria-label="mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+          >
+            <SunIcon v-if="mode === 'dark'" class="h-4 w-4" />
+            <MoonIcon v-else class="h-4 w-4" />
+          </Button>
 
           <!-- Navigation buttons -->
           <Button

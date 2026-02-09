@@ -18,13 +18,13 @@ interface Props {
   showText?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   variant: 'ghost',
   size: 'default',
   showText: true,
 })
 
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 const languages = [
   {
@@ -57,7 +57,6 @@ const changeLanguage = (languageCode: string) => {
       <Button :variant="variant" :size="size" class="gap-2">
         <span :class="`fi fi-${currentLanguage.flag}`" class="h-4 w-6 rounded-sm" />
         <span v-if="showText" class="hidden sm:inline">{{ currentLanguage.nativeName }}</span>
-        <GlobeIcon v-else class="h-4 w-4" />
         <ChevronDownIcon class="h-3 w-3 opacity-50" />
       </Button>
     </DropdownMenuTrigger>

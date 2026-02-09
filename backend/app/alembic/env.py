@@ -128,6 +128,11 @@ def run_migrations_online():
     """
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = get_url()
+
+    # replace postgresql+asyncpg with psycopg2 for Alembic compatibility
+    print(f"Using database URL: {configuration['sqlalchemy.url']}")
+    configuration["sqlalchemy.url"] = configuration["sqlalchemy.url"].replace("postgresql+asyncpg", "postgresql+psycopg")
+
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",
