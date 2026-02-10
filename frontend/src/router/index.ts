@@ -121,6 +121,18 @@ const router = createRouter({
             ],
           },
         },
+        {
+          path: 'error-handling-demo',
+          name: 'error-handling-demo',
+          component: () => import('@/views/examples/ErrorHandlingDemoView.vue'),
+          meta: {
+            breadcrumbs: [
+              { title: 'Home', to: { name: 'home' } },
+              { title: 'Examples', to: { name: 'examples' } },
+              { title: 'Error Handling Demo' },
+            ],
+          },
+        },
       ],
     },
     {

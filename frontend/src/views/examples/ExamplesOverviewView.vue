@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { CodeIcon, LayoutGridIcon, MessageSquareIcon, NavigationIcon } from 'lucide-vue-next'
+import { AlertCircleIcon, LayoutGridIcon, MessageSquareIcon, NavigationIcon } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
@@ -65,6 +65,14 @@ const examples = [
     description: computed(() => t('example.examplesOverview.examples.dialogExamples.description')),
     route: 'dialog-examples',
     icon: MessageSquareIcon,
+  },
+  {
+    title: computed(() => t('example.examplesOverview.examples.errorHandlingDemo.title')),
+    description: computed(() =>
+      t('example.examplesOverview.examples.errorHandlingDemo.description'),
+    ),
+    route: 'error-handling-demo',
+    icon: AlertCircleIcon,
   },
 ]
 
