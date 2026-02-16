@@ -165,15 +165,15 @@
       </CardContent>
     </Card>
 
-    <Card v-if="editingTask">
-      <CardHeader>
-        <CardTitle class="flex items-center gap-2">
-          <PencilIcon class="h-5 w-5" />
-          Edit task
-        </CardTitle>
-        <CardDescription>Update task details and progress.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Dialog v-model:open="editDialogOpen">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle class="flex items-center gap-2">
+            <PencilIcon class="h-5 w-5" />
+            Edit task
+          </DialogTitle>
+          <DialogDescription>Update task details and progress.</DialogDescription>
+        </DialogHeader>
         <form class="grid gap-4 md:grid-cols-3" @submit.prevent="updateTask">
           <div class="md:col-span-1">
             <Label for="edit-task-title">Title</Label>
@@ -222,8 +222,8 @@
             </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
 
@@ -282,6 +282,7 @@ const creating = ref(false)
 const updating = ref(false)
 const total = ref(0)
 const createDialogOpen = ref(false)
+const editDialogOpen = ref(false)
 
 const projectId = computed(() => route.params.projectId as string)
 
@@ -381,6 +382,12 @@ watch(createDialogOpen, (isOpen) => {
   }
 })
 
+watch(editDialogOpen, (isOpen) => {
+  if (!isOpen) {
+    editingTask.value = null
+  }
+})
+
 const createTask = async () => {
   if (!newTask.value.title.trim()) {
     toast.error(t('common.errors.api.taskTitleRequired'))
@@ -418,10 +425,11 @@ const startEdit = (task: TaskRead) => {
     priority: String(task.priority ?? 3),
     due_date: task.due_date || '',
   }
+  editDialogOpen.value = true
 }
 
 const cancelEdit = () => {
-  editingTask.value = null
+  editDialogOpen.value = false
 }
 
 const updateTask = async () => {
@@ -439,7 +447,7 @@ const updateTask = async () => {
       },
     })
     toast.success('Task updated')
-    editingTask.value = null
+    editDialogOpen.value = false
     await loadTasks()
   } catch (error) {
     toastApiError(error, t('common.errors.api.updateTask'))

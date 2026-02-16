@@ -104,6 +104,10 @@ const data = {
           title: 'Dialog Examples',
           routeName: 'dialog-examples',
         },
+        {
+          title: 'Error Handling Demo',
+          routeName: 'error-handling-demo',
+        },
       ],
     },
     {

@@ -164,15 +164,15 @@
       </CardContent>
     </Card>
 
-    <Card v-if="editingProject">
-      <CardHeader>
-        <CardTitle class="flex items-center gap-2">
-          <PencilIcon class="h-5 w-5" />
-          Edit project
-        </CardTitle>
-        <CardDescription>Update details and save changes.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Dialog v-model:open="editDialogOpen">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle class="flex items-center gap-2">
+            <PencilIcon class="h-5 w-5" />
+            Edit project
+          </DialogTitle>
+          <DialogDescription>Update details and save changes.</DialogDescription>
+        </DialogHeader>
         <form class="grid gap-4" @submit.prevent="updateProject">
           <div>
             <Label for="edit-project-name">Name</Label>
@@ -205,8 +205,8 @@
             </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
 
@@ -262,6 +262,7 @@ const creating = ref(false)
 const updating = ref(false)
 const total = ref(0)
 const createDialogOpen = ref(false)
+const editDialogOpen = ref(false)
 
 const filters = ref({
   search: '',
@@ -335,6 +336,12 @@ watch(createDialogOpen, (isOpen) => {
   }
 })
 
+watch(editDialogOpen, (isOpen) => {
+  if (!isOpen) {
+    editingProject.value = null
+  }
+})
+
 const createProject = async () => {
   if (!newProject.value.name.trim()) {
     toast.error(t('common.errors.api.projectNameRequired'))
@@ -368,10 +375,11 @@ const startEdit = (project: ProjectRead) => {
     description: project.description || '',
     status: project.status,
   }
+  editDialogOpen.value = true
 }
 
 const cancelEdit = () => {
-  editingProject.value = null
+  editDialogOpen.value = false
 }
 
 const updateProject = async () => {
@@ -387,7 +395,7 @@ const updateProject = async () => {
       },
     })
     toast.success('Project updated')
-    editingProject.value = null
+    editDialogOpen.value = false
     await loadProjects()
   } catch (error) {
     toastApiError(error, t('common.errors.api.updateProject'))
