@@ -41,6 +41,22 @@
             "command": "pnpm run generate-client"
         },
         {
+            "name": "Frontend E2E Tests",
+            "type": "node-terminal",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/frontend",
+            "command": "pnpm run test:e2e"
+        },
+        {
+            "name": "Backend Unit Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "cwd": "${workspaceFolder}/backend",
+            "envFile": "${workspaceFolder}/.env",
+            "justMyCode": false
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Debug Frontend: Launch Chrome against http://localhost:5173",

@@ -97,13 +97,22 @@ pnpm build
 
 # Runs the end-to-end tests
 pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
+# Runs only authenticated tests on Chromium
+pnpm test:e2e --project=chromium-auth
+# Runs only public tests on Chromium
+pnpm test:e2e --project=chromium-public
+# Runs tests from a specific file
+pnpm test:e2e e2e/tests/public/landing.spec.ts
 # Runs the tests in debug mode
 pnpm test:e2e --debug
 ```
+
+Auth0 E2E setup:
+
+- `e2e/setup/auth.setup.ts` performs a real Auth0 login and stores state in `e2e/.auth/user.json`.
+- Set the following in `frontend/.env` for Playwright:
+  - `E2E_AUTH0_USERNAME`
+  - `E2E_AUTH0_PASSWORD`
 
 ### Lint with [ESLint](https://eslint.org/)
 
