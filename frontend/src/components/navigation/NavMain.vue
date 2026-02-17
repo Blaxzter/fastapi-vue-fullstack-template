@@ -22,17 +22,22 @@ const props = defineProps<{
   open: boolean
   items: {
     title: string
+    titleKey?: string
     url?: string
     routeName?: string
     icon?: LucideIcon
     isActive?: boolean
     items?: {
       title: string
+      titleKey?: string
       url?: string
       routeName?: string
     }[]
   }[]
 }>()
+
+const resolveTitle = (item: { title: string; titleKey?: string }) =>
+  item.titleKey ? t(item.titleKey) : item.title
 
 const handleSidebarToggle = (item: { isActive?: boolean; routeName?: string; url?: string }) => {
   if (props.open) {
@@ -54,16 +59,16 @@ const handleSidebarToggle = (item: { isActive?: boolean; routeName?: string; url
     <SidebarMenu>
       <Collapsible
         v-for="item in items"
-        :key="item.title"
+        :key="item.routeName ?? item.titleKey ?? item.title"
         as-child
         :default-open="item.isActive"
         class="group/collapsible"
       >
         <SidebarMenuItem>
           <CollapsibleTrigger as-child>
-            <SidebarMenuButton :tooltip="item.title" @click="handleSidebarToggle(item)">
+            <SidebarMenuButton :tooltip="resolveTitle(item)" @click="handleSidebarToggle(item)">
               <component :is="item.icon" v-if="item.icon" />
-              <span>{{ item.title }}</span>
+              <span>{{ resolveTitle(item) }}</span>
               <ChevronRight
                 class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
               />
@@ -71,13 +76,16 @@ const handleSidebarToggle = (item: { isActive?: boolean; routeName?: string; url
           </CollapsibleTrigger>
           <CollapsibleContent>
             <SidebarMenuSub>
-              <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
+              <SidebarMenuSubItem
+                v-for="subItem in item.items"
+                :key="subItem.routeName ?? subItem.titleKey ?? subItem.title"
+              >
                 <SidebarMenuSubButton as-child>
                   <RouterLink v-if="subItem.routeName" :to="{ name: subItem.routeName }">
-                    <span>{{ subItem.title }}</span>
+                    <span>{{ resolveTitle(subItem) }}</span>
                   </RouterLink>
                   <a v-else :href="subItem.url">
-                    <span>{{ subItem.title }}</span>
+                    <span>{{ resolveTitle(subItem) }}</span>
                   </a>
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>

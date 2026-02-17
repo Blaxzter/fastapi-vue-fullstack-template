@@ -29,7 +29,6 @@
     },
     "errors": {
         "api": {
-            "codes": {},
             "createProject": "Projekt konnte nicht erstellt werden",
             "createTask": "Aufgabe konnte nicht erstellt werden",
             "default": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut.",

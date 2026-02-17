@@ -2,7 +2,6 @@ import { useAuth0 } from '@auth0/auth0-vue'
 
 import { client } from '@/client/client.gen'
 import type { Auth } from '@/client/core/auth'
-import { normalizeApiError } from '@/lib/api-errors'
 
 /**
  * Composable for making authenticated API calls
@@ -39,39 +38,23 @@ export function useAuthenticatedClient() {
   }
 
   /**
-   * Handle API errors and provide better error messages
-   * Takes into account the generated client's error handling behavior
-   */
-  const handleApiError = (error: any): Error => {
-    console.error('API Error:', error)
-    const normalized = normalizeApiError(error)
-    const err = new Error(normalized.message)
-    ;(err as Error & { status?: number }).status = normalized.status
-    ;(err as Error & { detail?: string }).detail = normalized.detail
-    ;(err as Error & { errors?: unknown }).errors = normalized.errors
-    return err
-  }
-
-  /**
    * Generic authenticated request function
    */
   const makeAuthenticatedRequest = async <T>(
     method: keyof typeof client,
     options: Parameters<(typeof client)[typeof method]>[0],
   ): Promise<T> => {
-    try {
-      const clientMethod = client[method] as Function
+    type ClientMethodOptions = Parameters<(typeof client)[typeof method]>[0]
+    type ClientMethod = (opts: ClientMethodOptions) => Promise<T>
+    const clientMethod = client[method] as ClientMethod
 
-      // Handle the case where options might be a string (URL) or an object
-      const requestOptions =
-        typeof options === 'string'
-          ? { url: options, security: [bearerAuth], auth: authCallback }
-          : { ...options, security: [bearerAuth], auth: authCallback }
+    // Handle the case where options might be a string (URL) or an object
+    const requestOptions: ClientMethodOptions =
+      typeof options === 'string'
+        ? ({ url: options, security: [bearerAuth], auth: authCallback } as ClientMethodOptions)
+        : ({ ...options, security: [bearerAuth], auth: authCallback } as ClientMethodOptions)
 
-      return await clientMethod(requestOptions)
-    } catch (error) {
-      throw handleApiError(error)
-    }
+    return await clientMethod(requestOptions)
   }
 
   /**
@@ -95,7 +78,6 @@ export function useAuthenticatedClient() {
 
   return {
     getAuthToken,
-    handleApiError,
     makeAuthenticatedRequest,
     get,
     post,

@@ -1,6 +1,42 @@
 {
+    "breadcrumbs": {
+        "breadcrumbExamples": "Breadcrumb Beispiele",
+        "dialogExamples": "Dialog Beispiele",
+        "errorHandlingDemo": "Fehlerbehandlung Demo",
+        "examples": "Beispiele",
+        "home": "Startseite",
+        "layoutDemo": "Layout Demo",
+        "project": "Projekt",
+        "projects": "Projekte",
+        "settings": "Einstellungen"
+    },
     "sidebar": {
-        "platform": "Plattform"
+        "items": {
+            "billing": "Abrechnung",
+            "breadcrumbExamples": "Breadcrumb Beispiele",
+            "changelog": "Änderungsprotokoll",
+            "dialogExamples": "Dialog Beispiele",
+            "errorHandlingDemo": "Fehlerbehandlung Demo",
+            "general": "Allgemein",
+            "getStarted": "Erste Schritte",
+            "history": "Verlauf",
+            "introduction": "Einführung",
+            "layoutDemo": "Layout Demo",
+            "limits": "Limits",
+            "projects": "Projekte",
+            "settings": "Einstellungen",
+            "starred": "Favoriten",
+            "team": "Team",
+            "tutorials": "Tutorials"
+        },
+        "platform": "Plattform",
+        "sections": {
+            "documentation": "Dokumentation",
+            "examples": "Beispiele",
+            "playground": "Spielwiese",
+            "settings": "Einstellungen",
+            "starter": "Starter"
+        }
     },
     "user": {
         "actions": {

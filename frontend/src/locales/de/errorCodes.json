@@ -1,0 +1,12 @@
+{
+    "not_found": "Die angeforderte Ressource wurde nicht gefunden",
+    "project": {
+        "not_found": "Das angeforderte Projekt wurde nicht gefunden"
+    },
+    "task": {
+        "not_found": "Die angeforderte Aufgabe wurde nicht gefunden"
+    },
+    "user": {
+        "not_found": "Der angeforderte Benutzer wurde nicht gefunden"
+    }
+}

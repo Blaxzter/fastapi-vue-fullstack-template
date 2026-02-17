@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import { AlertCircleIcon, CheckCircleIcon, InfoIcon, XCircleIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { toast } from 'vue-sonner'
 
 import { useAuthenticatedClient } from '@/composables/useAuthenticatedClient'
@@ -17,12 +18,18 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 
-import { getApiErrorMessage, normalizeApiError, toastApiError } from '@/lib/api-errors'
+import {
+  getApiErrorMessage,
+  normalizeApiError,
+  toastApiError,
+  type NormalizedApiError,
+} from '@/lib/api-errors'
 
-const { client } = useAuthenticatedClient()
+const { get, post } = useAuthenticatedClient()
+const { t } = useI18n()
 
-const lastError = ref<any>(null)
-const normalizedError = ref<any>(null)
+const lastError = ref<unknown>(null)
+const normalizedError = ref<NormalizedApiError | null>(null)
 const errorMessage = ref<string>('')
 
 // Mock API error responses
@@ -139,11 +146,11 @@ const handleError = (
   if (method === 'normalize') {
     normalizedError.value = normalizeApiError(error)
     errorMessage.value = normalizedError.value.message
-    toast.info('Error normalized - check the result below')
+    toast.info(t('example.errorHandlingDemo.toasts.normalized'))
   } else if (method === 'message') {
     errorMessage.value = getApiErrorMessage(error)
     normalizedError.value = null
-    toast.info('Message extracted - check the result below')
+    toast.info(t('example.errorHandlingDemo.toasts.messageExtracted'))
   } else if (method === 'toast') {
     normalizedError.value = toastApiError(error)
     errorMessage.value = normalizedError.value.message
@@ -153,12 +160,12 @@ const handleError = (
 // Real API error triggers
 const triggerRealNotFound = async () => {
   try {
-    await client.GET('/api/v1/projects/{project_id}', {
-      params: { path: { project_id: 'non-existent-id-12345' } },
+    await get({
+      url: '/projects/00000000-0000-0000-0000-000000000000',
     })
   } catch (error) {
     lastError.value = error
-    normalizedError.value = toastApiError(error, 'Failed to fetch project')
+    normalizedError.value = toastApiError(error, t('common.errors.api.loadProject'))
     errorMessage.value = normalizedError.value.message
   }
 }
@@ -166,14 +173,15 @@ const triggerRealNotFound = async () => {
 const triggerRealValidation = async () => {
   try {
     // @ts-expect-error - intentionally sending invalid data
-    await client.POST('/api/v1/projects/', {
+    await post({
+      url: '/projects',
       body: {
         name: '', // Empty name should trigger validation error
       },
     })
   } catch (error) {
     lastError.value = error
-    normalizedError.value = toastApiError(error, 'Failed to create project')
+    normalizedError.value = toastApiError(error, t('common.errors.api.createProject'))
     errorMessage.value = normalizedError.value.message
   }
 }
@@ -188,9 +196,9 @@ const clearResults = () => {
 <template>
   <div class="mx-auto max-w-7xl space-y-6">
     <div class="space-y-2">
-      <h1 class="text-3xl font-bold">Error Handling Demo</h1>
+      <h1 class="text-3xl font-bold">{{ t('example.errorHandlingDemo.title') }}</h1>
       <p class="text-muted-foreground">
-        Demonstrates the unified error handling system with RFC 7807 Problem Details format
+        {{ t('example.errorHandlingDemo.description') }}
       </p>
     </div>
 
@@ -199,47 +207,46 @@ const clearResults = () => {
       <CardHeader>
         <CardTitle class="flex items-center gap-2">
           <InfoIcon class="size-5" />
-          Overview
+          {{ t('example.errorHandlingDemo.overview.title') }}
         </CardTitle>
         <CardDescription>
-          This demo shows how the application handles various API errors using the unified error
-          handling system. All errors follow the RFC 7807 Problem Details standard.
+          {{ t('example.errorHandlingDemo.overview.description') }}
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
         <div class="space-y-2">
-          <h3 class="font-semibold">Key Features:</h3>
+          <h3 class="font-semibold">{{ t('example.errorHandlingDemo.overview.keyFeaturesTitle') }}</h3>
           <ul class="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-2">
-            <li>Consistent error format across all API endpoints</li>
-            <li>Structured validation errors with field-level details</li>
-            <li>Automatic toast notifications for user feedback</li>
-            <li>Network error detection and handling</li>
-            <li>Internationalized error messages</li>
-            <li>Error code-based message resolution</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.consistentFormat') }}</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.validationDetails') }}</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.toastNotifications') }}</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.networkHandling') }}</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.i18nMessages') }}</li>
+            <li>{{ t('example.errorHandlingDemo.overview.keyFeatures.codeResolution') }}</li>
           </ul>
         </div>
 
         <Separator />
 
         <div class="space-y-2">
-          <h3 class="font-semibold">Error Handling Functions:</h3>
+          <h3 class="font-semibold">{{ t('example.errorHandlingDemo.overview.functionsTitle') }}</h3>
           <div class="grid gap-3 sm:grid-cols-3">
             <div class="p-3 border rounded-lg">
               <code class="text-xs font-mono">normalizeApiError()</code>
               <p class="text-xs text-muted-foreground mt-1">
-                Converts any error to a normalized format with all details
+                {{ t('example.errorHandlingDemo.overview.functions.normalizeDescription') }}
               </p>
             </div>
             <div class="p-3 border rounded-lg">
               <code class="text-xs font-mono">getApiErrorMessage()</code>
               <p class="text-xs text-muted-foreground mt-1">
-                Extracts just the error message string
+                {{ t('example.errorHandlingDemo.overview.functions.messageDescription') }}
               </p>
             </div>
             <div class="p-3 border rounded-lg">
               <code class="text-xs font-mono">toastApiError()</code>
               <p class="text-xs text-muted-foreground mt-1">
-                Normalizes and displays as toast notification
+                {{ t('example.errorHandlingDemo.overview.functions.toastDescription') }}
               </p>
             </div>
           </div>
@@ -252,9 +259,9 @@ const clearResults = () => {
       <CardHeader>
         <CardTitle class="flex items-center gap-2">
           <XCircleIcon class="size-5" />
-          Mock Error Examples
+          {{ t('example.errorHandlingDemo.mockErrors.title') }}
         </CardTitle>
-        <CardDescription> Test the error handling with simulated API responses </CardDescription>
+        <CardDescription>{{ t('example.errorHandlingDemo.mockErrors.description') }}</CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
         <Accordion type="single" collapsible>
@@ -263,21 +270,23 @@ const clearResults = () => {
             <AccordionTrigger>
               <div class="flex items-center gap-2">
                 <Badge variant="destructive">404</Badge>
-                <span>Not Found Error</span>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.notFound.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
               <p class="text-sm text-muted-foreground">
-                Simulates a 404 error when a resource is not found (e.g., project with invalid ID)
+                {{ t('example.errorHandlingDemo.mockErrors.sections.notFound.description') }}
               </p>
               <div class="flex gap-2">
                 <Button size="sm" variant="outline" @click="handleError('notFound', 'normalize')">
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('notFound', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
-                <Button size="sm" @click="handleError('notFound', 'toast')"> Toast Error </Button>
+                <Button size="sm" @click="handleError('notFound', 'toast')">
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -287,12 +296,12 @@ const clearResults = () => {
             <AccordionTrigger>
               <div class="flex items-center gap-2">
                 <Badge variant="destructive">401</Badge>
-                <span>Unauthorized Error</span>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.unauthorized.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
               <p class="text-sm text-muted-foreground">
-                Simulates authentication failure with invalid or expired credentials
+                {{ t('example.errorHandlingDemo.mockErrors.sections.unauthorized.description') }}
               </p>
               <div class="flex gap-2">
                 <Button
@@ -300,13 +309,13 @@ const clearResults = () => {
                   variant="outline"
                   @click="handleError('unauthorized', 'normalize')"
                 >
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('unauthorized', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
                 <Button size="sm" @click="handleError('unauthorized', 'toast')">
-                  Toast Error
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
                 </Button>
               </div>
             </AccordionContent>
@@ -317,21 +326,23 @@ const clearResults = () => {
             <AccordionTrigger>
               <div class="flex items-center gap-2">
                 <Badge variant="destructive">403</Badge>
-                <span>Forbidden Error</span>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.forbidden.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
               <p class="text-sm text-muted-foreground">
-                Simulates access denial due to insufficient permissions
+                {{ t('example.errorHandlingDemo.mockErrors.sections.forbidden.description') }}
               </p>
               <div class="flex gap-2">
                 <Button size="sm" variant="outline" @click="handleError('forbidden', 'normalize')">
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('forbidden', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
-                <Button size="sm" @click="handleError('forbidden', 'toast')"> Toast Error </Button>
+                <Button size="sm" @click="handleError('forbidden', 'toast')">
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -341,21 +352,23 @@ const clearResults = () => {
             <AccordionTrigger>
               <div class="flex items-center gap-2">
                 <Badge variant="destructive">422</Badge>
-                <span>Validation Error</span>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.validation.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
               <p class="text-sm text-muted-foreground">
-                Simulates validation failure with multiple field-level errors
+                {{ t('example.errorHandlingDemo.mockErrors.sections.validation.description') }}
               </p>
               <div class="flex gap-2">
                 <Button size="sm" variant="outline" @click="handleError('validation', 'normalize')">
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('validation', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
-                <Button size="sm" @click="handleError('validation', 'toast')"> Toast Error </Button>
+                <Button size="sm" @click="handleError('validation', 'toast')">
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -365,24 +378,26 @@ const clearResults = () => {
             <AccordionTrigger>
               <div class="flex items-center gap-2">
                 <Badge variant="destructive">500</Badge>
-                <span>Internal Server Error</span>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.serverError.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
-              <p class="text-sm text-muted-foreground">Simulates an unexpected server error</p>
+              <p class="text-sm text-muted-foreground">
+                {{ t('example.errorHandlingDemo.mockErrors.sections.serverError.description') }}
+              </p>
               <div class="flex gap-2">
                 <Button
                   size="sm"
                   variant="outline"
                   @click="handleError('serverError', 'normalize')"
                 >
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('serverError', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
                 <Button size="sm" @click="handleError('serverError', 'toast')">
-                  Toast Error
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
                 </Button>
               </div>
             </AccordionContent>
@@ -392,20 +407,24 @@ const clearResults = () => {
           <AccordionItem value="network">
             <AccordionTrigger>
               <div class="flex items-center gap-2">
-                <Badge variant="secondary">Network</Badge>
-                <span>Network Error</span>
+                <Badge variant="secondary">{{ t('example.errorHandlingDemo.mockErrors.badges.network') }}</Badge>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.network.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
-              <p class="text-sm text-muted-foreground">Simulates a network connectivity issue</p>
+              <p class="text-sm text-muted-foreground">
+                {{ t('example.errorHandlingDemo.mockErrors.sections.network.description') }}
+              </p>
               <div class="flex gap-2">
                 <Button size="sm" variant="outline" @click="handleError('network', 'normalize')">
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('network', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
-                <Button size="sm" @click="handleError('network', 'toast')"> Toast Error </Button>
+                <Button size="sm" @click="handleError('network', 'toast')">
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -414,20 +433,24 @@ const clearResults = () => {
           <AccordionItem value="timeout">
             <AccordionTrigger>
               <div class="flex items-center gap-2">
-                <Badge variant="secondary">Timeout</Badge>
-                <span>Timeout Error</span>
+                <Badge variant="secondary">{{ t('example.errorHandlingDemo.mockErrors.badges.timeout') }}</Badge>
+                <span>{{ t('example.errorHandlingDemo.mockErrors.sections.timeout.title') }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="space-y-3">
-              <p class="text-sm text-muted-foreground">Simulates a request timeout</p>
+              <p class="text-sm text-muted-foreground">
+                {{ t('example.errorHandlingDemo.mockErrors.sections.timeout.description') }}
+              </p>
               <div class="flex gap-2">
                 <Button size="sm" variant="outline" @click="handleError('timeout', 'normalize')">
-                  Normalize
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.normalize') }}
                 </Button>
                 <Button size="sm" variant="outline" @click="handleError('timeout', 'message')">
-                  Get Message
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.getMessage') }}
                 </Button>
-                <Button size="sm" @click="handleError('timeout', 'toast')"> Toast Error </Button>
+                <Button size="sm" @click="handleError('timeout', 'toast')">
+                  {{ t('example.errorHandlingDemo.mockErrors.actions.toastError') }}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -440,27 +463,33 @@ const clearResults = () => {
       <CardHeader>
         <CardTitle class="flex items-center gap-2">
           <AlertCircleIcon class="size-5" />
-          Real API Errors
+          {{ t('example.errorHandlingDemo.realApiErrors.title') }}
         </CardTitle>
-        <CardDescription> Trigger actual API errors against the backend </CardDescription>
+        <CardDescription>{{ t('example.errorHandlingDemo.realApiErrors.description') }}</CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
         <div class="space-y-3">
           <div class="p-4 border rounded-lg space-y-2">
-            <h3 class="font-semibold text-sm">404 - Non-existent Project</h3>
+            <h3 class="font-semibold text-sm">
+              {{ t('example.errorHandlingDemo.realApiErrors.notFound.title') }}
+            </h3>
             <p class="text-sm text-muted-foreground">
-              Attempts to fetch a project with an invalid ID
+              {{ t('example.errorHandlingDemo.realApiErrors.notFound.description') }}
             </p>
-            <Button size="sm" @click="triggerRealNotFound"> Trigger Real 404 </Button>
+            <Button size="sm" @click="triggerRealNotFound">
+              {{ t('example.errorHandlingDemo.realApiErrors.notFound.button') }}
+            </Button>
           </div>
 
           <div class="p-4 border rounded-lg space-y-2">
-            <h3 class="font-semibold text-sm">422 - Invalid Project Data</h3>
+            <h3 class="font-semibold text-sm">
+              {{ t('example.errorHandlingDemo.realApiErrors.validation.title') }}
+            </h3>
             <p class="text-sm text-muted-foreground">
-              Attempts to create a project with invalid data
+              {{ t('example.errorHandlingDemo.realApiErrors.validation.description') }}
             </p>
             <Button size="sm" @click="triggerRealValidation">
-              Trigger Real Validation Error
+              {{ t('example.errorHandlingDemo.realApiErrors.validation.button') }}
             </Button>
           </div>
         </div>
@@ -472,18 +501,22 @@ const clearResults = () => {
       <CardHeader>
         <CardTitle class="flex items-center gap-2">
           <CheckCircleIcon class="size-5" />
-          Results
+          {{ t('example.errorHandlingDemo.results.title') }}
         </CardTitle>
-        <CardDescription> Error handling output </CardDescription>
+        <CardDescription>{{ t('example.errorHandlingDemo.results.description') }}</CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
         <div class="flex justify-end">
-          <Button size="sm" variant="ghost" @click="clearResults"> Clear Results </Button>
+          <Button size="sm" variant="ghost" @click="clearResults">
+            {{ t('example.errorHandlingDemo.results.clear') }}
+          </Button>
         </div>
 
         <!-- Error Message -->
         <div v-if="errorMessage" class="space-y-2">
-          <h3 class="font-semibold text-sm">Error Message:</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.results.errorMessageTitle') }}
+          </h3>
           <div class="p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
             <p class="text-sm">{{ errorMessage }}</p>
           </div>
@@ -491,7 +524,9 @@ const clearResults = () => {
 
         <!-- Normalized Error -->
         <div v-if="normalizedError" class="space-y-2">
-          <h3 class="font-semibold text-sm">Normalized Error Object:</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.results.normalizedErrorTitle') }}
+          </h3>
           <pre class="p-4 bg-muted rounded-lg text-xs overflow-auto max-h-60">{{
             JSON.stringify(normalizedError, null, 2)
           }}</pre>
@@ -499,7 +534,9 @@ const clearResults = () => {
 
         <!-- Raw Error -->
         <div v-if="lastError" class="space-y-2">
-          <h3 class="font-semibold text-sm">Raw Error (Original):</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.results.rawErrorTitle') }}
+          </h3>
           <pre class="p-4 bg-muted rounded-lg text-xs overflow-auto max-h-80">{{
             JSON.stringify(lastError, null, 2)
           }}</pre>
@@ -510,12 +547,14 @@ const clearResults = () => {
     <!-- Documentation -->
     <Card>
       <CardHeader>
-        <CardTitle>Documentation</CardTitle>
-        <CardDescription> Learn more about the error handling system </CardDescription>
+        <CardTitle>{{ t('example.errorHandlingDemo.documentation.title') }}</CardTitle>
+        <CardDescription>{{ t('example.errorHandlingDemo.documentation.description') }}</CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
         <div class="space-y-2">
-          <h3 class="font-semibold text-sm">Error Format (RFC 7807):</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.documentation.errorFormatTitle') }}
+          </h3>
           <pre class="p-4 bg-muted rounded-lg text-xs overflow-auto">{{
             JSON.stringify(
               {
@@ -542,7 +581,9 @@ const clearResults = () => {
         <Separator />
 
         <div class="space-y-2">
-          <h3 class="font-semibold text-sm">Usage Example:</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.documentation.usageExampleTitle') }}
+          </h3>
           <pre class="p-4 bg-muted rounded-lg text-xs overflow-auto">
 // Option 1: Normalize and get detailed error info
 try {
@@ -575,25 +616,27 @@ try {
         <Separator />
 
         <div class="space-y-2">
-          <h3 class="font-semibold text-sm">Related Files:</h3>
+          <h3 class="font-semibold text-sm">
+            {{ t('example.errorHandlingDemo.documentation.relatedFilesTitle') }}
+          </h3>
           <ul class="text-sm space-y-1">
             <li>
               <code class="text-xs bg-muted px-2 py-1 rounded">frontend/src/lib/api-errors.ts</code>
-              - Error normalization logic
+              - {{ t('example.errorHandlingDemo.documentation.relatedFiles.apiErrors') }}
             </li>
             <li>
               <code class="text-xs bg-muted px-2 py-1 rounded">backend/app/core/errors.py</code>
-              - Backend error handlers
+              - {{ t('example.errorHandlingDemo.documentation.relatedFiles.backendErrors') }}
             </li>
             <li>
               <code class="text-xs bg-muted px-2 py-1 rounded"
                 >backend/app/core/error_schemas.py</code
               >
-              - OpenAPI error schemas
+              - {{ t('example.errorHandlingDemo.documentation.relatedFiles.errorSchemas') }}
             </li>
             <li>
               <code class="text-xs bg-muted px-2 py-1 rounded">docs/api-errors.md</code>
-              - Error format documentation
+              - {{ t('example.errorHandlingDemo.documentation.relatedFiles.docs') }}
             </li>
           </ul>
         </div>

@@ -6,7 +6,8 @@ import { useRoute } from 'vue-router'
 
 export interface BreadcrumbItem {
   title: string
-  to?: string | { name: string; params?: Record<string, any> }
+  titleKey?: string
+  to?: string | { name: string; params?: Record<string, unknown> }
   disabled?: boolean
 }
 

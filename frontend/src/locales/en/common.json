@@ -29,7 +29,6 @@
     },
     "errors": {
         "api": {
-            "codes": {},
             "createProject": "Failed to create project",
             "createTask": "Failed to create task",
             "default": "An unexpected error occurred. Please try again.",

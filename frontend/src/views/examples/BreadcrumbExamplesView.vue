@@ -167,17 +167,33 @@ const availableItems = computed(() => {
 // Breadcrumb functions
 const setStaticBreadcrumb = () => {
   breadcrumbStore.setBreadcrumbs([
-    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
-    { title: t('example.breadcrumbExamples.breadcrumbItems.examples'), to: '/breadcrumb-examples' },
-    { title: t('example.breadcrumbExamples.breadcrumbItems.staticExample') },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.home'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.home',
+      to: { name: 'home' },
+    },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.examples'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.examples',
+      to: '/breadcrumb-examples',
+    },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.staticExample'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.staticExample',
+    },
   ])
 }
 
 const updateBreadcrumbFromData = () => {
   const breadcrumbs: BreadcrumbItem[] = [
-    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.home'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.home',
+      to: { name: 'home' },
+    },
     {
       title: t('example.breadcrumbExamples.breadcrumbItems.examples'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.examples',
       to: { name: 'breadcrumb-examples' },
     },
   ]
@@ -185,6 +201,7 @@ const updateBreadcrumbFromData = () => {
   if (selectedCategory.value) {
     breadcrumbs.push({
       title: t(`example.breadcrumbExamples.dynamicFromData.categories.${selectedCategory.value}`),
+      titleKey: `example.breadcrumbExamples.dynamicFromData.categories.${selectedCategory.value}`,
       to: `/examples/${selectedCategory.value}`,
     })
 
@@ -193,6 +210,7 @@ const updateBreadcrumbFromData = () => {
       if (item) {
         breadcrumbs.push({
           title: t(`example.breadcrumbExamples.dynamicFromData.items.${item.id}`),
+          titleKey: `example.breadcrumbExamples.dynamicFromData.items.${item.id}`,
         })
       }
     }
@@ -218,8 +236,15 @@ const addNewBreadcrumb = () => {
 // Set initial breadcrumb when component mounts
 onMounted(() => {
   breadcrumbStore.setBreadcrumbs([
-    { title: t('example.breadcrumbExamples.breadcrumbItems.home'), to: { name: 'home' } },
-    { title: t('example.breadcrumbExamples.breadcrumbItems.breadcrumbExamples') },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.home'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.home',
+      to: { name: 'home' },
+    },
+    {
+      title: t('example.breadcrumbExamples.breadcrumbItems.breadcrumbExamples'),
+      titleKey: 'example.breadcrumbExamples.breadcrumbItems.breadcrumbExamples',
+    },
   ])
 })
 </script>

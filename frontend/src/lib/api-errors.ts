@@ -71,7 +71,7 @@ const codeFromType = (type?: string): string | undefined => {
 
 const messageFromCode = (code?: string | null): string | null => {
   if (!code) return null
-  const key = `common.errors.api.codes.${code}`
+  const key = `errorCodes.${code}`
   return te(key) ? t(key) : null
 }
 

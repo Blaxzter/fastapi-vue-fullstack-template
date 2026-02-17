@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
 import { RouterView } from 'vue-router'
 
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
@@ -20,6 +21,12 @@ import AppSidebar from '@/components/navigation/AppSidebar.vue'
 
 const breadcrumbStore = useBreadcrumbStore()
 const open = ref(true)
+const { t } = useI18n()
+
+const resolveBreadcrumbTitle = (title: string, titleKey?: string) => {
+  if (!titleKey) return title
+  return t(titleKey)
+}
 </script>
 
 <template>
@@ -40,10 +47,10 @@ const open = ref(true)
                     v-if="item.to && index < breadcrumbStore.breadcrumbs.length - 1"
                     @click="$router.push(item.to)"
                   >
-                    {{ item.title }}
+                    {{ resolveBreadcrumbTitle(item.title, item.titleKey) }}
                   </BreadcrumbLink>
                   <BreadcrumbPage v-else>
-                    {{ item.title }}
+                    {{ resolveBreadcrumbTitle(item.title, item.titleKey) }}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator v-if="index < breadcrumbStore.breadcrumbs.length - 1" />

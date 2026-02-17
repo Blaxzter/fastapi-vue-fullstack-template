@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from http import HTTPStatus
 
 from fastapi import HTTPException, Request
@@ -15,6 +16,11 @@ from app.schemas.problem import (
 )
 
 PROBLEM_JSON_MEDIA_TYPE = "application/problem+json"
+URN_PREFIX = "urn:problem:"
+RESOURCE_NOT_FOUND_RE = re.compile(
+    r"^(?P<resource>[A-Za-z][A-Za-z0-9 _-]*)\s+not\s+found$",
+    re.IGNORECASE,
+)
 
 
 def _status_title(status_code: int) -> str:
@@ -89,11 +95,42 @@ def _parse_problem_detail(detail: object) -> tuple[str | None, str | None, str |
     return coerce_problem_detail(detail), None, None
 
 
+def _slugify_resource(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", value.strip().lower()).strip("_")
+    return slug or "resource"
+
+
+def _infer_problem_type(status_code: int, detail: str | None) -> str | None:
+    if status_code == 404:
+        if detail:
+            match = RESOURCE_NOT_FOUND_RE.match(detail)
+            if match:
+                resource = _slugify_resource(match.group("resource"))
+                return f"{URN_PREFIX}{resource}.not_found"
+        return f"{URN_PREFIX}not_found"
+    if status_code == 401:
+        return f"{URN_PREFIX}unauthorized"
+    if status_code == 403:
+        return f"{URN_PREFIX}forbidden"
+    if status_code == 422:
+        return f"{URN_PREFIX}validation_error"
+    if status_code == 429:
+        return f"{URN_PREFIX}rate_limited"
+    if status_code == 400:
+        return f"{URN_PREFIX}bad_request"
+    if status_code >= 500:
+        return f"{URN_PREFIX}internal_server_error"
+    return None
+
+
 def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
     status_code = exc.status_code
     detail, type_url, code = _parse_problem_detail(exc.detail)
     if not detail:
         detail = _status_title(status_code)
+    resolved_type_url = (
+        type_url or _infer_problem_type(status_code, detail) or "about:blank"
+    )
     return _problem_response(
         status_code=status_code,
         title=_status_title(status_code),
@@ -101,7 +138,7 @@ def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse
         instance=str(request.url.path),
         code=code,
         headers=exc.headers,
-        type_url=type_url or "about:blank",
+        type_url=resolved_type_url,
     )
 
 
@@ -112,6 +149,9 @@ def starlette_http_exception_handler(
     detail, type_url, code = _parse_problem_detail(exc.detail)
     if not detail:
         detail = _status_title(status_code)
+    resolved_type_url = (
+        type_url or _infer_problem_type(status_code, detail) or "about:blank"
+    )
     return _problem_response(
         status_code=status_code,
         title=_status_title(status_code),
@@ -119,7 +159,7 @@ def starlette_http_exception_handler(
         instance=str(request.url.path),
         code=code,
         headers=exc.headers,
-        type_url=type_url or "about:blank",
+        type_url=resolved_type_url,
     )
 
 
@@ -132,6 +172,7 @@ def validation_exception_handler(
         detail="Request validation failed.",
         instance=str(request.url.path),
         errors=_normalize_validation_errors(exc),
+        type_url=f"{URN_PREFIX}validation_error",
     )
 
 
@@ -145,6 +186,7 @@ def unhandled_exception_handler(request: Request, exc: Exception) -> JSONRespons
         title=_status_title(500),
         detail=detail,
         instance=str(request.url.path),
+        type_url=f"{URN_PREFIX}internal_server_error",
     )
 
 

@@ -30,9 +30,8 @@ repos:
             name: pytest
             entry: python scripts/pre-commit/run_tests.py
             language: system
-            types: [python]
+            files: ^backend/
             pass_filenames: false
-            always_run: true
 
           - id: check-RMPC-comments
             name: Check for RMPC comments

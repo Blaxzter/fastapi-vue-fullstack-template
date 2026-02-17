@@ -46,7 +46,7 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/HomeView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home' }],
+            breadcrumbs: [{ title: 'Home', titleKey: 'navigation.breadcrumbs.home' }],
           },
         },
         {
@@ -54,7 +54,10 @@ const router = createRouter({
           name: 'examples',
           component: () => import('@/views/examples/ExamplesOverviewView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Examples' }],
+            breadcrumbs: [
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              { title: 'Examples', titleKey: 'navigation.breadcrumbs.examples' },
+            ],
           },
         },
         {
@@ -62,7 +65,10 @@ const router = createRouter({
           name: 'settings',
           component: () => import('@/views/UserSettingsView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Settings' }],
+            breadcrumbs: [
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              { title: 'Settings', titleKey: 'navigation.breadcrumbs.settings' },
+            ],
           },
         },
         {
@@ -70,7 +76,10 @@ const router = createRouter({
           name: 'projects',
           component: () => import('@/views/projects/ProjectsView.vue'),
           meta: {
-            breadcrumbs: [{ title: 'Home', to: { name: 'home' } }, { title: 'Projects' }],
+            breadcrumbs: [
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              { title: 'Projects', titleKey: 'navigation.breadcrumbs.projects' },
+            ],
           },
         },
         {
@@ -79,9 +88,13 @@ const router = createRouter({
           component: () => import('@/views/projects/ProjectDetailView.vue'),
           meta: {
             breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Projects', to: { name: 'projects' } },
-              { title: 'Project' },
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Projects',
+                titleKey: 'navigation.breadcrumbs.projects',
+                to: { name: 'projects' },
+              },
+              { title: 'Project', titleKey: 'navigation.breadcrumbs.project' },
             ],
           },
         },
@@ -91,9 +104,16 @@ const router = createRouter({
           component: () => import('@/views/examples/BreadcrumbExamplesView.vue'),
           meta: {
             breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Examples', to: { name: 'examples' } },
-              { title: 'Breadcrumb Examples' },
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Examples',
+                titleKey: 'navigation.breadcrumbs.examples',
+                to: { name: 'examples' },
+              },
+              {
+                title: 'Breadcrumb Examples',
+                titleKey: 'navigation.breadcrumbs.breadcrumbExamples',
+              },
             ],
           },
         },
@@ -103,9 +123,13 @@ const router = createRouter({
           component: () => import('@/views/examples/LayoutDemoView.vue'),
           meta: {
             breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Examples', to: { name: 'examples' } },
-              { title: 'Layout Demo' },
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Examples',
+                titleKey: 'navigation.breadcrumbs.examples',
+                to: { name: 'examples' },
+              },
+              { title: 'Layout Demo', titleKey: 'navigation.breadcrumbs.layoutDemo' },
             ],
           },
         },
@@ -115,9 +139,16 @@ const router = createRouter({
           component: () => import('@/views/examples/DialogExamples.vue'),
           meta: {
             breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Examples', to: { name: 'examples' } },
-              { title: 'Dialog Examples' },
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Examples',
+                titleKey: 'navigation.breadcrumbs.examples',
+                to: { name: 'examples' },
+              },
+              {
+                title: 'Dialog Examples',
+                titleKey: 'navigation.breadcrumbs.dialogExamples',
+              },
             ],
           },
         },
@@ -127,9 +158,16 @@ const router = createRouter({
           component: () => import('@/views/examples/ErrorHandlingDemoView.vue'),
           meta: {
             breadcrumbs: [
-              { title: 'Home', to: { name: 'home' } },
-              { title: 'Examples', to: { name: 'examples' } },
-              { title: 'Error Handling Demo' },
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Examples',
+                titleKey: 'navigation.breadcrumbs.examples',
+                to: { name: 'examples' },
+              },
+              {
+                title: 'Error Handling Demo',
+                titleKey: 'navigation.breadcrumbs.errorHandlingDemo',
+              },
             ],
           },
         },
