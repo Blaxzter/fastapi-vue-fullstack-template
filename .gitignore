@@ -5,3 +5,4 @@ node_modules/
 /playwright/.cache/
 .env
 .claude/settings.local.json
+__pycache__

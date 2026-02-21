@@ -15,7 +15,7 @@
 -   **Alembic** for migrations
 -   **Auth0** via `auth0-fastapi-api` + JWT (`pyjwt`)
 -   **httpx** for outbound HTTP calls
--   **Pytest, Ruff, Mypy, Pre-commit** for testing and linting
+-   **Pytest, Ruff, basedpyright, Pre-commit** for testing and linting
 
 ## Docker Compose
 

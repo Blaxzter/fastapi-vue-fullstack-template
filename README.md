@@ -27,7 +27,7 @@
 -   📫 Email based password recovery with MJML templates.
 -   ✅ Tests with [Pytest](https://pytest.org) and Playwright.
 -   📞 [Traefik](https://traefik.io) as a reverse proxy / load balancer.
--   🧹 Linting & formatting with Ruff, Mypy, ESLint, and Prettier.
+-   🧹 Linting & formatting with Ruff, basedpyright, ESLint, and Prettier.
 -   🏭 CI/CD based on GitHub Actions.
 
 ### Home Screen
@@ -123,6 +123,23 @@ This will download the latest changes from this template without committing them
 ```bash
 git merge --continue
 ```
+
+### Clean Up the Template
+
+After cloning, remove sample content you don't need:
+
+```bash
+# Remove example/demo pages only
+just remove-examples
+
+# Remove the project/task sample domain (models, CRUD, routes, views, migrations, tests)
+just remove-domain
+
+# Or do both at once and regenerate the API client
+just clean-template
+```
+
+After cleanup you'll have a clean foundation with auth, user management, health endpoints, base CRUD infrastructure, and all UI components ready for your own features. See [AGENTS.md](./AGENTS.md#template-cleanup) for details on what each step removes and what remains.
 
 ### Configure
 
