@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class Task(Base, table=True):
-    __tablename__ = "tasks"
+    __tablename__ = "tasks"  # type: ignore[assignment]
 
     project_id: uuid.UUID = Field(
         foreign_key="projects.id",

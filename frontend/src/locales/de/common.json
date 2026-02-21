@@ -51,6 +51,12 @@
             "updateTask": "Aufgabe konnte nicht aktualisiert werden",
             "validation": "Validierungsfehler: {message}"
         },
+        "boundary": {
+            "description": "Beim Rendern dieser Seite ist ein unerwarteter Fehler aufgetreten.",
+            "goHome": "Zur Startseite",
+            "title": "Etwas ist schiefgelaufen",
+            "tryAgain": "Erneut versuchen"
+        },
         "notFound": {
             "description": "Die Seite, die Sie suchen, existiert nicht.",
             "goHome": "Zurück zur Startseite",

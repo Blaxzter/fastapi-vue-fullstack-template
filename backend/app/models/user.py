@@ -8,7 +8,7 @@ from app.models.base import Base
 class User(Base, table=True):
     """Database model for application users."""
 
-    __tablename__ = "users"
+    __tablename__ = "users"  # type: ignore[assignment]
 
     auth0_sub: str = Field(
         sa_column=sa.Column(sa.String, unique=True, index=True),

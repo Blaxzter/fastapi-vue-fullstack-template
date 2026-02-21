@@ -18,6 +18,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
 import AppSidebar from '@/components/navigation/AppSidebar.vue'
+import ErrorBoundary from '@/components/utils/ErrorBoundary.vue'
 
 const breadcrumbStore = useBreadcrumbStore()
 const open = ref(true)
@@ -62,7 +63,9 @@ const resolveBreadcrumbTitle = (title: string, titleKey?: string) => {
 
       <!-- Main content area where router views will be rendered -->
       <div class="flex-1 p-4 pt-0">
-        <RouterView />
+        <ErrorBoundary>
+          <RouterView />
+        </ErrorBoundary>
       </div>
     </SidebarInset>
   </SidebarProvider>

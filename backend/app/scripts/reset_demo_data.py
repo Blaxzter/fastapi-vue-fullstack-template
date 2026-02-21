@@ -6,7 +6,7 @@ from sqlalchemy import delete
 from app.core.db import async_session
 from app.models.project import Project
 from app.models.task import Task
-from app.scripts.initial_data import seed_demo_data
+from app.scripts.demo.demo_data import seed_demo_data
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -21,7 +21,8 @@ async def reset_demo_data() -> None:
 
 async def main() -> None:
     await reset_demo_data()
-    await seed_demo_data()
+    async with async_session.begin() as session:
+        await seed_demo_data(session)
     logger.info("Reset demo data complete")
 
 

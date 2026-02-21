@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from http import HTTPStatus
+from typing import Any, cast
 
 from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -38,7 +40,7 @@ def _problem_response(
     instance: str | None,
     errors: list[ValidationErrorItem] | None = None,
     code: str | None = None,
-    headers: dict[str, str] | None = None,
+    headers: Mapping[str, str] | None = None,
     type_url: str = "about:blank",
 ) -> JSONResponse:
     payload = ProblemDetails(
@@ -53,7 +55,7 @@ def _problem_response(
     return JSONResponse(
         status_code=status_code,
         content=payload.model_dump(exclude_none=True),
-        headers=headers,
+        headers=dict(headers) if headers else None,
         media_type=PROBLEM_JSON_MEDIA_TYPE,
     )
 
@@ -78,18 +80,17 @@ def _normalize_validation_errors(
 
 def _parse_problem_detail(detail: object) -> tuple[str | None, str | None, str | None]:
     if isinstance(detail, dict):
-        code = detail.get("code")
+        d = cast(dict[str, Any], detail)
+        code = d.get("code")
         code_value = code if isinstance(code, str) else None
-        type_url = detail.get("type")
+        type_url = d.get("type")
         type_value = type_url if isinstance(type_url, str) else None
         if not type_value and code_value:
             type_value = f"urn:problem:{code_value}"
-        detail_value = detail.get("detail")
+        detail_value: str | None = d.get("detail")
         if not isinstance(detail_value, str):
             detail_value = (
-                detail.get("message")
-                if isinstance(detail.get("message"), str)
-                else None
+                d.get("message") if isinstance(d.get("message"), str) else None
             )
         return detail_value, type_value, code_value
     return coerce_problem_detail(detail), None, None

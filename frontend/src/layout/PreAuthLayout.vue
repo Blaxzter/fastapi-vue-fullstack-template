@@ -10,6 +10,7 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
+import ErrorBoundary from '@/components/utils/ErrorBoundary.vue'
 import LanguageSwitch from '@/components/utils/LanguageSwitch.vue'
 
 const authStore = useAuthStore()
@@ -115,7 +116,9 @@ const handleGetStarted = () => {
     <!-- Main content area for unauthenticated views -->
     <main :class="useFixedHeader ? 'flex-1 overflow-auto flex flex-col' : 'flex-1 flex flex-col'">
       <div class="container mx-auto px-4 py-8 flex-1">
-        <RouterView />
+        <ErrorBoundary>
+          <RouterView />
+        </ErrorBoundary>
       </div>
 
       <!-- Footer for unauthenticated users -->

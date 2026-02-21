@@ -5,6 +5,8 @@ This module contains the ProblemDetails schema definitions and standard error re
 used throughout the API to ensure consistent error reporting in the OpenAPI spec.
 """
 
+from typing import Any
+
 from app.core.errors import PROBLEM_JSON_MEDIA_TYPE
 
 # OpenAPI schema for validation error items
@@ -40,7 +42,7 @@ PROBLEM_DETAILS_SCHEMA = {
 }
 
 
-def get_openapi_schemas() -> dict:
+def get_openapi_schemas() -> dict[str, Any]:
     """
     Returns the OpenAPI component schemas for error handling.
 

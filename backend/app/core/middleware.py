@@ -7,11 +7,10 @@ import inspect
 import logging
 import time
 import traceback
-from collections.abc import Callable
 from http import HTTPStatus
 
 from fastapi import Request, Response
-from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.types import ASGIApp
 
 from app.core.logger import get_logger
@@ -29,7 +28,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
     def __init__(self, app: ASGIApp):
         super().__init__(app)
 
-    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         """Process request and log details"""
         # Skip logging for ignored paths
         if any(request.url.path.startswith(path) for path in IGNORE_PATHS):
@@ -137,8 +138,6 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             return location
 
         except Exception:
-            # For debugging, you can temporarily uncomment this to see what's failing
-            # print(f"Error getting handler location: {e}")
             return "unknown location"
 
     def _get_colored_method(self, method: str) -> str:

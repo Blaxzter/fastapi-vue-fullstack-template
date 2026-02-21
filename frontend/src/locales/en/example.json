@@ -115,6 +115,36 @@
         },
         "title": "Dialog Examples"
     },
+    "errorBoundaryDemo": {
+        "asyncError": {
+            "description": "Triggers an error inside onMounted. The ErrorBoundary catches lifecycle errors the same way.",
+            "reset": "Reset",
+            "title": "Lifecycle Hook Error",
+            "trigger": "Trigger onMounted Error"
+        },
+        "description": "Demonstrates the ErrorBoundary component that catches rendering errors in child components and displays a fallback UI.",
+        "howItWorks": {
+            "description": "The ErrorBoundary component uses Vue's onErrorCaptured hook to catch errors from child components.",
+            "points": {
+                "captures": "Captures errors thrown during rendering or lifecycle hooks of child components",
+                "fallback": "Displays a fallback UI with the error message instead of crashing the page",
+                "goHome": "Includes a \"Go Home\" button for navigation away from the broken page",
+                "reset": "Provides a \"Try Again\" button to reset the error state and re-render"
+            },
+            "title": "How It Works"
+        },
+        "syncError": {
+            "description": "Triggers an error during the component's render function. The ErrorBoundary catches it and shows the fallback UI.",
+            "reset": "Reset",
+            "title": "Synchronous Render Error",
+            "trigger": "Trigger Render Error"
+        },
+        "title": "Error Boundary Demo",
+        "usage": {
+            "description": "Wrap any component with ErrorBoundary to protect against unexpected errors.",
+            "title": "Usage"
+        }
+    },
     "errorHandlingDemo": {
         "description": "Demonstrates the unified error handling system with RFC 7807 Problem Details format",
         "documentation": {
@@ -230,6 +260,10 @@
             "dialogExamples": {
                 "description": "Interactive examples of confirmation dialogs, alerts, and info messages.",
                 "title": "Dialog Examples"
+            },
+            "errorBoundaryDemo": {
+                "description": "Showcases the ErrorBoundary component for graceful error recovery in Vue components.",
+                "title": "Error Boundary Demo"
             },
             "errorHandlingDemo": {
                 "description": "Demonstrates unified error handling with RFC 7807 Problem Details format.",

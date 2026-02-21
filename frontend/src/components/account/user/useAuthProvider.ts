@@ -6,11 +6,11 @@ import { siAuth0, siFacebook, siGithub, siGoogle } from 'simple-icons'
 export interface AuthProvider {
   name: string
   variant: 'default' | 'secondary' | 'outline'
-  icon: any
+  icon: object
   isAuth0: boolean
 }
 
-export const useAuthProvider = (user: any) => {
+export const useAuthProvider = (user: { sub?: string } | undefined | null) => {
   return computed((): AuthProvider => {
     const sub = user?.sub || ''
 

@@ -1,0 +1,6 @@
+{
+  "include": ["app"],
+  "exclude": ["**/alembic"],
+  "typeCheckingMode": "strict",
+  "reportMissingTypeStubs": "warning"
+}

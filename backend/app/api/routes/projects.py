@@ -1,11 +1,13 @@
 import uuid
-from typing import Any, Literal
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import delete
+from sqlmodel import col
 
 from app.api.deps import CurrentSuperuser, CurrentUser, DBDep
 from app.crud.project import project as crud_project
+from app.models.project import Project
 from app.models.task import Task
 from app.schemas.project import (
     ProjectCreate,
@@ -44,7 +46,7 @@ async def list_projects(
     owner_id: uuid.UUID | None = None,
     sort_by: ProjectSortField = "created_at",
     sort_dir: SortDirection = "desc",
-) -> Any:
+) -> ProjectListResponse:
     items = await crud_project.get_multi_filtered(
         session,
         skip=skip,
@@ -61,7 +63,7 @@ async def list_projects(
         status=status,
         owner_id=owner_id,
     )
-    return ProjectListResponse(items=items, total=total, skip=skip, limit=limit)
+    return ProjectListResponse(items=list(items), total=total, skip=skip, limit=limit)  # type: ignore[arg-type]
 
 
 @router.get("/me", response_model=ProjectListResponse)
@@ -74,7 +76,7 @@ async def list_my_projects(
     status: str | None = None,
     sort_by: ProjectSortField = "created_at",
     sort_dir: SortDirection = "desc",
-) -> Any:
+) -> ProjectListResponse:
     items = await crud_project.get_multi_filtered(
         session,
         skip=skip,
@@ -91,7 +93,7 @@ async def list_my_projects(
         status=status,
         owner_id=current_user.id,
     )
-    return ProjectListResponse(items=items, total=total, skip=skip, limit=limit)
+    return ProjectListResponse(items=list(items), total=total, skip=skip, limit=limit)  # type: ignore[arg-type]
 
 
 @router.get("/{project_id}", response_model=ProjectRead)
@@ -99,7 +101,7 @@ async def get_project(
     project_id: uuid.UUID,
     session: DBDep,
     current_user: CurrentUser,
-) -> Any:
+) -> Project:
     project = await crud_project.get(session, id=project_id, raise_404_error=True)
     _ensure_project_access(project.owner_id, current_user)
     return project
@@ -110,7 +112,7 @@ async def create_project(
     project_in: ProjectCreate,
     session: DBDep,
     current_user: CurrentUser,
-) -> Any:
+) -> Project:
     project_data = project_in.model_dump()
     if not current_user.is_admin:
         project_data["owner_id"] = current_user.id
@@ -125,7 +127,7 @@ async def update_project(
     project_in: ProjectUpdate,
     session: DBDep,
     current_user: CurrentUser,
-) -> Any:
+) -> Project:
     project = await crud_project.get(session, id=project_id, raise_404_error=True)
     _ensure_project_access(project.owner_id, current_user)
     if not current_user.is_admin and project_in.owner_id is not None:
@@ -138,10 +140,10 @@ async def delete_project(
     project_id: uuid.UUID,
     session: DBDep,
     current_user: CurrentUser,
-) -> Any:
+) -> Project:
     project = await crud_project.get(session, id=project_id, raise_404_error=True)
     _ensure_project_access(project.owner_id, current_user)
-    await session.execute(delete(Task).where(Task.project_id == project_id))
+    await session.execute(delete(Task).where(col(Task.project_id) == project_id))
     await session.delete(project)
     await session.commit()
     return project

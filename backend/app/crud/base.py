@@ -16,6 +16,7 @@ from pydantic import BaseModel
 from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+from sqlmodel import col
 from starlette import status
 
 from app.logic.utils.db_utils import get_comparison
@@ -85,7 +86,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         raise_404_error: bool = False,
         select_in_load: list[str] | None = None,
     ) -> ModelType | None:
-        query = select(self.model).where(self.model.id.__eq__(id))
+        query = select(self.model).where(col(self.model.id) == id)
         if select_in_load:
             for attr in select_in_load:
                 query = query.options(selectinload(getattr(self.model, attr)))
@@ -112,7 +113,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> Sequence[ModelType]:
         query = select(self.model).offset(skip).limit(limit)
         if ids:
-            query = query.where(self.model.id.in_(ids))
+            query = query.where(col(self.model.id).in_(ids))
 
         if select_in_load:
             for attr in select_in_load:
@@ -122,7 +123,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return result.scalars().all()
 
     async def remove_multi(self, db: AsyncSession, *, ids: list[int]) -> bool:
-        await db.execute(delete(self.model).where(self.model.id.in_(ids)))
+        await db.execute(delete(self.model).where(col(self.model.id).in_(ids)))
         return True
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
@@ -137,7 +138,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         for property, value in datetime_fields:
             obj_in_data[property] = value
 
-        db_obj = self.model(**obj_in_data)  # type: ignore
+        db_obj = self.model(**obj_in_data)  # type: ignore[call-arg]
         db.add(db_obj)
         await db.flush()
         await db.refresh(db_obj)

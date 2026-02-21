@@ -2,6 +2,7 @@
     "breadcrumbs": {
         "breadcrumbExamples": "Breadcrumb Examples",
         "dialogExamples": "Dialog Examples",
+        "errorBoundaryDemo": "Error Boundary Demo",
         "errorHandlingDemo": "Error Handling Demo",
         "examples": "Examples",
         "home": "Home",
@@ -16,6 +17,7 @@
             "breadcrumbExamples": "Breadcrumb Examples",
             "changelog": "Changelog",
             "dialogExamples": "Dialog Examples",
+            "errorBoundaryDemo": "Error Boundary Demo",
             "errorHandlingDemo": "Error Handling Demo",
             "general": "General",
             "getStarted": "Get Started",

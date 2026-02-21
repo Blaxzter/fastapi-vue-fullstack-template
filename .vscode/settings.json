@@ -12,5 +12,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "python.testing.pytestArgs": ["."],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "basedpyright.analysis.configFilePath": "backend",
+    "python-envs.pythonProjects": []
 }

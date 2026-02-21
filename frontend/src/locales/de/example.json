@@ -115,6 +115,36 @@
         },
         "title": "Dialog Beispiele"
     },
+    "errorBoundaryDemo": {
+        "asyncError": {
+            "description": "Löst einen Fehler in onMounted aus. Die ErrorBoundary fängt Lifecycle-Fehler auf die gleiche Weise ab.",
+            "reset": "Zurücksetzen",
+            "title": "Lifecycle-Hook-Fehler",
+            "trigger": "onMounted-Fehler auslösen"
+        },
+        "description": "Demonstriert die ErrorBoundary-Komponente, die Rendering-Fehler in Kindkomponenten abfängt und eine Fallback-UI anzeigt.",
+        "howItWorks": {
+            "description": "Die ErrorBoundary-Komponente nutzt Vues onErrorCaptured-Hook, um Fehler von Kindkomponenten abzufangen.",
+            "points": {
+                "captures": "Fängt Fehler ab, die beim Rendern oder in Lifecycle-Hooks von Kindkomponenten auftreten",
+                "fallback": "Zeigt eine Fallback-UI mit der Fehlermeldung an, anstatt die Seite abstürzen zu lassen",
+                "goHome": "Enthält einen \"Zur Startseite\"-Button zur Navigation weg von der fehlerhaften Seite",
+                "reset": "Bietet einen \"Erneut versuchen\"-Button, um den Fehlerzustand zurückzusetzen"
+            },
+            "title": "Funktionsweise"
+        },
+        "syncError": {
+            "description": "Löst einen Fehler während der Render-Funktion der Komponente aus. Die ErrorBoundary fängt ihn ab und zeigt die Fallback-UI.",
+            "reset": "Zurücksetzen",
+            "title": "Synchroner Render-Fehler",
+            "trigger": "Render-Fehler auslösen"
+        },
+        "title": "Error Boundary Demo",
+        "usage": {
+            "description": "Umschließen Sie jede Komponente mit ErrorBoundary, um vor unerwarteten Fehlern zu schützen.",
+            "title": "Verwendung"
+        }
+    },
     "errorHandlingDemo": {
         "description": "Demonstriert das einheitliche Fehlerbehandlungssystem mit RFC 7807 Problem Details Format",
         "documentation": {
@@ -230,6 +260,10 @@
             "dialogExamples": {
                 "description": "Interaktive Beispiele von Bestätigungsdialogen, Warnungen und Infomeldungen.",
                 "title": "Dialog Beispiele"
+            },
+            "errorBoundaryDemo": {
+                "description": "Zeigt die ErrorBoundary-Komponente für elegante Fehlerbehandlung in Vue-Komponenten.",
+                "title": "Error Boundary Demo"
             },
             "errorHandlingDemo": {
                 "description": "Demonstriert einheitliche Fehlerbehandlung mit RFC 7807 Problem Details Format.",

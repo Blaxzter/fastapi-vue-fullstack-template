@@ -24,5 +24,5 @@
 // This component handles 404 errors when users navigate to non-existent routes
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+useI18n()
 </script>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { ChevronDownIcon, GlobeIcon } from 'lucide-vue-next'
+import { ChevronDownIcon } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 
 import { Button } from '@/components/ui/button'

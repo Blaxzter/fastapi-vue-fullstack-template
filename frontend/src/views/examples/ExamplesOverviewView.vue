@@ -38,7 +38,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { AlertCircleIcon, LayoutGridIcon, MessageSquareIcon, NavigationIcon } from 'lucide-vue-next'
+import {
+  AlertCircleIcon,
+  LayoutGridIcon,
+  MessageSquareIcon,
+  NavigationIcon,
+  ShieldAlertIcon,
+} from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
@@ -73,6 +79,14 @@ const examples = [
     ),
     route: 'error-handling-demo',
     icon: AlertCircleIcon,
+  },
+  {
+    title: computed(() => t('example.examplesOverview.examples.errorBoundaryDemo.title')),
+    description: computed(() =>
+      t('example.examplesOverview.examples.errorBoundaryDemo.description'),
+    ),
+    route: 'error-boundary-demo',
+    icon: ShieldAlertIcon,
   },
 ]
 

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 
 const authStore = useAuthStore()
 const router = useRouter()
-const { t } = useI18n()
+useI18n()
 
 const handleGetStarted = () => {
   const redirectUri = `${window.location.origin}/app/home`

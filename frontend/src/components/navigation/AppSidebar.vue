@@ -119,6 +119,11 @@ const data = {
           titleKey: 'navigation.sidebar.items.errorHandlingDemo',
           routeName: 'error-handling-demo',
         },
+        {
+          title: 'Error Boundary Demo',
+          titleKey: 'navigation.sidebar.items.errorBoundaryDemo',
+          routeName: 'error-boundary-demo',
+        },
       ],
     },
     {

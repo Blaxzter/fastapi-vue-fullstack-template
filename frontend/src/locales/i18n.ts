@@ -2,8 +2,8 @@ import { createI18n } from 'vue-i18n'
 
 // Define types for the module structure
 interface TranslationModule {
-  default?: Record<string, any>
-  [key: string]: any
+  default?: Record<string, unknown>
+  [key: string]: unknown
 }
 
 interface ModuleMap {
@@ -11,7 +11,7 @@ interface ModuleMap {
 }
 
 interface Messages {
-  [filename: string]: Record<string, any>
+  [filename: string]: Record<string, unknown>
 }
 
 // Dynamically import all translation files

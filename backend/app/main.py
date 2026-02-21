@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -45,7 +46,7 @@ if settings.SENTRY_DSN and settings.ENVIRONMENT != "local":
     sentry_sdk.init(dsn=str(settings.SENTRY_DSN), enable_tracing=True)
 
 
-def custom_openapi():
+def custom_openapi() -> dict[str, Any]:
     """
     Custom OpenAPI function to add ProblemDetails schema
     This allows us to generate a frontend client with consistent error types
@@ -66,7 +67,7 @@ def custom_openapi():
         openapi_schema["components"]["schemas"] = {}
 
     # Add error schemas from error_schemas module
-    openapi_schema["components"]["schemas"].update(get_openapi_schemas())
+    openapi_schema["components"]["schemas"].update(get_openapi_schemas())  # type: ignore[reportUnknownMemberType]
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema
@@ -78,13 +79,13 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
 )
 
-app.openapi = custom_openapi
+app.openapi = custom_openapi  # type: ignore[assignment]
 
 # Exception handlers for consistent problem+json responses
-app.add_exception_handler(HTTPException, http_exception_handler)
-app.add_exception_handler(StarletteHTTPException, starlette_http_exception_handler)
-app.add_exception_handler(RequestValidationError, validation_exception_handler)
-app.add_exception_handler(Exception, unhandled_exception_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)  # type: ignore[arg-type]
+app.add_exception_handler(StarletteHTTPException, starlette_http_exception_handler)  # type: ignore[arg-type]
+app.add_exception_handler(RequestValidationError, validation_exception_handler)  # type: ignore[arg-type]
+app.add_exception_handler(Exception, unhandled_exception_handler)  # type: ignore[arg-type]
 
 # Add request logging middleware (must be added before other middleware)
 app.add_middleware(RequestLoggingMiddleware)
@@ -99,10 +100,12 @@ if settings.all_cors_origins:
         allow_headers=["*"],
     )
 
+ERROR_RESPONSES_TYPED: dict[int | str, dict[str, Any]] = ERROR_RESPONSES  # type: ignore[assignment]
+
 app.include_router(
     api_router,
     prefix=settings.API_V1_STR,
-    responses=ERROR_RESPONSES,
+    responses=ERROR_RESPONSES_TYPED,
 )
 
 

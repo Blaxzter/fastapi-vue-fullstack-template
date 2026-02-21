@@ -1,11 +1,13 @@
-from typing import Annotated
+from typing import Annotated, Any
 
 from pydantic import BaseModel, Field
 
 
 class ExampleResponse(BaseModel):
     message: str = Field(description="The response message")
-    claims: dict = Field(description="The claims associated with the response")
+    claims: dict[str, Any] = Field(
+        description="The claims associated with the response"
+    )
 
     # test integer with response validation (needs to be bigger than 0 and not null)
     test_value: Annotated[int, Field(gt=0)] | None = Field(

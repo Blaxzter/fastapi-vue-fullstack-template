@@ -5,1707 +5,1724 @@
  * Profile data from Auth0 ID token for user initialization.
  */
 export type ProfileInit = {
-    /**
-     * Email
-     */
-    email?: string | null;
-    /**
-     * Name
-     */
-    name?: string | null;
-    /**
-     * Nickname
-     */
-    nickname?: string | null;
-};
+  /**
+   * Email
+   */
+  email?: string | null
+  /**
+   * Name
+   */
+  name?: string | null
+  /**
+   * Nickname
+   */
+  nickname?: string | null
+}
 
 /**
  * ProjectCreate
  */
 export type ProjectCreate = {
-    /**
-     * Name
-     * Project name
-     */
-    name: string;
-    /**
-     * Description
-     * Project description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Project status
-     */
-    status?: 'active' | 'archived';
-    /**
-     * Owner Id
-     * Owner user ID
-     */
-    owner_id?: string | null;
-};
+  /**
+   * Name
+   * Project name
+   */
+  name: string
+  /**
+   * Description
+   * Project description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Project status
+   */
+  status?: 'active' | 'archived'
+  /**
+   * Owner Id
+   * Owner user ID
+   */
+  owner_id?: string | null
+}
 
 /**
  * ProjectListResponse
  */
 export type ProjectListResponse = {
-    /**
-     * Items
-     */
-    items: Array<ProjectRead>;
-    /**
-     * Total
-     */
-    total: number;
-    /**
-     * Skip
-     */
-    skip: number;
-    /**
-     * Limit
-     */
-    limit: number;
-};
+  /**
+   * Items
+   */
+  items: Array<ProjectRead>
+  /**
+   * Total
+   */
+  total: number
+  /**
+   * Skip
+   */
+  skip: number
+  /**
+   * Limit
+   */
+  limit: number
+}
 
 /**
  * ProjectRead
  */
 export type ProjectRead = {
-    /**
-     * Name
-     * Project name
-     */
-    name: string;
-    /**
-     * Description
-     * Project description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Project status
-     */
-    status?: 'active' | 'archived';
-    /**
-     * Owner Id
-     * Owner user ID
-     */
-    owner_id?: string | null;
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-};
+  /**
+   * Name
+   * Project name
+   */
+  name: string
+  /**
+   * Description
+   * Project description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Project status
+   */
+  status?: 'active' | 'archived'
+  /**
+   * Owner Id
+   * Owner user ID
+   */
+  owner_id?: string | null
+  /**
+   * Id
+   */
+  id: string
+  /**
+   * Created At
+   */
+  created_at: string
+  /**
+   * Updated At
+   */
+  updated_at: string
+}
 
 /**
  * ProjectUpdate
  */
 export type ProjectUpdate = {
-    /**
-     * Name
-     * Project name
-     */
-    name?: string | null;
-    /**
-     * Description
-     * Project description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Project status
-     */
-    status?: ('active' | 'archived') | null;
-    /**
-     * Owner Id
-     * Owner user ID
-     */
-    owner_id?: string | null;
-};
+  /**
+   * Name
+   * Project name
+   */
+  name?: string | null
+  /**
+   * Description
+   * Project description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Project status
+   */
+  status?: ('active' | 'archived') | null
+  /**
+   * Owner Id
+   * Owner user ID
+   */
+  owner_id?: string | null
+}
 
 /**
  * TaskCreate
  */
 export type TaskCreate = {
-    /**
-     * Project Id
-     * Parent project ID
-     */
-    project_id: string;
-    /**
-     * Title
-     * Task title
-     */
-    title: string;
-    /**
-     * Description
-     * Task description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Task status
-     */
-    status?: 'todo' | 'in_progress' | 'done';
-    /**
-     * Priority
-     * Task priority (1-5)
-     */
-    priority?: number;
-    /**
-     * Due Date
-     * Optional due date
-     */
-    due_date?: string | null;
-};
+  /**
+   * Project Id
+   * Parent project ID
+   */
+  project_id: string
+  /**
+   * Title
+   * Task title
+   */
+  title: string
+  /**
+   * Description
+   * Task description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Task status
+   */
+  status?: 'todo' | 'in_progress' | 'done'
+  /**
+   * Priority
+   * Task priority (1-5)
+   */
+  priority?: number
+  /**
+   * Due Date
+   * Optional due date
+   */
+  due_date?: string | null
+}
 
 /**
  * TaskListResponse
  */
 export type TaskListResponse = {
-    /**
-     * Items
-     */
-    items: Array<TaskRead>;
-    /**
-     * Total
-     */
-    total: number;
-    /**
-     * Skip
-     */
-    skip: number;
-    /**
-     * Limit
-     */
-    limit: number;
-};
+  /**
+   * Items
+   */
+  items: Array<TaskRead>
+  /**
+   * Total
+   */
+  total: number
+  /**
+   * Skip
+   */
+  skip: number
+  /**
+   * Limit
+   */
+  limit: number
+}
 
 /**
  * TaskRead
  */
 export type TaskRead = {
-    /**
-     * Project Id
-     * Parent project ID
-     */
-    project_id: string;
-    /**
-     * Title
-     * Task title
-     */
-    title: string;
-    /**
-     * Description
-     * Task description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Task status
-     */
-    status?: 'todo' | 'in_progress' | 'done';
-    /**
-     * Priority
-     * Task priority (1-5)
-     */
-    priority?: number;
-    /**
-     * Due Date
-     * Optional due date
-     */
-    due_date?: string | null;
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-};
+  /**
+   * Project Id
+   * Parent project ID
+   */
+  project_id: string
+  /**
+   * Title
+   * Task title
+   */
+  title: string
+  /**
+   * Description
+   * Task description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Task status
+   */
+  status?: 'todo' | 'in_progress' | 'done'
+  /**
+   * Priority
+   * Task priority (1-5)
+   */
+  priority?: number
+  /**
+   * Due Date
+   * Optional due date
+   */
+  due_date?: string | null
+  /**
+   * Id
+   */
+  id: string
+  /**
+   * Created At
+   */
+  created_at: string
+  /**
+   * Updated At
+   */
+  updated_at: string
+}
 
 /**
  * TaskUpdate
  */
 export type TaskUpdate = {
-    /**
-     * Title
-     * Task title
-     */
-    title?: string | null;
-    /**
-     * Description
-     * Task description
-     */
-    description?: string | null;
-    /**
-     * Status
-     * Task status
-     */
-    status?: ('todo' | 'in_progress' | 'done') | null;
-    /**
-     * Priority
-     * Task priority
-     */
-    priority?: number | null;
-    /**
-     * Due Date
-     * Optional due date
-     */
-    due_date?: string | null;
-    /**
-     * Project Id
-     * Parent project ID
-     */
-    project_id?: string | null;
-};
+  /**
+   * Title
+   * Task title
+   */
+  title?: string | null
+  /**
+   * Description
+   * Task description
+   */
+  description?: string | null
+  /**
+   * Status
+   * Task status
+   */
+  status?: ('todo' | 'in_progress' | 'done') | null
+  /**
+   * Priority
+   * Task priority
+   */
+  priority?: number | null
+  /**
+   * Due Date
+   * Optional due date
+   */
+  due_date?: string | null
+  /**
+   * Project Id
+   * Parent project ID
+   */
+  project_id?: string | null
+}
 
 /**
  * UserCreate
  */
 export type UserCreate = {
-    /**
-     * Auth0 Sub
-     * Auth0 subject identifier
-     */
-    auth0_sub: string;
-    /**
-     * Email
-     * User's email address
-     */
-    email?: string | null;
-    /**
-     * Name
-     * User's display name
-     */
-    name?: string | null;
-    /**
-     * Roles
-     * List of role identifiers
-     */
-    roles?: Array<string>;
-    /**
-     * Is Active
-     * Whether the user is active
-     */
-    is_active?: boolean;
-};
+  /**
+   * Auth0 Sub
+   * Auth0 subject identifier
+   */
+  auth0_sub: string
+  /**
+   * Email
+   * User's email address
+   */
+  email?: string | null
+  /**
+   * Name
+   * User's display name
+   */
+  name?: string | null
+  /**
+   * Roles
+   * List of role identifiers
+   */
+  roles?: Array<string>
+  /**
+   * Is Active
+   * Whether the user is active
+   */
+  is_active?: boolean
+}
 
 /**
  * UserProfile
  */
 export type UserProfile = {
-    /**
-     * Sub
-     */
-    sub: string;
-    /**
-     * Name
-     */
-    name?: string | null;
-    /**
-     * Nickname
-     */
-    nickname?: string | null;
-    /**
-     * Email
-     */
-    email?: string | null;
-    /**
-     * Picture
-     */
-    picture?: string | null;
-    /**
-     * Bio
-     */
-    bio?: string | null;
-    /**
-     * Email Verified
-     */
-    email_verified?: boolean | null;
-    /**
-     * Roles
-     * User's roles
-     */
-    roles?: Array<string>;
-    /**
-     * Is Admin
-     * Whether user has admin role
-     */
-    is_admin?: boolean;
-};
+  /**
+   * Sub
+   */
+  sub: string
+  /**
+   * Name
+   */
+  name?: string | null
+  /**
+   * Nickname
+   */
+  nickname?: string | null
+  /**
+   * Email
+   */
+  email?: string | null
+  /**
+   * Picture
+   */
+  picture?: string | null
+  /**
+   * Bio
+   */
+  bio?: string | null
+  /**
+   * Email Verified
+   */
+  email_verified?: boolean | null
+  /**
+   * Roles
+   * User's roles
+   */
+  roles?: Array<string>
+  /**
+   * Is Admin
+   * Whether user has admin role
+   */
+  is_admin?: boolean
+}
 
 /**
  * UserProfileUpdate
  */
 export type UserProfileUpdate = {
-    /**
-     * Name
-     * User's display name
-     */
-    name?: string | null;
-    /**
-     * Nickname
-     * User's nickname
-     */
-    nickname?: string | null;
-    /**
-     * Picture
-     * URL to user's profile picture
-     */
-    picture?: string | null;
-    /**
-     * Bio
-     * User's biography
-     */
-    bio?: string | null;
-};
+  /**
+   * Name
+   * User's display name
+   */
+  name?: string | null
+  /**
+   * Nickname
+   * User's nickname
+   */
+  nickname?: string | null
+  /**
+   * Picture
+   * URL to user's profile picture
+   */
+  picture?: string | null
+  /**
+   * Bio
+   * User's biography
+   */
+  bio?: string | null
+}
 
 /**
  * UserRead
  */
 export type UserRead = {
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Auth0 Sub
-     */
-    auth0_sub: string;
-    /**
-     * Email
-     */
-    email?: string | null;
-    /**
-     * Name
-     */
-    name?: string | null;
-    /**
-     * Roles
-     */
-    roles: Array<string>;
-    /**
-     * Is Active
-     */
-    is_active: boolean;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-};
+  /**
+   * Id
+   */
+  id: string
+  /**
+   * Auth0 Sub
+   */
+  auth0_sub: string
+  /**
+   * Email
+   */
+  email?: string | null
+  /**
+   * Name
+   */
+  name?: string | null
+  /**
+   * Roles
+   */
+  roles: Array<string>
+  /**
+   * Is Active
+   */
+  is_active: boolean
+  /**
+   * Created At
+   */
+  created_at: string
+  /**
+   * Updated At
+   */
+  updated_at: string
+}
 
 /**
  * UserUpdate
  */
 export type UserUpdate = {
-    /**
-     * Email
-     * User's email address
-     */
-    email?: string | null;
-    /**
-     * Name
-     * User's display name
-     */
-    name?: string | null;
-    /**
-     * Roles
-     * List of role identifiers
-     */
-    roles?: Array<string> | null;
-    /**
-     * Is Active
-     * Whether the user is active
-     */
-    is_active?: boolean | null;
-};
+  /**
+   * Email
+   * User's email address
+   */
+  email?: string | null
+  /**
+   * Name
+   * User's display name
+   */
+  name?: string | null
+  /**
+   * Roles
+   * List of role identifiers
+   */
+  roles?: Array<string> | null
+  /**
+   * Is Active
+   * Whether the user is active
+   */
+  is_active?: boolean | null
+}
 
 export type ValidationErrorItem = {
-    loc: Array<string | number>;
-    msg: string;
-    type: string;
-};
+  loc: Array<string | number>
+  msg: string
+  type: string
+}
 
 export type ProblemDetails = {
-    type: string;
-    title: string;
-    status: number;
-    detail?: string;
-    instance?: string;
-    errors?: Array<ValidationErrorItem>;
-};
+  type: string
+  code?: string
+  title: string
+  status: number
+  detail?: string
+  instance?: string
+  errors?: Array<ValidationErrorItem>
+}
 
 export type HealthHealthCheckData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/healthz';
-};
+  body?: never
+  path?: never
+  query?: never
+  url: '/api/v1/healthz'
+}
 
 export type HealthHealthCheckErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type HealthHealthCheckError = HealthHealthCheckErrors[keyof HealthHealthCheckErrors];
+export type HealthHealthCheckError = HealthHealthCheckErrors[keyof HealthHealthCheckErrors]
 
 export type HealthHealthCheckResponses = {
-    /**
-     * Successful Response
-     */
-    200: unknown;
-};
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
 
 export type HealthReadinessCheckData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/readyz';
-};
+  body?: never
+  path?: never
+  query?: never
+  url: '/api/v1/readyz'
+}
 
 export type HealthReadinessCheckErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type HealthReadinessCheckError = HealthReadinessCheckErrors[keyof HealthReadinessCheckErrors];
+export type HealthReadinessCheckError = HealthReadinessCheckErrors[keyof HealthReadinessCheckErrors]
 
 export type HealthReadinessCheckResponses = {
-    /**
-     * Successful Response
-     */
-    200: unknown;
-};
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
 
 export type UsersUpdateUserProfileData = {
-    body: UserProfileUpdate;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me';
-};
+  body: UserProfileUpdate
+  path?: never
+  query?: never
+  url: '/api/v1/users/me'
+}
 
 export type UsersUpdateUserProfileErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersUpdateUserProfileError = UsersUpdateUserProfileErrors[keyof UsersUpdateUserProfileErrors];
+export type UsersUpdateUserProfileError =
+  UsersUpdateUserProfileErrors[keyof UsersUpdateUserProfileErrors]
 
 export type UsersUpdateUserProfileResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserProfile;
-};
+  /**
+   * Successful Response
+   */
+  200: UserProfile
+}
 
-export type UsersUpdateUserProfileResponse = UsersUpdateUserProfileResponses[keyof UsersUpdateUserProfileResponses];
+export type UsersUpdateUserProfileResponse =
+  UsersUpdateUserProfileResponses[keyof UsersUpdateUserProfileResponses]
 
 export type UsersGetCurrentUserProfileData = {
-    /**
-     * Profile Init
-     */
-    body?: ProfileInit | null;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me';
-};
+  /**
+   * Profile Init
+   */
+  body?: ProfileInit | null
+  path?: never
+  query?: never
+  url: '/api/v1/users/me'
+}
 
 export type UsersGetCurrentUserProfileErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersGetCurrentUserProfileError = UsersGetCurrentUserProfileErrors[keyof UsersGetCurrentUserProfileErrors];
+export type UsersGetCurrentUserProfileError =
+  UsersGetCurrentUserProfileErrors[keyof UsersGetCurrentUserProfileErrors]
 
 export type UsersGetCurrentUserProfileResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserProfile;
-};
+  /**
+   * Successful Response
+   */
+  200: UserProfile
+}
 
-export type UsersGetCurrentUserProfileResponse = UsersGetCurrentUserProfileResponses[keyof UsersGetCurrentUserProfileResponses];
+export type UsersGetCurrentUserProfileResponse =
+  UsersGetCurrentUserProfileResponses[keyof UsersGetCurrentUserProfileResponses]
 
 export type UsersGetAuth0ManagementUrlData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/auth0-management-url';
-};
+  body?: never
+  path?: never
+  query?: never
+  url: '/api/v1/users/auth0-management-url'
+}
 
 export type UsersGetAuth0ManagementUrlErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersGetAuth0ManagementUrlError = UsersGetAuth0ManagementUrlErrors[keyof UsersGetAuth0ManagementUrlErrors];
+export type UsersGetAuth0ManagementUrlError =
+  UsersGetAuth0ManagementUrlErrors[keyof UsersGetAuth0ManagementUrlErrors]
 
 export type UsersGetAuth0ManagementUrlResponses = {
-    /**
-     * Response Users-Get Auth0 Management Url
-     * Successful Response
-     */
-    200: {
-        [key: string]: string;
-    };
-};
+  /**
+   * Response Users-Get Auth0 Management Url
+   * Successful Response
+   */
+  200: {
+    [key: string]: string
+  }
+}
 
-export type UsersGetAuth0ManagementUrlResponse = UsersGetAuth0ManagementUrlResponses[keyof UsersGetAuth0ManagementUrlResponses];
+export type UsersGetAuth0ManagementUrlResponse =
+  UsersGetAuth0ManagementUrlResponses[keyof UsersGetAuth0ManagementUrlResponses]
 
 export type UsersListUsersData = {
-    body?: never;
-    path?: never;
-    query?: {
-        /**
-         * Skip
-         */
-        skip?: number;
-        /**
-         * Limit
-         */
-        limit?: number;
-    };
-    url: '/api/v1/users/';
-};
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Skip
+     */
+    skip?: number
+    /**
+     * Limit
+     */
+    limit?: number
+  }
+  url: '/api/v1/users/'
+}
 
 export type UsersListUsersErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersListUsersError = UsersListUsersErrors[keyof UsersListUsersErrors];
+export type UsersListUsersError = UsersListUsersErrors[keyof UsersListUsersErrors]
 
 export type UsersListUsersResponses = {
-    /**
-     * Response Users-List Users
-     * Successful Response
-     */
-    200: Array<UserRead>;
-};
+  /**
+   * Response Users-List Users
+   * Successful Response
+   */
+  200: Array<UserRead>
+}
 
-export type UsersListUsersResponse = UsersListUsersResponses[keyof UsersListUsersResponses];
+export type UsersListUsersResponse = UsersListUsersResponses[keyof UsersListUsersResponses]
 
 export type UsersCreateUserData = {
-    body: UserCreate;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/';
-};
+  body: UserCreate
+  path?: never
+  query?: never
+  url: '/api/v1/users/'
+}
 
 export type UsersCreateUserErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersCreateUserError = UsersCreateUserErrors[keyof UsersCreateUserErrors];
+export type UsersCreateUserError = UsersCreateUserErrors[keyof UsersCreateUserErrors]
 
 export type UsersCreateUserResponses = {
-    /**
-     * Successful Response
-     */
-    201: UserRead;
-};
+  /**
+   * Successful Response
+   */
+  201: UserRead
+}
 
-export type UsersCreateUserResponse = UsersCreateUserResponses[keyof UsersCreateUserResponses];
+export type UsersCreateUserResponse = UsersCreateUserResponses[keyof UsersCreateUserResponses]
 
 export type UsersDeleteUserData = {
-    body?: never;
-    path: {
-        /**
-         * User Id
-         */
-        user_id: string;
-    };
-    query?: never;
-    url: '/api/v1/users/{user_id}';
-};
+  body?: never
+  path: {
+    /**
+     * User Id
+     */
+    user_id: string
+  }
+  query?: never
+  url: '/api/v1/users/{user_id}'
+}
 
 export type UsersDeleteUserErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersDeleteUserError = UsersDeleteUserErrors[keyof UsersDeleteUserErrors];
+export type UsersDeleteUserError = UsersDeleteUserErrors[keyof UsersDeleteUserErrors]
 
 export type UsersDeleteUserResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserRead;
-};
+  /**
+   * Successful Response
+   */
+  200: UserRead
+}
 
-export type UsersDeleteUserResponse = UsersDeleteUserResponses[keyof UsersDeleteUserResponses];
+export type UsersDeleteUserResponse = UsersDeleteUserResponses[keyof UsersDeleteUserResponses]
 
 export type UsersGetUserData = {
-    body?: never;
-    path: {
-        /**
-         * User Id
-         */
-        user_id: string;
-    };
-    query?: never;
-    url: '/api/v1/users/{user_id}';
-};
+  body?: never
+  path: {
+    /**
+     * User Id
+     */
+    user_id: string
+  }
+  query?: never
+  url: '/api/v1/users/{user_id}'
+}
 
 export type UsersGetUserErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersGetUserError = UsersGetUserErrors[keyof UsersGetUserErrors];
+export type UsersGetUserError = UsersGetUserErrors[keyof UsersGetUserErrors]
 
 export type UsersGetUserResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserRead;
-};
+  /**
+   * Successful Response
+   */
+  200: UserRead
+}
 
-export type UsersGetUserResponse = UsersGetUserResponses[keyof UsersGetUserResponses];
+export type UsersGetUserResponse = UsersGetUserResponses[keyof UsersGetUserResponses]
 
 export type UsersUpdateUserData = {
-    body: UserUpdate;
-    path: {
-        /**
-         * User Id
-         */
-        user_id: string;
-    };
-    query?: never;
-    url: '/api/v1/users/{user_id}';
-};
+  body: UserUpdate
+  path: {
+    /**
+     * User Id
+     */
+    user_id: string
+  }
+  query?: never
+  url: '/api/v1/users/{user_id}'
+}
 
 export type UsersUpdateUserErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type UsersUpdateUserError = UsersUpdateUserErrors[keyof UsersUpdateUserErrors];
+export type UsersUpdateUserError = UsersUpdateUserErrors[keyof UsersUpdateUserErrors]
 
 export type UsersUpdateUserResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserRead;
-};
+  /**
+   * Successful Response
+   */
+  200: UserRead
+}
 
-export type UsersUpdateUserResponse = UsersUpdateUserResponses[keyof UsersUpdateUserResponses];
+export type UsersUpdateUserResponse = UsersUpdateUserResponses[keyof UsersUpdateUserResponses]
 
 export type ProjectsListProjectsData = {
-    body?: never;
-    path?: never;
-    query?: {
-        /**
-         * Skip
-         */
-        skip?: number;
-        /**
-         * Limit
-         */
-        limit?: number;
-        /**
-         * Search
-         */
-        search?: string | null;
-        /**
-         * Status
-         */
-        status?: string | null;
-        /**
-         * Owner Id
-         */
-        owner_id?: string | null;
-        /**
-         * Sort By
-         */
-        sort_by?: 'name' | 'status' | 'created_at' | 'updated_at';
-        /**
-         * Sort Dir
-         */
-        sort_dir?: 'asc' | 'desc';
-    };
-    url: '/api/v1/projects/';
-};
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Skip
+     */
+    skip?: number
+    /**
+     * Limit
+     */
+    limit?: number
+    /**
+     * Search
+     */
+    search?: string | null
+    /**
+     * Status
+     */
+    status?: string | null
+    /**
+     * Owner Id
+     */
+    owner_id?: string | null
+    /**
+     * Sort By
+     */
+    sort_by?: 'name' | 'status' | 'created_at' | 'updated_at'
+    /**
+     * Sort Dir
+     */
+    sort_dir?: 'asc' | 'desc'
+  }
+  url: '/api/v1/projects/'
+}
 
 export type ProjectsListProjectsErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsListProjectsError = ProjectsListProjectsErrors[keyof ProjectsListProjectsErrors];
+export type ProjectsListProjectsError = ProjectsListProjectsErrors[keyof ProjectsListProjectsErrors]
 
 export type ProjectsListProjectsResponses = {
-    /**
-     * Successful Response
-     */
-    200: ProjectListResponse;
-};
+  /**
+   * Successful Response
+   */
+  200: ProjectListResponse
+}
 
-export type ProjectsListProjectsResponse = ProjectsListProjectsResponses[keyof ProjectsListProjectsResponses];
+export type ProjectsListProjectsResponse =
+  ProjectsListProjectsResponses[keyof ProjectsListProjectsResponses]
 
 export type ProjectsCreateProjectData = {
-    body: ProjectCreate;
-    path?: never;
-    query?: never;
-    url: '/api/v1/projects/';
-};
+  body: ProjectCreate
+  path?: never
+  query?: never
+  url: '/api/v1/projects/'
+}
 
 export type ProjectsCreateProjectErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsCreateProjectError = ProjectsCreateProjectErrors[keyof ProjectsCreateProjectErrors];
+export type ProjectsCreateProjectError =
+  ProjectsCreateProjectErrors[keyof ProjectsCreateProjectErrors]
 
 export type ProjectsCreateProjectResponses = {
-    /**
-     * Successful Response
-     */
-    201: ProjectRead;
-};
+  /**
+   * Successful Response
+   */
+  201: ProjectRead
+}
 
-export type ProjectsCreateProjectResponse = ProjectsCreateProjectResponses[keyof ProjectsCreateProjectResponses];
+export type ProjectsCreateProjectResponse =
+  ProjectsCreateProjectResponses[keyof ProjectsCreateProjectResponses]
 
 export type ProjectsListMyProjectsData = {
-    body?: never;
-    path?: never;
-    query?: {
-        /**
-         * Skip
-         */
-        skip?: number;
-        /**
-         * Limit
-         */
-        limit?: number;
-        /**
-         * Search
-         */
-        search?: string | null;
-        /**
-         * Status
-         */
-        status?: string | null;
-        /**
-         * Sort By
-         */
-        sort_by?: 'name' | 'status' | 'created_at' | 'updated_at';
-        /**
-         * Sort Dir
-         */
-        sort_dir?: 'asc' | 'desc';
-    };
-    url: '/api/v1/projects/me';
-};
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Skip
+     */
+    skip?: number
+    /**
+     * Limit
+     */
+    limit?: number
+    /**
+     * Search
+     */
+    search?: string | null
+    /**
+     * Status
+     */
+    status?: string | null
+    /**
+     * Sort By
+     */
+    sort_by?: 'name' | 'status' | 'created_at' | 'updated_at'
+    /**
+     * Sort Dir
+     */
+    sort_dir?: 'asc' | 'desc'
+  }
+  url: '/api/v1/projects/me'
+}
 
 export type ProjectsListMyProjectsErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsListMyProjectsError = ProjectsListMyProjectsErrors[keyof ProjectsListMyProjectsErrors];
+export type ProjectsListMyProjectsError =
+  ProjectsListMyProjectsErrors[keyof ProjectsListMyProjectsErrors]
 
 export type ProjectsListMyProjectsResponses = {
-    /**
-     * Successful Response
-     */
-    200: ProjectListResponse;
-};
+  /**
+   * Successful Response
+   */
+  200: ProjectListResponse
+}
 
-export type ProjectsListMyProjectsResponse = ProjectsListMyProjectsResponses[keyof ProjectsListMyProjectsResponses];
+export type ProjectsListMyProjectsResponse =
+  ProjectsListMyProjectsResponses[keyof ProjectsListMyProjectsResponses]
 
 export type ProjectsDeleteProjectData = {
-    body?: never;
-    path: {
-        /**
-         * Project Id
-         */
-        project_id: string;
-    };
-    query?: never;
-    url: '/api/v1/projects/{project_id}';
-};
+  body?: never
+  path: {
+    /**
+     * Project Id
+     */
+    project_id: string
+  }
+  query?: never
+  url: '/api/v1/projects/{project_id}'
+}
 
 export type ProjectsDeleteProjectErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsDeleteProjectError = ProjectsDeleteProjectErrors[keyof ProjectsDeleteProjectErrors];
+export type ProjectsDeleteProjectError =
+  ProjectsDeleteProjectErrors[keyof ProjectsDeleteProjectErrors]
 
 export type ProjectsDeleteProjectResponses = {
-    /**
-     * Successful Response
-     */
-    200: ProjectRead;
-};
+  /**
+   * Successful Response
+   */
+  200: ProjectRead
+}
 
-export type ProjectsDeleteProjectResponse = ProjectsDeleteProjectResponses[keyof ProjectsDeleteProjectResponses];
+export type ProjectsDeleteProjectResponse =
+  ProjectsDeleteProjectResponses[keyof ProjectsDeleteProjectResponses]
 
 export type ProjectsGetProjectData = {
-    body?: never;
-    path: {
-        /**
-         * Project Id
-         */
-        project_id: string;
-    };
-    query?: never;
-    url: '/api/v1/projects/{project_id}';
-};
+  body?: never
+  path: {
+    /**
+     * Project Id
+     */
+    project_id: string
+  }
+  query?: never
+  url: '/api/v1/projects/{project_id}'
+}
 
 export type ProjectsGetProjectErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsGetProjectError = ProjectsGetProjectErrors[keyof ProjectsGetProjectErrors];
+export type ProjectsGetProjectError = ProjectsGetProjectErrors[keyof ProjectsGetProjectErrors]
 
 export type ProjectsGetProjectResponses = {
-    /**
-     * Successful Response
-     */
-    200: ProjectRead;
-};
+  /**
+   * Successful Response
+   */
+  200: ProjectRead
+}
 
-export type ProjectsGetProjectResponse = ProjectsGetProjectResponses[keyof ProjectsGetProjectResponses];
+export type ProjectsGetProjectResponse =
+  ProjectsGetProjectResponses[keyof ProjectsGetProjectResponses]
 
 export type ProjectsUpdateProjectData = {
-    body: ProjectUpdate;
-    path: {
-        /**
-         * Project Id
-         */
-        project_id: string;
-    };
-    query?: never;
-    url: '/api/v1/projects/{project_id}';
-};
+  body: ProjectUpdate
+  path: {
+    /**
+     * Project Id
+     */
+    project_id: string
+  }
+  query?: never
+  url: '/api/v1/projects/{project_id}'
+}
 
 export type ProjectsUpdateProjectErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type ProjectsUpdateProjectError = ProjectsUpdateProjectErrors[keyof ProjectsUpdateProjectErrors];
+export type ProjectsUpdateProjectError =
+  ProjectsUpdateProjectErrors[keyof ProjectsUpdateProjectErrors]
 
 export type ProjectsUpdateProjectResponses = {
-    /**
-     * Successful Response
-     */
-    200: ProjectRead;
-};
+  /**
+   * Successful Response
+   */
+  200: ProjectRead
+}
 
-export type ProjectsUpdateProjectResponse = ProjectsUpdateProjectResponses[keyof ProjectsUpdateProjectResponses];
+export type ProjectsUpdateProjectResponse =
+  ProjectsUpdateProjectResponses[keyof ProjectsUpdateProjectResponses]
 
 export type TasksListTasksData = {
-    body?: never;
-    path?: never;
-    query?: {
-        /**
-         * Skip
-         */
-        skip?: number;
-        /**
-         * Limit
-         */
-        limit?: number;
-        /**
-         * Search
-         */
-        search?: string | null;
-        /**
-         * Task Status
-         */
-        task_status?: string | null;
-        /**
-         * Project Id
-         */
-        project_id?: string | null;
-        /**
-         * Sort By
-         */
-        sort_by?: 'title' | 'status' | 'priority' | 'due_date' | 'created_at' | 'updated_at';
-        /**
-         * Sort Dir
-         */
-        sort_dir?: 'asc' | 'desc';
-    };
-    url: '/api/v1/tasks/';
-};
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Skip
+     */
+    skip?: number
+    /**
+     * Limit
+     */
+    limit?: number
+    /**
+     * Search
+     */
+    search?: string | null
+    /**
+     * Task Status
+     */
+    task_status?: string | null
+    /**
+     * Project Id
+     */
+    project_id?: string | null
+    /**
+     * Sort By
+     */
+    sort_by?: 'title' | 'status' | 'priority' | 'due_date' | 'created_at' | 'updated_at'
+    /**
+     * Sort Dir
+     */
+    sort_dir?: 'asc' | 'desc'
+  }
+  url: '/api/v1/tasks/'
+}
 
 export type TasksListTasksErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type TasksListTasksError = TasksListTasksErrors[keyof TasksListTasksErrors];
+export type TasksListTasksError = TasksListTasksErrors[keyof TasksListTasksErrors]
 
 export type TasksListTasksResponses = {
-    /**
-     * Successful Response
-     */
-    200: TaskListResponse;
-};
+  /**
+   * Successful Response
+   */
+  200: TaskListResponse
+}
 
-export type TasksListTasksResponse = TasksListTasksResponses[keyof TasksListTasksResponses];
+export type TasksListTasksResponse = TasksListTasksResponses[keyof TasksListTasksResponses]
 
 export type TasksCreateTaskData = {
-    body: TaskCreate;
-    path?: never;
-    query?: never;
-    url: '/api/v1/tasks/';
-};
+  body: TaskCreate
+  path?: never
+  query?: never
+  url: '/api/v1/tasks/'
+}
 
 export type TasksCreateTaskErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type TasksCreateTaskError = TasksCreateTaskErrors[keyof TasksCreateTaskErrors];
+export type TasksCreateTaskError = TasksCreateTaskErrors[keyof TasksCreateTaskErrors]
 
 export type TasksCreateTaskResponses = {
-    /**
-     * Successful Response
-     */
-    201: TaskRead;
-};
+  /**
+   * Successful Response
+   */
+  201: TaskRead
+}
 
-export type TasksCreateTaskResponse = TasksCreateTaskResponses[keyof TasksCreateTaskResponses];
+export type TasksCreateTaskResponse = TasksCreateTaskResponses[keyof TasksCreateTaskResponses]
 
 export type TasksDeleteTaskData = {
-    body?: never;
-    path: {
-        /**
-         * Task Id
-         */
-        task_id: string;
-    };
-    query?: never;
-    url: '/api/v1/tasks/{task_id}';
-};
+  body?: never
+  path: {
+    /**
+     * Task Id
+     */
+    task_id: string
+  }
+  query?: never
+  url: '/api/v1/tasks/{task_id}'
+}
 
 export type TasksDeleteTaskErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type TasksDeleteTaskError = TasksDeleteTaskErrors[keyof TasksDeleteTaskErrors];
+export type TasksDeleteTaskError = TasksDeleteTaskErrors[keyof TasksDeleteTaskErrors]
 
 export type TasksDeleteTaskResponses = {
-    /**
-     * Successful Response
-     */
-    200: TaskRead;
-};
+  /**
+   * Successful Response
+   */
+  200: TaskRead
+}
 
-export type TasksDeleteTaskResponse = TasksDeleteTaskResponses[keyof TasksDeleteTaskResponses];
+export type TasksDeleteTaskResponse = TasksDeleteTaskResponses[keyof TasksDeleteTaskResponses]
 
 export type TasksGetTaskData = {
-    body?: never;
-    path: {
-        /**
-         * Task Id
-         */
-        task_id: string;
-    };
-    query?: never;
-    url: '/api/v1/tasks/{task_id}';
-};
+  body?: never
+  path: {
+    /**
+     * Task Id
+     */
+    task_id: string
+  }
+  query?: never
+  url: '/api/v1/tasks/{task_id}'
+}
 
 export type TasksGetTaskErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type TasksGetTaskError = TasksGetTaskErrors[keyof TasksGetTaskErrors];
+export type TasksGetTaskError = TasksGetTaskErrors[keyof TasksGetTaskErrors]
 
 export type TasksGetTaskResponses = {
-    /**
-     * Successful Response
-     */
-    200: TaskRead;
-};
+  /**
+   * Successful Response
+   */
+  200: TaskRead
+}
 
-export type TasksGetTaskResponse = TasksGetTaskResponses[keyof TasksGetTaskResponses];
+export type TasksGetTaskResponse = TasksGetTaskResponses[keyof TasksGetTaskResponses]
 
 export type TasksUpdateTaskData = {
-    body: TaskUpdate;
-    path: {
-        /**
-         * Task Id
-         */
-        task_id: string;
-    };
-    query?: never;
-    url: '/api/v1/tasks/{task_id}';
-};
+  body: TaskUpdate
+  path: {
+    /**
+     * Task Id
+     */
+    task_id: string
+  }
+  query?: never
+  url: '/api/v1/tasks/{task_id}'
+}
 
 export type TasksUpdateTaskErrors = {
-    /**
-     * Bad Request
-     */
-    400: ProblemDetails;
-    /**
-     * Unauthorized
-     */
-    401: ProblemDetails;
-    /**
-     * Forbidden
-     */
-    403: ProblemDetails;
-    /**
-     * Not Found
-     */
-    404: ProblemDetails;
-    /**
-     * Conflict
-     */
-    409: ProblemDetails;
-    /**
-     * Validation Error
-     */
-    422: ProblemDetails;
-    /**
-     * Too Many Requests
-     */
-    429: ProblemDetails;
-    /**
-     * Internal Server Error
-     */
-    500: ProblemDetails;
-};
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails
+  /**
+   * Forbidden
+   */
+  403: ProblemDetails
+  /**
+   * Not Found
+   */
+  404: ProblemDetails
+  /**
+   * Conflict
+   */
+  409: ProblemDetails
+  /**
+   * Validation Error
+   */
+  422: ProblemDetails
+  /**
+   * Too Many Requests
+   */
+  429: ProblemDetails
+  /**
+   * Internal Server Error
+   */
+  500: ProblemDetails
+}
 
-export type TasksUpdateTaskError = TasksUpdateTaskErrors[keyof TasksUpdateTaskErrors];
+export type TasksUpdateTaskError = TasksUpdateTaskErrors[keyof TasksUpdateTaskErrors]
 
 export type TasksUpdateTaskResponses = {
-    /**
-     * Successful Response
-     */
-    200: TaskRead;
-};
+  /**
+   * Successful Response
+   */
+  200: TaskRead
+}
 
-export type TasksUpdateTaskResponse = TasksUpdateTaskResponses[keyof TasksUpdateTaskResponses];
+export type TasksUpdateTaskResponse = TasksUpdateTaskResponses[keyof TasksUpdateTaskResponses]
 
 export type ClientOptions = {
-    baseURL: 'http://localhost:8000' | (string & {});
-};
+  baseURL: `${string}://${string}` | (string & {})
+}

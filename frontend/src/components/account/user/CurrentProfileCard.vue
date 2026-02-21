@@ -87,14 +87,16 @@ import { Label } from '@/components/ui/label'
 
 import SimpleIcon from '@/components/utils/SimpleIcon.vue'
 
+import type { User } from '@/stores/auth'
+
 import { useAuthProvider } from './useAuthProvider'
 
 interface Props {
-  user: any // You might want to type this properly based on your user interface
+  user: User | undefined
 }
 
 const props = defineProps<Props>()
-const { t } = useI18n()
+useI18n()
 
 // Computed properties
 const displayName = computed(

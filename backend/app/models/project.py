@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Project(Base, table=True):
-    __tablename__ = "projects"
+    __tablename__ = "projects"  # type: ignore[assignment]
 
     name: str = Field(
         sa_column=sa.Column(sa.String, nullable=False, index=True),

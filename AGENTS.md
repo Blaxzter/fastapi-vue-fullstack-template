@@ -130,7 +130,7 @@ Linting:
 
 ```bash
 uv run ruff check .
-uv run mypy .
+uv run basedpyright .
 ```
 
 ## Frontend Development Patterns

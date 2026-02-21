@@ -36,7 +36,7 @@ import {
 const { isMobile } = useSidebar()
 const authStore = useAuthStore()
 const mode = useColorMode()
-const { t } = useI18n()
+useI18n()
 
 // Get user data from Auth0
 const user = computed(() => authStore.user)

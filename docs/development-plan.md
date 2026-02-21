@@ -22,12 +22,12 @@
 ## Phase 4 — Testing + DX
 
 - [x] Add backend unit tests for CRUD + auth dependencies with fixtures.
-- [ ] Add Playwright e2e smoke test for login → list → create → edit → delete flow.
-- [ ] Add a `justfile` or `make` tasks for common dev actions (lint/test/migrate/seed).
+- [x] Add Playwright e2e smoke test for login → list → create → edit → delete flow.
+- [x] Add a `justfile` or `make` tasks for common dev actions (lint/test/migrate/seed).
 
 ## Phase 5 — Observability + Ops
 
 - [ ] Add structured logging with a request ID middleware.
 - [ ] Add optional OpenTelemetry hooks (backend).
-- [ ] Add frontend error boundary + Sentry/RUM wiring to match backend Sentry.
+- [x] Add frontend error boundary component. (Sentry/RUM wiring skipped — vendor-specific, not suitable for a template)
 - [ ] Add a background job example (email/notification) with a lightweight queue.

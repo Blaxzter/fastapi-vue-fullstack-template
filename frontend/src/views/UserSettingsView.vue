@@ -45,7 +45,7 @@ import { useAuthProvider } from '@/components/account/user/useAuthProvider.ts'
 
 // Store
 const authStore = useAuthStore()
-const { t } = useI18n()
+useI18n()
 
 // Computed properties
 const user = computed(() => authStore.user)

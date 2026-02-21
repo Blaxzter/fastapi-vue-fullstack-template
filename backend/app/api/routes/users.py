@@ -1,4 +1,5 @@
 import uuid
+from collections.abc import Sequence
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -7,6 +8,7 @@ from app.api.deps import CurrentSuperuser, CurrentUser, DBDep, auth0, current_us
 from app.core.config import settings
 from app.crud.user import user as crud_user
 from app.logic.auth0.auth0_service import update_auth0_user
+from app.models.user import User
 from app.schemas.user import UserCreate, UserRead, UserUpdate
 from app.schemas.users import ProfileInit, UserProfile, UserProfileUpdate
 
@@ -18,8 +20,8 @@ async def get_current_user_profile(
     profile_init: ProfileInit | None = None,
     *,
     session: DBDep,
-    claims: dict = Depends(auth0.require_auth()),
-) -> Any:
+    claims: dict[str, Any] = Depends(auth0.require_auth()),  # type: ignore[assignment]
+) -> UserProfile:
     """Get current user profile information.
 
     Accepts optional profile data from frontend for user initialization.
@@ -43,10 +45,10 @@ async def get_current_user_profile(
 async def update_user_profile(
     user_update: UserProfileUpdate,
     current_user: CurrentUser,
-    claims: dict = Depends(auth0.require_auth()),
-) -> Any:
+    claims: dict[str, Any] = Depends(auth0.require_auth()),  # type: ignore[assignment]
+) -> UserProfile:
     """Update current user profile information using Auth0 Management API."""
-    user_id = claims.get("sub")
+    user_id: str | None = claims.get("sub")
     if not user_id:
         raise HTTPException(status_code=400, detail="User ID not found")
 
@@ -59,7 +61,7 @@ async def update_user_profile(
         )
 
     # Return updated user data
-    updated_user = claims.copy()
+    updated_user: dict[str, Any] = claims.copy()
 
     if user_update.name is not None:
         updated_user["name"] = user_update.name
@@ -95,7 +97,7 @@ async def list_users(
     _: CurrentSuperuser,
     skip: int = 0,
     limit: int = 100,
-) -> Any:
+) -> Sequence[User]:
     return await crud_user.get_multi(session, skip=skip, limit=limit)
 
 
@@ -104,7 +106,7 @@ async def get_user(
     user_id: uuid.UUID,
     session: DBDep,
     _: CurrentSuperuser,
-) -> Any:
+) -> User:
     return await crud_user.get(session, id=user_id, raise_404_error=True)
 
 
@@ -113,7 +115,7 @@ async def create_user(
     user_in: UserCreate,
     session: DBDep,
     _: CurrentUser,
-) -> Any:
+) -> User:
     return await crud_user.create(session, obj_in=user_in)
 
 
@@ -123,7 +125,7 @@ async def update_user(
     user_in: UserUpdate,
     session: DBDep,
     _: CurrentUser,
-) -> Any:
+) -> User:
     user = await crud_user.get(session, id=user_id, raise_404_error=True)
     return await crud_user.update(session, db_obj=user, obj_in=user_in)
 
@@ -133,7 +135,7 @@ async def delete_user(
     user_id: uuid.UUID,
     session: DBDep,
     _: CurrentUser,
-) -> Any:
+) -> User:
     user = await crud_user.get(session, id=user_id, raise_404_error=True)
     await session.delete(user)
     await session.commit()

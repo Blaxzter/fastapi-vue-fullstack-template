@@ -171,6 +171,25 @@ const router = createRouter({
             ],
           },
         },
+        {
+          path: 'error-boundary-demo',
+          name: 'error-boundary-demo',
+          component: () => import('@/views/examples/ErrorBoundaryDemoView.vue'),
+          meta: {
+            breadcrumbs: [
+              { title: 'Home', titleKey: 'navigation.breadcrumbs.home', to: { name: 'home' } },
+              {
+                title: 'Examples',
+                titleKey: 'navigation.breadcrumbs.examples',
+                to: { name: 'examples' },
+              },
+              {
+                title: 'Error Boundary Demo',
+                titleKey: 'navigation.breadcrumbs.errorBoundaryDemo',
+              },
+            ],
+          },
+        },
       ],
     },
     {

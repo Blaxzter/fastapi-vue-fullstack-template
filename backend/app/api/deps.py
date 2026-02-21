@@ -1,8 +1,8 @@
-from collections.abc import AsyncGenerator, Iterable
-from typing import Annotated
+from collections.abc import AsyncGenerator, Callable, Coroutine, Iterable
+from typing import Annotated, Any
 
 from fastapi import Depends, HTTPException, status
-from fastapi_plugin import Auth0FastAPI
+from fastapi_plugin import Auth0FastAPI  # type: ignore[import-untyped]
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -10,6 +10,8 @@ from app.core.db import async_session
 from app.crud.user import user as crud_user
 from app.models.user import User
 from app.schemas.user import UserCreate
+
+_CurrentUserDep = Callable[..., Coroutine[Any, Any, User]]
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
@@ -38,8 +40,8 @@ def _normalize_required_roles(
 
 async def _get_or_create_user(
     session: AsyncSession,
-    claims: dict,
-    profile_data: dict | None = None,
+    claims: dict[str, Any],
+    profile_data: dict[str, Any] | None = None,
 ) -> User:
     """Get existing user or create new one with optional profile data from frontend.
 
@@ -48,7 +50,7 @@ async def _get_or_create_user(
         claims: Auth0 JWT claims
         profile_data: Optional profile data from frontend (email, name) for user creation
     """
-    auth0_sub = claims.get("sub")
+    auth0_sub: str | None = claims.get("sub")
     if not auth0_sub:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -60,8 +62,8 @@ async def _get_or_create_user(
         return user
 
     # Use profile_data from frontend if available, fallback to claims
-    email = None
-    name = None
+    email: str | None = None
+    name: str | None = None
     if profile_data:
         email = profile_data.get("email")
         name = profile_data.get("name") or profile_data.get("nickname")
@@ -82,13 +84,13 @@ async def _get_or_create_user(
 
 def current_user(
     required_roles: str | Iterable[str] | None = None,
-    profile_data: dict | None = None,
-):
+    profile_data: dict[str, Any] | None = None,
+) -> _CurrentUserDep:
     required_roles_list = _normalize_required_roles(required_roles)
 
     async def _current_user(
         session: DBDep,
-        claims: dict = Depends(auth0.require_auth()),
+        claims: dict[str, Any] = Depends(auth0.require_auth()),  # type: ignore[assignment]
     ) -> User:
         user = await _get_or_create_user(session, claims, profile_data)
 

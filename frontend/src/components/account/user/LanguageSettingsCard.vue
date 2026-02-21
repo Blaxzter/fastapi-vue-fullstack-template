@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 import LanguageSwitch from '@/components/utils/LanguageSwitch.vue'
 
-const { t } = useI18n()
+useI18n()
 </script>
 
 <template>

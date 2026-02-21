@@ -16,7 +16,7 @@ export interface User {
 
 export const useAuthStore = defineStore('auth', () => {
   const auth0 = useAuth0()
-  const { get, post } = useAuthenticatedClient()
+  const { post } = useAuthenticatedClient()
   const loading = ref(false)
   const profileLoading = ref(false)
 

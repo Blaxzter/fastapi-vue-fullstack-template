@@ -1,14 +1,15 @@
 from typing import Any, Literal
 
+from sqlalchemy import BinaryExpression, ColumnElement
 from sqlalchemy.orm import InstrumentedAttribute
 
 
 def get_comparison(
-    attr: InstrumentedAttribute,
+    attr: InstrumentedAttribute[Any],
     value: Any,
     is_not: bool = False,
     greater_then_comp: Literal["gt", "le"] | None = None,
-):
+) -> BinaryExpression[bool] | ColumnElement[bool]:
     if value is None:
         return attr.is_(None) if not is_not else attr.isnot(None)
     else:

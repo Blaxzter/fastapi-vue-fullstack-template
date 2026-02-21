@@ -26,3 +26,4 @@ class UserProfile(BaseModel):
     email_verified: bool | None = None
     roles: list[str] = Field(default_factory=list, description="User's roles")
     is_admin: bool = Field(default=False, description="Whether user has admin role")
+    is_active: bool = Field(default=True, description="Whether user is active")

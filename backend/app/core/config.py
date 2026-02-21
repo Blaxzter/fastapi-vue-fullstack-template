@@ -21,7 +21,9 @@ PROJECT_DIR = Path(__file__).parent.parent.parent.parent
 def parse_cors(v: Any) -> list[str] | str:
     if isinstance(v, str) and not v.startswith("["):
         return [i.strip() for i in v.split(",")]
-    elif isinstance(v, list | str):
+    elif isinstance(v, list):
+        return v  # type: ignore[no-any-return]
+    elif isinstance(v, str):
         return v
     raise ValueError(v)
 
@@ -78,12 +80,12 @@ class Settings(BaseSettings):
     SMTP_USER: str | None = None
     SMTP_PASSWORD: str | None = None
     EMAILS_FROM_EMAIL: EmailStr | None = None
-    EMAILS_FROM_NAME: EmailStr | None = None
+    EMAILS_FROM_NAME: str | None = None  # type: ignore[assignment]
 
     @model_validator(mode="after")
     def _set_default_emails_from(self) -> Self:
         if not self.EMAILS_FROM_NAME:
-            self.EMAILS_FROM_NAME = self.PROJECT_NAME
+            self.EMAILS_FROM_NAME = self.PROJECT_NAME  # type: ignore[assignment]
         return self
 
     # Auth0 configuration
@@ -120,4 +122,4 @@ class Settings(BaseSettings):
         return self
 
 
-settings = Settings()  # type: ignore
+settings = Settings()  # type: ignore[call-arg]

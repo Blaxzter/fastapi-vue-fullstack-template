@@ -138,15 +138,17 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
 import { zUserProfileUpdate } from '@/client/zod.gen'
+import type { User } from '@/stores/auth'
+import type { UserProfileUpdate } from '@/client/types.gen'
 
 interface Props {
-  user: any // You might want to type this properly based on your user interface
+  user: User | undefined
   canEditProfilePicture: boolean
   authProviderName: string
 }
 
 interface Emits {
-  (e: 'profile-updated', values: any): void
+  (e: 'profile-updated', values: Partial<User>): void
 }
 
 const props = defineProps<Props>()
@@ -176,10 +178,10 @@ const form = useForm({
 // Initialize form with current user data
 onMounted(() => {
   if (props.user) {
-    const formValues: any = {
+    const formValues: Record<string, string> = {
       name: props.user.name || '',
       nickname: props.user.nickname || '',
-      bio: props.user.bio || '',
+      bio: (props.user as Record<string, string>).bio || '',
     }
 
     // Only include picture if it can be edited
@@ -212,9 +214,9 @@ const onSubmit = form.handleSubmit(async (values) => {
 })
 
 // Update user profile via API
-const updateUserProfile = async (values: any) => {
+const updateUserProfile = async (values: UserProfileUpdate) => {
   try {
-    const updateData: any = {
+    const updateData: UserProfileUpdate = {
       name: values.name,
       nickname: values.nickname,
       bio: values.bio,
@@ -238,10 +240,10 @@ const updateUserProfile = async (values: any) => {
 // Reset form to current user values
 const resetForm = () => {
   if (props.user) {
-    const formValues: any = {
+    const formValues: Record<string, string> = {
       name: props.user.name || '',
       nickname: props.user.nickname || '',
-      bio: props.user.bio || '',
+      bio: (props.user as Record<string, string>).bio || '',
     }
 
     // Only include picture if it can be edited
