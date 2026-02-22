@@ -317,8 +317,8 @@ const loadProjects = async () => {
       query,
     })) as { data: ProjectListResponse }
 
-    projects.value = response.data.items
-    total.value = response.data.total
+    projects.value = response.data?.items ?? []
+    total.value = response.data?.total ?? 0
   } catch (error) {
     toastApiError(error, t('common.errors.api.loadProjects'))
   } finally {

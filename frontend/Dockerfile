@@ -10,6 +10,12 @@ RUN pnpm install
 
 COPY . .
 
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
 RUN pnpm exec vite build
 
 FROM nginx:stable-alpine AS production-stage

@@ -357,8 +357,8 @@ const loadTasks = async () => {
       query,
     })) as { data: TaskListResponse }
 
-    tasks.value = response.data.items
-    total.value = response.data.total
+    tasks.value = response.data?.items ?? []
+    total.value = response.data?.total ?? 0
   } catch (error) {
     toastApiError(error, t('common.errors.api.loadTasks'))
   } finally {

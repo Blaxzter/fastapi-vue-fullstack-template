@@ -57,7 +57,7 @@ auth0 apis create \
 auth0 apps create \
   --name "Your Project Web" \
   --type "spa" \
-  --callbacks "http://localhost:5173" \
+  --callbacks "http://localhost:5173,http://localhost:5173/app/home" \
   --logout-urls "http://localhost:5173" \
   --web-origins "http://localhost:5173" \
   --no-input \
@@ -162,8 +162,9 @@ If you need to update the URLs later:
 
 ```bash
 # Update SPA application URLs
+# IMPORTANT: Include /app/home callback - the frontend redirects users there after login
 auth0 apps update <YOUR_SPA_CLIENT_ID> \
-  --callbacks "http://localhost:5173,https://your-production-domain.com" \
+  --callbacks "http://localhost:5173,http://localhost:5173/app/home,https://your-production-domain.com,https://your-production-domain.com/app/home" \
   --logout-urls "http://localhost:5173,https://your-production-domain.com" \
   --web-origins "http://localhost:5173,https://your-production-domain.com"
 ```
@@ -175,6 +176,8 @@ In Auth0 Application settings (SPA):
 Allowed Callback URLs:
 
 - `http://localhost:5173`
+- `http://localhost:5173/app/home`
+- `https://your-production-domain.com/app/home`
 
 Allowed Logout URLs:
 
@@ -215,6 +218,8 @@ Allowed Web Origins:
 - `http://localhost:5173`
 
 If you run on different hosts, add those too.
+
+> **Note:** The frontend's login flow redirects to `/app/home` after authentication. If you set `VITE_AUTH0_CALLBACK_URL` in your frontend `.env`, that exact URL must be in the allowed callbacks list. If unset, the default redirect is `{origin}/app/home`.
 
 ## 3. Add roles into access tokens (admin support)
 
