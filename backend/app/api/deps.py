@@ -10,6 +10,7 @@ from app.core.db import async_session
 from app.crud.user import user as crud_user
 from app.models.user import User
 from app.schemas.user import UserCreate
+from app.scripts.demo.demo_data import seed_demo_data
 
 _CurrentUserDep = Callable[..., Coroutine[Any, Any, User]]
 
@@ -79,7 +80,9 @@ async def _get_or_create_user(
         email=email,
         name=name,
     )
-    return await crud_user.create(session, obj_in=user_in)
+    new_user = await crud_user.create(session, obj_in=user_in)
+    await seed_demo_data(session, owner_id=new_user.id)
+    return new_user
 
 
 def current_user(

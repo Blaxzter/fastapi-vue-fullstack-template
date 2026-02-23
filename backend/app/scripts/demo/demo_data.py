@@ -1,4 +1,5 @@
 import logging
+import uuid
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,15 +12,26 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-async def seed_demo_data(session: AsyncSession) -> None:
-    existing = await session.execute(select(Project))
-    if existing.scalars().first():
-        logger.info("Demo data already exists, skipping seed")
-        return
-
-    result = await session.execute(select(User))
-    first_user = result.scalars().first()
-    owner_id = first_user.id if first_user else None
+async def seed_demo_data(
+    session: AsyncSession, owner_id: uuid.UUID | None = None
+) -> None:
+    if owner_id is not None:
+        # Seed per-user: check if this user already has projects
+        existing = await session.execute(
+            select(Project).where(Project.owner_id == owner_id)
+        )
+        if existing.scalars().first():
+            logger.info("Demo data already exists for user %s, skipping seed", owner_id)
+            return
+    else:
+        # Legacy: seed globally using first user
+        existing = await session.execute(select(Project))
+        if existing.scalars().first():
+            logger.info("Demo data already exists, skipping seed")
+            return
+        result = await session.execute(select(User))
+        first_user = result.scalars().first()
+        owner_id = first_user.id if first_user else None
 
     projects = [
         Project(
