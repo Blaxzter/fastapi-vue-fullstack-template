@@ -351,7 +351,7 @@ const createProject = async () => {
   creating.value = true
   try {
     await post({
-      url: '/projects',
+      url: '/projects/',
       body: {
         name: newProject.value.name.trim(),
         description: newProject.value.description.trim() || null,
