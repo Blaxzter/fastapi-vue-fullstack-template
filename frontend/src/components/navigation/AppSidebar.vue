@@ -6,12 +6,13 @@ import {
   Command,
   FolderKanban,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
 } from 'lucide-vue-next'
+
+import AppLogo from '@/components/icons/AppLogo.vue'
 
 import type { SidebarProps } from '@/components/ui/sidebar'
 import {
@@ -41,7 +42,7 @@ const data = {
   teams: [
     {
       name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
+      logo: AppLogo,
       plan: 'Enterprise',
     },
     {

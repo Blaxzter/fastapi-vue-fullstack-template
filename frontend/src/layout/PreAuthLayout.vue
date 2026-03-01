@@ -5,6 +5,9 @@ import { useColorMode } from '@vueuse/core'
 import { MoonIcon, SunIcon, UserIcon } from 'lucide-vue-next'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
+import logoBlack from '@/assets/logo/logo-no-background-black.svg'
+import logoWhite from '@/assets/logo/logo-no-background-white.svg'
+
 import { useAuthStore } from '@/stores/auth'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -49,8 +52,13 @@ const handleGetStarted = () => {
         <div class="flex items-center space-x-2">
           <button
             @click="navigateToLanding"
-            class="text-2xl font-bold hover:opacity-80 transition-opacity"
+            class="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity"
           >
+            <img
+              :src="mode === 'dark' ? logoWhite : logoBlack"
+              alt="Logo"
+              class="h-8 w-8"
+            />
             {{ $t('preauth.layout.appName') }}
           </button>
         </div>

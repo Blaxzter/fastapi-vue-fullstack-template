@@ -6,6 +6,8 @@ import { useAuthStore } from '@/stores/auth'
 
 import { Button } from '@/components/ui/button'
 
+import logo from '@/assets/logo/logo.svg'
+
 const authStore = useAuthStore()
 const router = useRouter()
 useI18n()
@@ -27,6 +29,7 @@ const navigateToAbout = () => {
 <template>
   <div class="text-center space-y-8">
     <div class="space-y-4">
+      <img :src="logo" alt="Logo" class="h-24 w-24 mx-auto rounded-xl" />
       <h1 class="text-4xl font-bold tracking-tight">{{ $t('preauth.landing.welcome') }}</h1>
       <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
         {{ $t('preauth.landing.subtitle') }}
