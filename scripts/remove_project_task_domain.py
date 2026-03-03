@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -79,6 +80,51 @@ NAVIGATION_KEYS_TO_REMOVE = [
     "sidebar.items.projects",
     "sidebar.sections.starter",
 ]
+
+
+PROJECTS_TASKS_REVISION = "20260131_0002"
+USERS_REVISION = "20260131_0001"
+
+
+def downgrade_alembic(root: Path) -> bool:
+    """Downgrade the DB to before the projects/tasks migration.
+
+    Returns True if the downgrade ran successfully, False if skipped (no DB).
+    """
+    backend = root / "backend"
+    print(f"  Running: alembic downgrade {USERS_REVISION}")
+    result = subprocess.run(
+        ["uv", "run", "alembic", "downgrade", USERS_REVISION],
+        cwd=backend,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode == 0:
+        print(f"  Downgraded to {USERS_REVISION} (projects/tasks tables dropped)")
+        return True
+
+    # DB not available — try stamp so alembic doesn't error on next run
+    print("  Downgrade failed (DB unavailable?). Trying stamp instead...")
+    stamp = subprocess.run(
+        ["uv", "run", "alembic", "stamp", USERS_REVISION],
+        cwd=backend,
+        capture_output=True,
+        text=True,
+    )
+    if stamp.returncode == 0:
+        print(f"  Stamped alembic version as {USERS_REVISION}")
+        print("  Note: projects/tasks tables still exist in DB — drop them manually.")
+        return True
+
+    print("  Warning: could not downgrade or stamp alembic version.")
+    print("  After cleanup, manually run one of:")
+    print(
+        f"    cd backend && uv run alembic downgrade {USERS_REVISION}  # drops tables"
+    )
+    print(
+        f"    cd backend && uv run alembic stamp {USERS_REVISION}       # updates version only"
+    )
+    return False
 
 
 def modify_backend_api_router(root: Path) -> None:
@@ -206,6 +252,9 @@ def main() -> None:
         print("Aborted.")
         sys.exit(0)
 
+    print("\nDowngrading alembic migration...")
+    downgrade_alembic(root)
+
     print("\nModifying backend files...")
     modify_backend_api_router(root)
     modify_backend_models_init(root)
@@ -231,7 +280,6 @@ def main() -> None:
             "Run: just generate-client  (regenerate frontend API client)",
             "Run: just lint-backend && just lint-frontend",
             "Run: just test-backend",
-            "If your DB already has project/task tables, drop and recreate it",
             "Commit your changes",
         ]
     )

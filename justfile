@@ -80,6 +80,16 @@ generate-client:
     cd frontend && pnpm exec prettier --write ./src/client
     rm -f frontend/openapi.json
 
+# ── Upstream Sync ─────────────────────────────────────────────
+
+# Add the upstream template remote (run once after forking)
+add-upstream url:
+    python scripts/sync_upstream.py --add-remote {{url}}
+
+# Fetch and merge upstream template changes into your fork
+sync-upstream remote="upstream" branch="main":
+    python scripts/sync_upstream.py --remote {{remote}} --branch {{branch}}
+
 # ── Build & Deploy ────────────────────────────────────────────
 
 # Build frontend for production
@@ -105,6 +115,12 @@ clean-template:
     python scripts/remove_examples.py --yes
     python scripts/remove_project_task_domain.py --yes
     just generate-client
+
+# ── Auth0 ─────────────────────────────────────────────────────
+
+# Interactively create all Auth0 resources and write values to .env files
+setup-auth0:
+    python scripts/setup_auth0.py
 
 # ── Pre-commit ────────────────────────────────────────────────
 
