@@ -130,7 +130,6 @@ You can set several variables, like:
 -   `PROJECT_NAME`: The name of the project, used in the API for the docs and emails.
 -   `STACK_NAME`: The name of the stack used for Docker Compose labels and project name, this should be different for `staging`, `production`, etc. You could use the same domain replacing dots with dashes, e.g. `fastapi-project-example-com` and `staging-fastapi-project-example-com`.
 -   `BACKEND_CORS_ORIGINS`: A list of allowed CORS origins separated by commas.
--   `SECRET_KEY`: The secret key for the FastAPI project, used to sign tokens.
 -   `SMTP_HOST`: The SMTP server host to send emails, this would come from your email provider (E.g. Mailgun, Sparkpost, Sendgrid, etc).
 -   `SMTP_USER`: The SMTP server user to send emails.
 -   `SMTP_PASSWORD`: The SMTP server password to send emails.
@@ -253,7 +252,7 @@ You can read more about it in the official guide: [Configuring the self-hosted r
 
 ### Set Secrets
 
-On your repository, configure secrets for the environment variables you need, the same ones described above, including `SECRET_KEY`, etc. Follow the [official GitHub guide for setting repository secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository).
+On your repository, configure secrets for the environment variables you need, the same ones described above. Follow the [official GitHub guide for setting repository secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository).
 
 The current Github Actions workflows expect these secrets:
 
@@ -263,7 +262,6 @@ The current Github Actions workflows expect these secrets:
 -   `STACK_NAME_STAGING`
 -   `EMAILS_FROM_EMAIL`
 -   `POSTGRES_PASSWORD`
--   `SECRET_KEY`
 -   `LATEST_CHANGES`
 -   `SMOKESHOW_AUTH_KEY`
 

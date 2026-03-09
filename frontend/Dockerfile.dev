@@ -1,0 +1,15 @@
+FROM cgr.dev/chainguard/node:latest-dev
+
+USER root
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN corepack enable pnpm && pnpm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["pnpm", "dev", "--host"]

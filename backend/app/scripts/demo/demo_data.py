@@ -3,6 +3,7 @@ import uuid
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel import col
 
 from app.models.project import Project
 from app.models.task import Task
@@ -18,7 +19,7 @@ async def seed_demo_data(
     if owner_id is not None:
         # Seed per-user: check if this user already has projects
         existing = await session.execute(
-            select(Project).where(Project.owner_id == owner_id)
+            select(Project).where(col(Project.owner_id) == owner_id)
         )
         if existing.scalars().first():
             logger.info("Demo data already exists for user %s, skipping seed", owner_id)
