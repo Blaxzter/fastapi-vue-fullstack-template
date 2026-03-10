@@ -205,7 +205,7 @@ const data = {
 </script>
 
 <template>
-  <Sidebar v-bind="props">
+  <Sidebar :side="props.side" :variant="props.variant" :collapsible="props.collapsible" :class="props.class">
     <SidebarHeader>
       <TeamSwitcher :teams="data.teams" />
     </SidebarHeader>
