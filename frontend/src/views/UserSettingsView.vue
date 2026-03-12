@@ -26,6 +26,9 @@
 
       <!-- Language Settings -->
       <LanguageSettingsCard />
+
+      <!-- Delete Account (danger zone) -->
+      <DeleteAccountCard />
     </div>
   </div>
 </template>
@@ -38,6 +41,7 @@ import { useI18n } from 'vue-i18n'
 import { type User, useAuthStore } from '@/stores/auth'
 
 import CurrentProfileCard from '@/components/account/user/CurrentProfileCard.vue'
+import DeleteAccountCard from '@/components/account/user/DeleteAccountCard.vue'
 import EditProfileForm from '@/components/account/user/EditProfileForm.vue'
 import LanguageSettingsCard from '@/components/account/user/LanguageSettingsCard.vue'
 import PasswordResetCard from '@/components/account/user/PasswordResetCard.vue'

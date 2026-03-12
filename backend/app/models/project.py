@@ -1,5 +1,5 @@
 import uuid
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 import sqlalchemy as sa
 from sqlmodel import Field, Relationship
@@ -8,6 +8,7 @@ from app.models.base import Base
 
 if TYPE_CHECKING:
     from app.models.task import Task
+    from app.models.user import User
 
 
 class Project(Base, table=True):
@@ -34,6 +35,7 @@ class Project(Base, table=True):
         description="Owning user ID",
     )
 
+    owner: Optional["User"] = Relationship(back_populates="projects")
     tasks: list["Task"] = Relationship(
         back_populates="project",
         sa_relationship_kwargs={"cascade": "all, delete-orphan"},

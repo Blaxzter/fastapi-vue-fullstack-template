@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlmodel import Field
+from sqlmodel import Field, Relationship
 
 from app.models.base import Base
+
+if TYPE_CHECKING:
+    from app.models.project import Project
 
 
 class User(Base, table=True):
@@ -20,6 +25,13 @@ class User(Base, table=True):
         description="User's email address",
     )
     name: str | None = Field(default=None, description="User's display name")
+    picture: str | None = Field(
+        default=None, description="URL to user's profile picture"
+    )
+    bio: str | None = Field(default=None, description="User's bio")
+    email_verified: bool | None = Field(
+        default=None, description="Whether user's email is verified"
+    )
 
     roles: list[str] = Field(
         default_factory=list,
@@ -27,6 +39,11 @@ class User(Base, table=True):
         description="List of role identifiers",
     )
     is_active: bool = Field(default=True, description="Whether the user is active")
+
+    projects: list["Project"] = Relationship(
+        back_populates="owner",
+        sa_relationship_kwargs={"cascade": "all, delete-orphan"},
+    )
 
     @property
     def is_admin(self) -> bool:
