@@ -8,6 +8,12 @@ class UserCreate(BaseModel):
     auth0_sub: str = Field(..., description="Auth0 subject identifier")
     email: EmailStr | None = Field(default=None, description="User's email address")
     name: str | None = Field(default=None, description="User's display name")
+    picture: str | None = Field(
+        default=None, description="URL to user's profile picture"
+    )
+    email_verified: bool | None = Field(
+        default=None, description="Whether user's email is verified"
+    )
     roles: list[str] = Field(
         default_factory=list, description="List of role identifiers"
     )
@@ -17,6 +23,12 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     email: EmailStr | None = Field(default=None, description="User's email address")
     name: str | None = Field(default=None, description="User's display name")
+    picture: str | None = Field(
+        default=None, description="URL to user's profile picture"
+    )
+    email_verified: bool | None = Field(
+        default=None, description="Whether user's email is verified"
+    )
     roles: list[str] | None = Field(
         default=None, description="List of role identifiers"
     )

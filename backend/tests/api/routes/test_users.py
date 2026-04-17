@@ -81,7 +81,11 @@ class TestUserRouteHelpers:
         test_user: User,
         mock_auth0_claims: dict,
     ):
+        from fastapi import Request
+
+        request = Request({"type": "http", "method": "POST", "headers": []})
         profile = await get_current_user_profile(
+            request=request,
             profile_init=None,
             session=db_session,
             claims=mock_auth0_claims,

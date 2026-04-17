@@ -1,0 +1,84 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import { ArrowLeft } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+import { useBreadcrumbStore } from '@/stores/breadcrumb'
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { SidebarTrigger } from '@/components/ui/sidebar'
+
+const breadcrumbStore = useBreadcrumbStore()
+const router = useRouter()
+const { t } = useI18n()
+
+const resolveBreadcrumbTitle = (title: string, titleKey?: string) => {
+  if (!titleKey) return title
+  return t(titleKey)
+}
+
+const mobileParent = computed(() => {
+  const crumbs = breadcrumbStore.breadcrumbs
+  for (let i = crumbs.length - 2; i >= 0; i--) {
+    const item = crumbs[i]
+    if (item.mobileSkip) continue
+    if (!item.to) continue
+    return item
+  }
+  return null
+})
+</script>
+
+<template>
+  <header
+    class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+  >
+    <div class="flex flex-1 items-center gap-2 px-4">
+      <SidebarTrigger class="-ml-1" />
+      <Separator orientation="vertical" class="mr-2 h-4" />
+
+      <!-- Mobile: show parent crumb as back link -->
+      <Button
+        v-if="mobileParent"
+        variant="ghost"
+        size="sm"
+        class="xl:hidden -ml-1"
+        @click="mobileParent.to && router.push(mobileParent.to)"
+      >
+        <ArrowLeft class="mr-1.5 h-4 w-4" />
+        {{ resolveBreadcrumbTitle(mobileParent.title, mobileParent.titleKey) }}
+      </Button>
+
+      <!-- Desktop: full breadcrumb trail -->
+      <Breadcrumb class="hidden xl:block">
+        <BreadcrumbList>
+          <template v-for="(item, index) in breadcrumbStore.breadcrumbs" :key="index">
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                v-if="item.to && index < breadcrumbStore.breadcrumbs.length - 1"
+                @click="$router.push(item.to)"
+              >
+                {{ resolveBreadcrumbTitle(item.title, item.titleKey) }}
+              </BreadcrumbLink>
+              <BreadcrumbPage v-else>
+                {{ resolveBreadcrumbTitle(item.title, item.titleKey) }}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator v-if="index < breadcrumbStore.breadcrumbs.length - 1" />
+          </template>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
+  </header>
+</template>

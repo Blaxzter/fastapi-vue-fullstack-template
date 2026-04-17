@@ -1,3 +1,4 @@
+import warnings
 from pathlib import Path
 from typing import Annotated, Any, Literal
 
@@ -38,6 +39,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     FRONTEND_HOST: str = "http://localhost:5173"
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
+    TESTING: bool | None = None
 
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyUrl] | str, BeforeValidator(parse_cors)
@@ -85,6 +87,14 @@ class Settings(BaseSettings):
             self.EMAILS_FROM_NAME = self.PROJECT_NAME  # type: ignore[assignment]
         return self
 
+    @model_validator(mode="after")
+    def _resolve_testing_flag(self) -> Self:
+        if self.TESTING is None:
+            self.TESTING = self.ENVIRONMENT == "local"  # type: ignore[reportConstantRedefinition]
+        if self.TESTING and self.ENVIRONMENT == "production":
+            raise ValueError("TESTING=true is not allowed in production")
+        return self
+
     # Auth0 configuration
     AUTH0_DOMAIN: str
     AUTH0_AUDIENCE: str
@@ -92,6 +102,7 @@ class Settings(BaseSettings):
     # Auth0 Management API configuration (for updating user profiles)
     AUTH0_CLIENT_ID: str | None = None
     AUTH0_CLIENT_SECRET: str | None = None
+    AUTH0_MANAGEMENT_AUDIENCE: str | None = None
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 
@@ -101,6 +112,19 @@ class Settings(BaseSettings):
         return bool(self.SMTP_HOST and self.EMAILS_FROM_EMAIL)
 
     EMAIL_TEST_USER: EmailStr = "test@example.com"
+
+    SUPERADMIN_EMAILS: list[EmailStr] = []
+
+    def _check_default_secret(self, var_name: str, value: str | None) -> None:
+        if value == "changethis":
+            message = (
+                f'The value of {var_name} is "changethis", '
+                "for security, please change it, at least for deployments."
+            )
+            if self.ENVIRONMENT == "local":
+                warnings.warn(message, stacklevel=1)
+            else:
+                raise ValueError(message)
 
 
 settings = Settings()  # type: ignore[call-arg]

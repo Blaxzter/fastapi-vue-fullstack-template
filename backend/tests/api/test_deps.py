@@ -1,17 +1,23 @@
 """Unit tests for authentication dependencies."""
 
 import pytest
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import _get_or_create_user, current_user
+from app.api.deps import current_user, get_or_create_user
 from app.crud.user import user as crud_user
 from app.models.user import User
 
 
+def _fake_request(headers: dict[str, str] | None = None) -> Request:
+    """Build a minimal Starlette Request for dependency invocation in tests."""
+    encoded = [(k.lower().encode(), v.encode()) for k, v in (headers or {}).items()]
+    return Request({"type": "http", "method": "GET", "headers": encoded})
+
+
 @pytest.mark.asyncio
 class TestGetOrCreateUser:
-    """Test suite for _get_or_create_user helper function."""
+    """Test suite for get_or_create_user helper function."""
 
     async def test_get_existing_user(
         self,
@@ -20,7 +26,7 @@ class TestGetOrCreateUser:
         mock_auth0_claims: dict,
     ):
         """Test getting an existing user."""
-        user = await _get_or_create_user(db_session, mock_auth0_claims)
+        user = await get_or_create_user(db_session, mock_auth0_claims)
 
         assert user.id == test_user.id
         assert user.auth0_sub == test_user.auth0_sub
@@ -32,7 +38,7 @@ class TestGetOrCreateUser:
         mock_auth0_new_user_claims: dict,
     ):
         """Test creating a new user from Auth0 claims."""
-        user = await _get_or_create_user(db_session, mock_auth0_new_user_claims)
+        user = await get_or_create_user(db_session, mock_auth0_new_user_claims)
 
         assert user.auth0_sub == "auth0|newuser456"
         assert user.email == "newuser@example.com"
@@ -58,7 +64,7 @@ class TestGetOrCreateUser:
             "name": "Frontend User",
         }
 
-        user = await _get_or_create_user(
+        user = await get_or_create_user(
             db_session, mock_auth0_new_user_claims, profile_data
         )
 
@@ -77,7 +83,7 @@ class TestGetOrCreateUser:
             "nickname": "nicknameuser",
         }
 
-        user = await _get_or_create_user(db_session, claims)
+        user = await get_or_create_user(db_session, claims)
 
         assert user.name == "nicknameuser"
 
@@ -88,7 +94,7 @@ class TestGetOrCreateUser:
     ):
         """Test that missing 'sub' in claims raises HTTPException."""
         with pytest.raises(HTTPException) as exc_info:
-            await _get_or_create_user(db_session, mock_auth0_claims_no_sub)
+            await get_or_create_user(db_session, mock_auth0_claims_no_sub)
 
         assert exc_info.value.status_code == 401
         assert "Invalid authentication payload" in str(exc_info.value.detail)
@@ -109,7 +115,9 @@ class TestCurrentUserDependency:
         dependency = current_user()
 
         # Call the dependency with mocked claims
-        user = await dependency(session=db_session, claims=mock_auth0_claims)
+        user = await dependency(
+            request=_fake_request(), session=db_session, claims=mock_auth0_claims
+        )
 
         assert user.id == test_user.id
         assert user.is_active is True
@@ -128,7 +136,7 @@ class TestCurrentUserDependency:
         dependency = current_user()
 
         with pytest.raises(HTTPException) as exc_info:
-            await dependency(session=db_session, claims=claims)
+            await dependency(request=_fake_request(), session=db_session, claims=claims)
 
         assert exc_info.value.status_code == 403
         assert "Inactive user" in str(exc_info.value.detail)
@@ -147,7 +155,9 @@ class TestCurrentUserDependency:
         # Require admin role
         dependency = current_user(required_roles="admin")
 
-        user = await dependency(session=db_session, claims=claims)
+        user = await dependency(
+            request=_fake_request(), session=db_session, claims=claims
+        )
 
         assert user.id == test_admin_user.id
         assert "admin" in user.roles
@@ -167,7 +177,7 @@ class TestCurrentUserDependency:
         dependency = current_user(required_roles="admin")
 
         with pytest.raises(HTTPException) as exc_info:
-            await dependency(session=db_session, claims=claims)
+            await dependency(request=_fake_request(), session=db_session, claims=claims)
 
         assert exc_info.value.status_code == 403
         assert "Not enough permissions" in str(exc_info.value.detail)
@@ -197,7 +207,9 @@ class TestCurrentUserDependency:
         # Require admin role (user has it)
         dependency = current_user(required_roles=["admin", "moderator"])
 
-        result_user = await dependency(session=db_session, claims=claims)
+        result_user = await dependency(
+            request=_fake_request(), session=db_session, claims=claims
+        )
 
         assert result_user.id == user.id
 
@@ -216,7 +228,7 @@ class TestCurrentUserDependency:
         dependency = current_user(required_roles=["admin", "moderator"])
 
         with pytest.raises(HTTPException) as exc_info:
-            await dependency(session=db_session, claims=claims)
+            await dependency(request=_fake_request(), session=db_session, claims=claims)
 
         assert exc_info.value.status_code == 403
         assert "Not enough permissions" in str(exc_info.value.detail)
@@ -235,7 +247,11 @@ class TestCurrentUserDependency:
 
         dependency = current_user()
 
-        user = await dependency(session=db_session, claims=mock_auth0_new_user_claims)
+        user = await dependency(
+            request=_fake_request(),
+            session=db_session,
+            claims=mock_auth0_new_user_claims,
+        )
 
         # Verify user was created
         assert user.auth0_sub == mock_auth0_new_user_claims["sub"]
@@ -255,7 +271,11 @@ class TestCurrentUserDependency:
 
         dependency = current_user(profile_data=profile_data)
 
-        user = await dependency(session=db_session, claims=mock_auth0_new_user_claims)
+        user = await dependency(
+            request=_fake_request(),
+            session=db_session,
+            claims=mock_auth0_new_user_claims,
+        )
 
         # Should use profile_data for user creation
         assert user.email == "profile@example.com"
@@ -280,7 +300,9 @@ class TestCurrentUserAnnotated:
         dependency_metadata = CurrentUser.__metadata__[0]
         dependency = dependency_metadata.dependency
 
-        user = await dependency(session=db_session, claims=mock_auth0_claims)
+        user = await dependency(
+            request=_fake_request(), session=db_session, claims=mock_auth0_claims
+        )
 
         assert user.id == test_user.id
         assert isinstance(user, User)
@@ -301,7 +323,9 @@ class TestCurrentUserAnnotated:
         dependency_metadata = CurrentSuperuser.__metadata__[0]
         dependency = dependency_metadata.dependency
 
-        user = await dependency(session=db_session, claims=claims)
+        user = await dependency(
+            request=_fake_request(), session=db_session, claims=claims
+        )
 
         assert user.id == test_admin_user.id
         assert user.is_admin is True
@@ -323,7 +347,7 @@ class TestCurrentUserAnnotated:
         dependency = dependency_metadata.dependency
 
         with pytest.raises(HTTPException) as exc_info:
-            await dependency(session=db_session, claims=claims)
+            await dependency(request=_fake_request(), session=db_session, claims=claims)
 
         assert exc_info.value.status_code == 403
         assert "Not enough permissions" in str(exc_info.value.detail)

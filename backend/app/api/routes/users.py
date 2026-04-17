@@ -3,7 +3,7 @@ import uuid
 from collections.abc import Sequence
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.api.deps import CurrentSuperuser, CurrentUser, DBDep, auth0, current_user
 from app.core.config import settings
@@ -20,6 +20,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 @router.post("/me", response_model=UserProfile)
 async def get_current_user_profile(
+    request: Request,
     profile_init: ProfileInit | None = None,
     *,
     session: DBDep,
@@ -34,7 +35,7 @@ async def get_current_user_profile(
     # Pass profile data to current_user dependency for potential user creation
     profile_dict = profile_init.model_dump() if profile_init else None
     user_dep = current_user(profile_data=profile_dict)
-    current_user_obj = await user_dep(session, claims)
+    current_user_obj = await user_dep(request, session, claims)
 
     return UserProfile(
         **claims,

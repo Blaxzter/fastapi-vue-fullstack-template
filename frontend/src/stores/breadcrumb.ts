@@ -1,14 +1,20 @@
 import { computed, ref, watch } from 'vue'
 
 import { defineStore } from 'pinia'
-import type { RouteLocationNormalized } from 'vue-router'
+import type { RouteLocationNormalized, RouteParamsRawGeneric } from 'vue-router'
 import { useRoute } from 'vue-router'
 
 export interface BreadcrumbItem {
   title: string
   titleKey?: string
-  to?: string | { name: string; params?: Record<string, unknown> }
+  to?: string | { name: string; params?: RouteParamsRawGeneric }
   disabled?: boolean
+  /**
+   * When true, the mobile parent-link walker in PostAuthHeader skips this
+   * item and looks further up the chain. Useful for crumbs that represent
+   * the same routed page as the current section.
+   */
+  mobileSkip?: boolean
 }
 
 export const useBreadcrumbStore = defineStore('breadcrumb', () => {
@@ -48,15 +54,26 @@ export const useBreadcrumbStore = defineStore('breadcrumb', () => {
     dynamicBreadcrumbs.value.push(item)
   }
 
+  const setDynamicTitle = (title: string) => {
+    const items = breadcrumbs.value
+    if (items.length > 0) {
+      const updated = [...items]
+      updated[updated.length - 1] = { ...updated[updated.length - 1], title, titleKey: undefined }
+      dynamicBreadcrumbs.value = updated
+    }
+  }
+
   const updateCurrentRoute = (route: RouteLocationNormalized) => {
+    const prevName = currentRoute.value?.name
     currentRoute.value = route
-    // Clear dynamic breadcrumbs when route changes (unless you want to keep them)
-    // This ensures automatic breadcrumb updates on navigation
-    if (dynamicBreadcrumbs.value.length > 0) {
-      // Only clear if the new route has its own breadcrumb meta
-      if (route.meta?.breadcrumbs) {
-        dynamicBreadcrumbs.value = []
-      }
+    // Only wipe dynamic breadcrumbs when navigating to a different route (by name).
+    // Param-only changes (e.g. /:section) keep the dynamic title intact.
+    if (
+      dynamicBreadcrumbs.value.length > 0 &&
+      route.meta?.breadcrumbs &&
+      prevName !== route.name
+    ) {
+      dynamicBreadcrumbs.value = []
     }
   }
 
@@ -113,6 +130,7 @@ export const useBreadcrumbStore = defineStore('breadcrumb', () => {
     setBreadcrumbs,
     clearBreadcrumbs,
     addBreadcrumb,
+    setDynamicTitle,
     updateCurrentRoute,
   }
 })

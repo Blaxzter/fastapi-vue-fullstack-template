@@ -127,11 +127,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return True
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
-        # get all fields from obj_in that have type datetime or date
+        # get all fields from obj_in that have type datetime, date, or time
         datetime_fields = [
             (property, value)
             for property, value in vars(obj_in).items()
-            if type(value) in (datetime.datetime, datetime.date)
+            if type(value) in (datetime.datetime, datetime.date, datetime.time)
         ]
 
         obj_in_data = jsonable_encoder(obj_in)
@@ -169,7 +169,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         return db_obj
 
-    async def remove(self, db: AsyncSession, *, id: int) -> ModelType | None:
+    async def remove(self, db: AsyncSession, *, id: Any) -> ModelType | None:
         obj = await db.get(self.model, id)
         if not obj:
             return None
